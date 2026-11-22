@@ -1,0 +1,199 @@
+ .ocb-root{position:fixed;left:0;right:0;bottom:var(--ocb-bottom,0);z-index:var(--ocb-z,99990);padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:var(--ocb-bar-bg,#fff);box-shadow:0 -5px 24px rgba(15,23,42,.10);box-sizing:border-box;font-family:inherit}
+.ocb-root *{box-sizing:border-box}
+.ocb-bar{display:flex;justify-content:center;align-items:stretch;gap:var(--ocb-gap,12px);width:100%;max-width:980px;margin:0 auto}
+.ocb-button{appearance:none;-webkit-appearance:none;border:0!important;box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;align-self:stretch;vertical-align:middle;min-width:0!important;width:auto; height:var(--ocb-height,48px)!important;min-height:var(--ocb-height,48px)!important;max-height:var(--ocb-height,48px)!important;padding:0 22px!important;margin:0!important;border-radius:var(--ocb-radius,999px)!important;gap:10px!important;flex:1 1 0;color:var(--ocb-text,#fff)!important;text-decoration:none!important;font-family:inherit;font-size:15px;font-weight:700;line-height:1!important;white-space:nowrap;cursor:pointer;box-shadow:0 3px 8px rgba(15,23,42,.12);transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+.ocb-button:hover{filter:brightness(1.06);transform:translateY(-2px);box-shadow:0 6px 14px rgba(15,23,42,.16)}
+.ocb-button:active{transform:translateY(0) scale(.98)}
+.ocb-button:focus-visible,.ocb-close:focus-visible,.ocb-region-call:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+.ocb-call{background:var(--ocb-call,#16a34a)}.ocb-zalo{background:var(--ocb-zalo,#1677ff)}.ocb-messenger{background:var(--ocb-messenger,#0866ff)}
+/* Gentle attention pulse for the three contact actions */
+@keyframes ocb-contact-pulse{
+  0%,72%,100%{transform:scale(1);box-shadow:0 3px 8px rgba(15,23,42,.12)}
+  78%{transform:scale(1.045);box-shadow:0 7px 18px rgba(15,23,42,.20)}
+  85%{transform:scale(1);box-shadow:0 3px 8px rgba(15,23,42,.12)}
+}
+.ocb-button{transform-origin:center center;animation:ocb-contact-pulse 3.2s ease-in-out infinite}
+.ocb-button:nth-child(2){animation-delay:.22s}
+.ocb-button:nth-child(3){animation-delay:.44s}
+.ocb-button:hover,.ocb-button:focus-visible{animation-play-state:paused;transform:translateY(-2px) scale(1.02)}
+.ocb-button:active{animation-play-state:paused;transform:scale(.98)}
+
+.ocb-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px}
+.ocb-icon svg,.ocb-header-icon svg,.ocb-region-icon svg{width:100%;height:100%;max-width:100%;max-height:100%;display:block;overflow:visible;flex:none;preserveAspectRatio:xMidYMid meet}.ocb-icon{line-height:0!important;flex:0 0 22px!important}.ocb-icon svg{width:22px!important;height:22px!important}
+.ocb-zalo-mark{width:22px;height:22px;border:2px solid currentColor;border-radius:6px;font-size:13px;font-weight:800;line-height:18px}
+.ocb-overlay[hidden]{display:none!important}
+.ocb-overlay{position:fixed;inset:0;z-index:calc(var(--ocb-z,99990) + 1);display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(8,15,30,.58);opacity:0;visibility:hidden;transition:opacity .22s ease,visibility .22s ease}
+.ocb-overlay.is-open{opacity:1;visibility:visible}
+.ocb-dialog{width:min(100%,540px);max-height:min(88vh,680px);overflow:auto;background:#fff;border-radius:20px;box-shadow:0 22px 70px rgba(0,0,0,.24);padding:24px;transform:translateY(12px) scale(.985);transition:transform .22s ease;outline:none}
+.ocb-overlay.is-open .ocb-dialog{transform:translateY(0) scale(1)}
+.ocb-dialog-header{display:flex;align-items:center;gap:14px;padding:0 0 20px;border-bottom:1px solid #edf0f4;position:relative}
+.ocb-header-icon{width:48px;height:48px;flex:0 0 48px;border-radius:15px;background:#eaf8ef;color:#16a34a;padding:12px}
+.ocb-dialog-header h2{margin:0 34px 4px 0;font-size:22px;line-height:1.25;color:#172033;font-weight:750}
+.ocb-dialog-header p{margin:0;color:#697386;font-size:14px}
+.ocb-close{appearance:none;-webkit-appearance:none;box-sizing:border-box;margin-left:auto;align-self:flex-start;flex:0 0 44px;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#f1f3f6;color:#667085;font-family:Arial,sans-serif;font-size:25px;font-weight:400;line-height:1;text-align:center;cursor:pointer;transition:background .18s ease,color .18s ease,transform .18s ease}
+.ocb-close:hover{background:#e7ebf0;color:#182230;transform:rotate(90deg)}
+.ocb-close:active{transform:scale(.94)}
+.ocb-close:focus-visible{outline:3px solid #16a34a;outline-offset:3px}
+.ocb-regions{padding-top:8px}
+.ocb-region-card{display:flex;align-items:center;gap:14px;padding:17px 0;border-bottom:1px solid #edf0f4}
+.ocb-region-card:last-child{border-bottom:0;padding-bottom:2px}
+.ocb-region-icon{width:42px;height:42px;flex:0 0 42px;display:flex;align-items:center;justify-content:center;padding:11px;border-radius:13px;background:#eaf8ef;color:#16a34a}
+.ocb-region-info{min-width:0;flex:1}
+.ocb-region-info h3{margin:0 0 3px;font-size:16px;font-weight:700;color:#172033}
+.ocb-region-info p{margin:0 0 5px;font-size:13px;color:#778195}
+.ocb-region-info strong{font-size:17px;letter-spacing:.2px;color:#dc2626}
+.ocb-region-call{flex:0 0 auto;padding:10px 16px;border-radius:999px;background:#16a34a;color:#fff!important;text-decoration:none!important;font-size:13px;font-weight:700;white-space:nowrap;transition:filter .18s ease,transform .18s ease}
+.ocb-region-call:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.ocb-no-desktop{display:none!important}
+@media (max-width:767px){.ocb-root{padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px))}.ocb-bar{align-items:stretch;gap:clamp(5px,var(--ocb-gap,10px),12px)}.ocb-button{height:var(--ocb-height,48px)!important;min-height:var(--ocb-height,48px)!important;max-height:var(--ocb-height,48px)!important;padding:0 8px!important;gap:6px!important;font-size:clamp(11px,3vw,14px)}.ocb-icon{width:18px;height:18px;flex:0 0 18px!important}.ocb-icon svg{width:18px!important;height:18px!important}.ocb-zalo-mark{width:18px;height:18px;font-size:11px;line-height:14px}.ocb-no-mobile{display:none!important}.ocb-overlay{padding:12px}.ocb-dialog{padding:18px 16px;border-radius:17px;max-height:calc(100dvh - 24px)}.ocb-dialog-header{gap:10px;padding-bottom:16px}.ocb-header-icon{width:42px;height:42px;flex-basis:42px;padding:10px}.ocb-dialog-header h2{font-size:19px}.ocb-close{flex-basis:40px;width:40px;height:40px;min-width:40px;min-height:40px;font-size:23px}.ocb-dialog-header p{font-size:12px}.ocb-region-card{gap:10px;padding:14px 0}.ocb-region-icon{width:36px;height:36px;flex-basis:36px;padding:9px}.ocb-region-info h3{font-size:14px}.ocb-region-info p{font-size:11px}.ocb-region-info strong{font-size:15px}.ocb-region-call{padding:9px 11px;font-size:12px}}
+@media (min-width:768px){.ocb-no-desktop{display:none!important}.ocb-root{padding-left:24px;padding-right:24px}.ocb-button{max-width:300px}}
+/* Enhanced contact-button motion: staggered pulse + expanding halo */
+.ocb-button{
+  position:relative!important;
+  isolation:isolate;
+  overflow:visible!important;
+  will-change:transform,box-shadow;
+  animation:ocb-modern-pulse 3.6s ease-in-out infinite!important;
+}
+.ocb-button::before{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  z-index:-1;
+  border:2px solid currentColor;
+  border-radius:inherit;
+  opacity:0;
+  pointer-events:none;
+  animation:ocb-modern-ripple 3.6s ease-out infinite;
+}
+.ocb-button::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.22) 48%,transparent 72%);
+  transform:translateX(-130%);
+  animation:ocb-modern-shine 5.4s ease-in-out infinite;
+}
+.ocb-button:nth-child(2),
+.ocb-button:nth-child(2)::before{animation-delay:1.2s!important}
+.ocb-button:nth-child(3),
+.ocb-button:nth-child(3)::before{animation-delay:2.4s!important}
+.ocb-button:nth-child(2)::after{animation-delay:1.8s}
+.ocb-button:nth-child(3)::after{animation-delay:3.6s}
+.ocb-button:hover,
+.ocb-button:focus-visible{
+  animation-play-state:paused!important;
+  transform:translateY(-4px) scale(1.035)!important;
+  box-shadow:0 10px 24px rgba(15,23,42,.24)!important;
+}
+.ocb-button:hover::before,
+.ocb-button:focus-visible::before,
+.ocb-button:hover::after,
+.ocb-button:focus-visible::after{animation-play-state:paused}
+.ocb-button:active{
+  animation-play-state:paused!important;
+  transform:translateY(0) scale(.97)!important;
+}
+.ocb-button .ocb-icon{transition:transform .28s ease}
+.ocb-button:hover .ocb-icon{transform:rotate(-9deg) scale(1.12)}
+@keyframes ocb-modern-pulse{
+  0%,68%,100%{transform:translateY(0) scale(1);box-shadow:0 3px 8px rgba(15,23,42,.12)}
+  76%{transform:translateY(-2px) scale(1.045);box-shadow:0 8px 20px rgba(15,23,42,.22)}
+  84%{transform:translateY(0) scale(1)}
+}
+@keyframes ocb-modern-ripple{
+  0%,62%{transform:scale(1);opacity:0}
+  70%{opacity:.34}
+  100%{transform:scale(1.22,1.38);opacity:0}
+}
+@keyframes ocb-modern-shine{
+  0%,62%{transform:translateX(-130%);opacity:0}
+  70%{opacity:1}
+  84%,100%{transform:translateX(130%);opacity:0}
+}
+/* v1.0.5: always-on attention motion (runs without hover/tap) */
+.ocb-root .ocb-button{
+  animation:ocb-always-float 2.15s ease-in-out infinite!important;
+  transform-origin:50% 50%;
+}
+.ocb-root .ocb-button::before{
+  inset:-7px!important;
+  border:2px solid currentColor!important;
+  opacity:0;
+  animation:ocb-always-wave 2.15s ease-out infinite!important;
+}
+.ocb-root .ocb-button::after{
+  animation:ocb-always-shine 4.6s ease-in-out infinite!important;
+}
+.ocb-root .ocb-button .ocb-icon{
+  animation:ocb-icon-bob 2.15s ease-in-out infinite;
+}
+.ocb-root .ocb-button:nth-child(2){animation-delay:.38s!important}
+.ocb-root .ocb-button:nth-child(2)::before{animation-delay:.38s!important}
+.ocb-root .ocb-button:nth-child(2)::after{animation-delay:1.1s!important}
+.ocb-root .ocb-button:nth-child(2) .ocb-icon{animation-delay:.38s}
+.ocb-root .ocb-button:nth-child(3){animation-delay:.76s!important}
+.ocb-root .ocb-button:nth-child(3)::before{animation-delay:.76s!important}
+.ocb-root .ocb-button:nth-child(3)::after{animation-delay:2.2s!important}
+.ocb-root .ocb-button:nth-child(3) .ocb-icon{animation-delay:.76s}
+/* Hover and touch may add feedback, but never stop the automatic animation. */
+.ocb-root .ocb-button:hover,
+.ocb-root .ocb-button:focus-visible,
+.ocb-root .ocb-button:active{animation-play-state:running!important}
+.ocb-root .ocb-button:hover::before,
+.ocb-root .ocb-button:focus-visible::before,
+.ocb-root .ocb-button:active::before,
+.ocb-root .ocb-button:hover::after,
+.ocb-root .ocb-button:focus-visible::after,
+.ocb-root .ocb-button:active::after{animation-play-state:running!important}
+@keyframes ocb-always-float{
+  0%,100%{transform:translateY(0) scale(1);filter:brightness(1);box-shadow:0 4px 11px rgba(15,23,42,.17),0 0 0 rgba(255,255,255,0)}
+  22%{transform:translateY(-3px) scale(1.035);filter:brightness(1.08);box-shadow:0 9px 22px rgba(15,23,42,.23),0 0 13px rgba(255,255,255,.24)}
+  42%{transform:translateY(0) scale(1);filter:brightness(1.02)}
+  58%{transform:translateY(-1px) scale(1.015)}
+}
+@keyframes ocb-always-wave{
+  0%{transform:scale(1);opacity:0}
+  18%{opacity:.48}
+  78%,100%{transform:scale(1.24,1.48);opacity:0}
+}
+@keyframes ocb-always-shine{
+  0%,48%{transform:translateX(-145%);opacity:0}
+  56%{opacity:.9}
+  78%,100%{transform:translateX(145%);opacity:0}
+}
+@keyframes ocb-icon-bob{
+  0%,100%{transform:translateY(0) rotate(0) scale(1)}
+  24%{transform:translateY(-2px) rotate(-8deg) scale(1.1)}
+  48%{transform:translateY(0) rotate(5deg) scale(1)}
+}
+
+
+/* v1.0.6: enforce automatic contact animations after theme styles */
+html body .ocb-root .ocb-bar > .ocb-button {
+  animation-name: ocb-always-float !important;
+  animation-duration: 2.15s !important;
+  animation-timing-function: ease-in-out !important;
+  animation-iteration-count: infinite !important;
+  animation-fill-mode: both !important;
+  animation-play-state: running !important;
+}
+html body .ocb-root .ocb-bar > .ocb-button::before {
+  animation-name: ocb-always-wave !important;
+  animation-duration: 2.15s !important;
+  animation-timing-function: ease-out !important;
+  animation-iteration-count: infinite !important;
+  animation-play-state: running !important;
+}
+html body .ocb-root .ocb-bar > .ocb-button::after {
+  animation-name: ocb-always-shine !important;
+  animation-duration: 4.6s !important;
+  animation-timing-function: ease-in-out !important;
+  animation-iteration-count: infinite !important;
+  animation-play-state: running !important;
+}
+html body .ocb-root .ocb-bar > .ocb-button .ocb-icon {
+  animation: ocb-icon-bob 2.15s ease-in-out infinite !important;
+}

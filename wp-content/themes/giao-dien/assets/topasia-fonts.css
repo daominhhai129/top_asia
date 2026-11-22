@@ -1,0 +1,13 @@
+/* Top Asia — self-hosted 'Poppins VN' (DesignerVN Poppins Viet hoa).
+   Subset Latin + tieng Viet (~20KB/weight, WOFF2), nguon nguoi dung cung cap 27/07/2026.
+   Load site-wide qua inc/topasia-menu.php — dung boi menu (ta-*) va trang chu (taf-*). */
+@font-face{
+  font-family:'Poppins VN';
+  src:url('fonts/DesignerVN-Poppins-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Poppins VN';
+  src:url('fonts/DesignerVN-Poppins-ExtraBold.woff2') format('woff2');
+  font-weight:800;font-style:normal;font-display:swap;
+}

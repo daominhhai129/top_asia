@@ -1,0 +1,435 @@
+/*
+Theme Name: Giao-Dien
+Description: This is a child theme for Flatsome Theme
+Author: UX Themes
+Template: flatsome
+Version: 3.1
+*/
+
+/*************** ADD CUSTOM CSS HERE.   ***************/
+.footer1 p {
+    margin-bottom: 0;
+    font-size: 18px;
+}
+.footer1 p strong {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 45px;
+}
+span.count-up.active {
+    opacity: 1;
+}
+span.count-up {
+    opacity: 0;
+    transition: opacity 3s;
+}
+/* ===== Footer — tiêu đề cột (THÔNG TIN / GIỚI THIỆU / CHÍNH SÁCH / CHIA SẺ) =====
+   Căn trái + gạch chân đỏ ôm sát chữ theo thiết kế (thay kiểu center gạch 2 bên) */
+.footer-title.section-title-container {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    max-width: 100%;
+    text-align: left;
+}
+.footer-title .section-title {
+    justify-content: flex-start;
+}
+.footer-title .section-title b {
+    display: none;                       /* bỏ 2 gạch ngang mờ hai bên của kiểu center */
+}
+.footer-title .section-title-main {
+    margin: 0;                           /* bỏ margin 0 15px của kiểu center để sát mép trái */
+    padding-bottom: 10px;
+    border-bottom: 2px solid #E31E24;    /* gạch chân đỏ thương hiệu */
+    display: inline-block;               /* underline ôm sát bề rộng chữ */
+}
+/* Logo bản trắng trong cột THÔNG TIN */
+.footer-logo-reversed {
+    height: 56px;
+    width: auto;
+    max-width: 100%;
+    margin-bottom: 18px;
+}
+.form-dien-thoai {
+    background: #FCF5F6;
+    padding: 13px 5px 20px 5px !important;
+    border-radius: 10px;
+    margin: 0 !important;
+    border: 1px dashed #8b1d20;
+}
+.form-dien-thoai .col {
+    padding: 0 5px 0;
+}
+.form-dien-thoai p.des {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.form-dien-thoai .large-5 {
+    max-width: 38%;
+    flex-basis: 38%;
+}
+.form-dien-thoai .large-2 {
+    max-width: 24%;
+    flex-basis: 24%;
+}
+.form-dien-thoai input[type=submit] {
+    margin-bottom: 0;
+    height: 45px;
+    text-transform: none;
+    border-radius: 10px;
+    font-size: 15px;
+    letter-spacing: 0;
+}
+.wpcf7-spinner {
+    display: none;
+}
+@media (max-width: 549px) {
+    .form-dien-thoai .large-5, .form-dien-thoai .large-2 {
+        padding-bottom: 10px;
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+    .form-dien-thoai .large-2 {
+        padding-bottom: 0 !important;
+    }
+    .form-dien-thoai input[type=submit] {
+        font-size: 14px;
+        width: 100%;
+    }
+}
+/* Nút so sánh đồng bộ Top Asia Design System */
+a.compare.button {
+    background-color: #0B1D3A;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    transition: background-color .2s ease;
+}
+
+a.compare.button:hover {
+    background-color: #E31E24;
+    color: #fff;
+}
+
+/* Ảnh sản phẩm trong trang danh mục + sản phẩm liên quan Flatsome */
+.tax-product_cat .product-small .box-image,
+.post-type-archive-product .product-small .box-image,
+.single-product .related-products-wrapper .product-small .box-image,
+.single-product .product-section .product-small .box-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    height: auto !important;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fix cấu trúc ảnh của Flatsome */
+.tax-product_cat .product-small .box-image a,
+.post-type-archive-product .product-small .box-image a,
+.single-product .related-products-wrapper .product-small .box-image a,
+.single-product .product-section .product-small .box-image a {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Trường hợp Flatsome dùng image-cover / image-tools */
+.tax-product_cat .product-small .box-image .image-cover,
+.post-type-archive-product .product-small .box-image .image-cover,
+.single-product .related-products-wrapper .product-small .box-image .image-cover,
+.single-product .product-section .product-small .box-image .image-cover {
+    padding-top: 0 !important;
+    height: 100% !important;
+}
+
+/* Ảnh sản phẩm */
+.tax-product_cat .product-small .box-image img,
+.post-type-archive-product .product-small .box-image img,
+.single-product .related-products-wrapper .product-small .box-image img,
+.single-product .product-section .product-small .box-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    display: block;
+}
+
+/* ===============================
+   YITH WooCommerce Compare - TopAsia
+   =============================== */
+
+/* Nền tổng thể popup/trang so sánh */
+body.yith-woocompare-popup,
+body.woocommerce.compare {
+    background: #f5f7fa !important;
+    font-family: inherit;
+}
+
+/* Khung chính */
+#yith-woocompare {
+    max-width: 1180px;
+    margin: 24px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+}
+
+/* Tiêu đề */
+#yith-woocompare h1,
+#yith-woocompare h2,
+.yith-woocompare-title {
+    font-size: 26px;
+    line-height: 1.3;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #0B1D3A;
+    margin: 0 0 22px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #E4E9F0;
+}
+
+/* Bảng so sánh */
+#yith-woocompare table.compare-list {
+    width: 100%;
+    border-collapse: separate !important;
+    border-spacing: 0;
+    background: #fff;
+    overflow: hidden;
+    border-radius: 13px;
+    border: 1px solid #E4E9F0;
+}
+
+/* Ô trong bảng */
+#yith-woocompare table.compare-list th,
+#yith-woocompare table.compare-list td {
+    padding: 16px 18px !important;
+    border-right: 1px solid #E4E9F0;
+    border-bottom: 1px solid #E4E9F0;
+    vertical-align: middle;
+    font-size: 15px;
+    color: #0B1D3A;
+}
+
+/* Cột tiêu chí bên trái */
+#yith-woocompare table.compare-list th {
+    width: 190px;
+    background: #F7F8FA;
+    color: #0B1D3A;
+    font-weight: 700;
+    text-transform: none;
+}
+
+/* Header sản phẩm */
+#yith-woocompare table.compare-list tr.title td {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0B1D3A;
+    line-height: 1.45;
+}
+
+/* Ảnh sản phẩm trong bảng so sánh */
+#yith-woocompare table.compare-list tr.image td {
+    background: #fff;
+    text-align: center;
+}
+
+#yith-woocompare table.compare-list tr.image img {
+    width: 220px !important;
+    height: 170px !important;
+    object-fit: contain !important;
+    object-position: center center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 8px;
+}
+
+/* Giá */
+#yith-woocompare table.compare-list .price,
+#yith-woocompare table.compare-list tr.price td {
+    font-weight: 700;
+    color: #111;
+}
+
+/* Nút thêm vào giỏ / xem sản phẩm */
+#yith-woocompare table.compare-list .button,
+#yith-woocompare .button {
+    background: #E31E24 !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    padding: 10px 18px !important;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    border: none !important;
+    box-shadow: none !important;
+    transition: all .2s ease;
+}
+
+#yith-woocompare table.compare-list .button:hover,
+#yith-woocompare .button:hover {
+    background: #C51A1F !important;
+    transform: translateY(-1px);
+}
+
+/* Nút xóa sản phẩm khỏi so sánh */
+#yith-woocompare table.compare-list .remove,
+#yith-woocompare table.compare-list a.remove {
+    color: #E31E24 !important;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#yith-woocompare table.compare-list a.remove:hover {
+    color: #C51A1F !important;
+}
+
+/* Dòng xen kẽ cho dễ đọc */
+#yith-woocompare table.compare-list tr:nth-child(even) td {
+    background: #F7F8FA;
+}
+
+/* Thông báo khi chưa có sản phẩm */
+#yith-woocompare p,
+#yith-woocompare .woocommerce-info,
+#yith-woocompare .empty {
+    background: #F7F8FA;
+    color: #0B1D3A;
+    border-left: 4px solid #E31E24;
+    padding: 16px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+    #yith-woocompare {
+        margin: 10px;
+        padding: 12px;
+        border-radius: 12px;
+        overflow-x: auto;
+    }
+
+    #yith-woocompare h1,
+    #yith-woocompare h2,
+    .yith-woocompare-title {
+        font-size: 20px;
+    }
+
+    #yith-woocompare table.compare-list {
+        min-width: 760px;
+    }
+
+    #yith-woocompare table.compare-list th,
+    #yith-woocompare table.compare-list td {
+        padding: 12px !important;
+        font-size: 14px;
+    }
+
+    #yith-woocompare table.compare-list tr.image img {
+        width: 180px !important;
+        height: 140px !important;
+    }
+}
+
+
+@media only screen and (max-width: 48em) {
+/*************** ADD MOBILE ONLY CSS HERE  ***************/
+
+
+}
+
+/* ==================================================
+   TOP ASIA — UI FIXES & VISUAL POLISH (2026-11)
+   ================================================== */
+
+/* 1. Footer: tránh thanh liên hệ nổi che copyright & icon thanh toán */
+#footer .absolute-footer {
+    padding-bottom: 70px !important;
+}
+#footer .footer1 p strong {
+    font-variant-numeric: tabular-nums;
+}
+.back-to-top {
+    bottom: 72px !important;
+}
+.grecaptcha-badge {
+    bottom: 72px !important;
+}
+
+/* 2. Product cards (Shop / Category): nâng cấp card & badge gọn hơn, không che chữ ảnh */
+.products .product-small .box {
+    background: #fff;
+    border: 1px solid #E4E9F0;
+    border-radius: 13px;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.products .product-small .box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(11, 29, 58, .09);
+    border-color: #cbd5e1;
+}
+.products .product-small .box-image {
+    background: #f8fafc;
+}
+.products .product-small .box-text {
+    padding: 14px 14px 16px !important;
+}
+.products .product-small .name.product-title a {
+    font-weight: 600;
+    color: #0b1d3a;
+    line-height: 1.42;
+    min-height: 2.84em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.products .product-small .price-wrapper .price {
+    color: #0b1d3a;
+    font-weight: 700;
+}
+.products .product-small .badge-container {
+    margin: 0 !important;
+    top: 10px !important;
+    left: 10px !important;
+    right: auto !important;
+}
+.products .product-small .badge-circle .badge-inner,
+.products .product-small .onsale {
+    border-radius: 4px !important;
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    min-height: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    background-color: #e31e24 !important;
+    box-shadow: 0 2px 6px rgba(227, 30, 36, .28);
+}
+
+/* 3. Mobile drawer: căn thẳng hàng toàn bộ mục menu */
+.ta-mnav .ta-mlink,
+.ta-mnav .ta-mtoggle {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    margin-left: 0 !important;
+}
+@media (max-width: 549px) {
+    #footer .absolute-footer {
+        padding-bottom: 76px !important;
+    }
+    .grecaptcha-badge {
+        display: none !important;
+    }
+}

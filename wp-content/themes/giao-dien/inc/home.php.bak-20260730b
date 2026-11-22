@@ -1,0 +1,23 @@
+<?php
+/**
+ * Top Asia homepage redesign — asset loading (front page only).
+ */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_front_page() ) {
+		return;
+	}
+	$dir = get_stylesheet_directory();
+	$uri = get_stylesheet_directory_uri();
+
+	wp_enqueue_style( 'taf-home', $uri . '/assets/home-r4.css', array(), file_exists( $dir . '/assets/home-r4.css' ) ? filemtime( $dir . '/assets/home-r4.css' ) : '1' );
+
+	wp_enqueue_script( 'taf-lucide', $uri . '/assets/lucide.min.js', array(), null, true );
+	wp_enqueue_script( 'taf-home', $uri . '/assets/home.js', array( 'taf-lucide' ), file_exists( $dir . '/assets/home.js' ) ? filemtime( $dir . '/assets/home.js' ) : '1', true );
+
+	// Enable WooCommerce AJAX add-to-cart on the homepage product cards.
+	if ( class_exists( 'WooCommerce' ) ) {
+		wp_enqueue_script( 'wc-add-to-cart' );
+	}
+}, 20 );

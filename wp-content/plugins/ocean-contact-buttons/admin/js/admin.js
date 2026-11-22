@@ -1,0 +1,1 @@
+(function(){'use strict';document.querySelectorAll('.ocb-admin input[type="color"]').forEach(function(input){input.addEventListener('change',function(){input.setAttribute('value',input.value);});});}());

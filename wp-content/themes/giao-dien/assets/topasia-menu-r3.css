@@ -1,0 +1,300 @@
+/* ==========================================================================
+   Top Asia — Custom navigation (desktop mega menu + mobile off-canvas)
+   Spec: topasia-menu-implementation.md — Navy / Red / Gray, 44–48px targets.
+   Mobile redesigned 2026-07 theo mockup "Mobile menu Top Asia":
+   drawer full-width, header logo + close, drill-down Sản phẩm / Hỗ trợ kỹ thuật.
+   ========================================================================== */
+:root{
+  --ta-navy:#0B1D3A;
+  --ta-red:#E31E24;
+  --ta-gray:#6B7280;
+  --ta-ink:#24344F;
+  --ta-line:#e6ece9;
+  --ta-soft:#f1f4f9;
+  --ta-shadow:0 14px 34px rgba(11,29,58,.16);
+  --ta-radius:13px;
+}
+
+/* Keep Flatsome from double-styling / showing leftover primary <ul> artefacts */
+.ta-nav *,.ta-mnav *{box-sizing:border-box}
+
+/* ============================ DESKTOP NAV ================================ */
+.ta-nav{display:flex;align-items:center}
+.ta-nav-list{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
+.ta-item{position:relative;display:flex;align-items:center}
+
+.ta-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font:600 15px/1 'Poppins VN',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  letter-spacing:.2px;text-transform:uppercase;
+  color:var(--ta-navy);background:none;border:0;cursor:pointer;
+  padding:14px 14px;margin:0;white-space:nowrap;text-decoration:none;
+  border-radius:8px;position:relative;
+}
+.ta-nav-list > .ta-item > .ta-link{padding-top:18px;padding-bottom:18px}
+.ta-link:hover{color:var(--ta-red)}
+.ta-link:focus-visible{outline:2px solid var(--ta-red);outline-offset:2px}
+.ta-dd-toggle{font:inherit;text-transform:uppercase}
+.ta-chev{transition:transform .18s ease;margin-top:1px}
+.ta-has-dd.ta-open > .ta-dd-toggle .ta-chev{transform:rotate(180deg)}
+
+/* active underline (red) — spec §14 */
+.ta-nav-list > .ta-item.is-active > .ta-link::after,
+.ta-nav-list > .ta-item > .ta-link.is-active::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:8px;height:3px;border-radius:2px;background:var(--ta-red)
+}
+.ta-nav-list > .ta-item.ta-has-dd.is-active > .ta-dd-toggle::after{
+  content:"";position:absolute;left:14px;right:30px;bottom:8px;height:3px;border-radius:2px;background:var(--ta-red)
+}
+
+/* Báo giá CTA */
+.ta-cta{
+  background:var(--ta-red);color:#fff !important;font-weight:800;
+  padding:11px 20px;border-radius:8px;text-transform:uppercase
+}
+.ta-cta:hover{background:#c81a1f;color:#fff}
+.ta-cta::after{display:none !important}
+
+/* ---- Dropdown panels ---- */
+.ta-dd-panel{
+  position:absolute;top:100%;left:0;z-index:120;min-width:340px;
+  background:#fff;border:1px solid #e2e9e6;border-radius:var(--ta-radius);
+  box-shadow:var(--ta-shadow);padding:0;margin-top:2px;
+  opacity:0;visibility:hidden;transform:translateY(6px);
+  transition:opacity .16s ease,transform .16s ease,visibility .16s;
+  overflow:hidden
+}
+.ta-has-dd.ta-open > .ta-dd-panel{opacity:1;visibility:visible;transform:translateY(0)}
+/* Flip to the right edge when the item sits near the viewport's right side. */
+.ta-has-dd.ta-dd-flip > .ta-dd-panel{left:auto;right:0}
+.ta-dd-panel::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ta-navy)}
+.ta-dd-inner,.ta-mega-inner{padding:22px 26px 22px 30px}
+.ta-dd-title{
+  font:700 13px/1 'Poppins VN',Arial,sans-serif;letter-spacing:1px;color:var(--ta-navy);
+  margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid #eef2f0;text-transform:uppercase
+}
+.ta-dd-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.ta-dd-link{
+  display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:9px;
+  text-decoration:none;transition:background .14s ease
+}
+.ta-dd-link:hover,.ta-dd-link:focus-visible{background:var(--ta-soft);outline:none}
+.ta-dd-link:focus-visible{box-shadow:inset 0 0 0 2px var(--ta-red)}
+.ta-dd-ic{
+  flex:0 0 30px;height:30px;width:30px;border-radius:50%;background:#eef2f8;
+  display:flex;align-items:center;justify-content:center;color:var(--ta-navy);margin-top:1px
+}
+.ta-dd-link.is-active .ta-dd-ic{background:#fdebed;color:var(--ta-red)}
+.ta-dd-txt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.ta-dd-label{font:500 16px/1.2 'Poppins VN',Arial,sans-serif;color:var(--ta-ink)}
+.ta-dd-link:hover .ta-dd-label,.ta-dd-link.is-active .ta-dd-label{color:var(--ta-navy)}
+.ta-dd-desc{font:400 13px/1.35 'Poppins VN',Arial,sans-serif;color:var(--ta-gray)}
+
+/* ---- Mega panel (Sản phẩm) — even vertical rhythm ---- */
+.ta-mega-panel{min-width:600px;width:600px}
+.ta-mega-cats{display:flex;flex-direction:column}
+.ta-mega-cat{padding:15px 0}
+.ta-mega-cat:first-child{padding-top:6px}
+.ta-mega-cat + .ta-mega-cat{border-top:1px solid #edf1ef}
+.ta-mega-cat-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:24px;
+  font:600 15px/1.35 'Poppins VN',Arial,sans-serif;color:var(--ta-navy);text-decoration:none
+}
+.ta-mega-cat-head:hover,.ta-mega-cat-head.is-active{color:var(--ta-red)}
+.ta-mega-cat-head:focus-visible{outline:2px solid var(--ta-red);outline-offset:3px;border-radius:4px}
+.ta-mega-cat-head > span:first-child{flex:1 1 auto}
+.ta-mega-arrow{flex:0 0 auto;color:#9aa7a1;font-size:22px;line-height:1;transform:translateY(-1px)}
+.ta-mega-cat-desc{font:400 13px/1.45 'Poppins VN',Arial,sans-serif;color:var(--ta-gray);margin:6px 0 0}
+.ta-brands{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 0}
+.ta-brand{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  text-align:center;padding:12px 8px;border-radius:8px;border:1px solid var(--ta-line);
+  background:#f8faf9;text-decoration:none;transition:transform .12s ease,box-shadow .14s ease,border-color .14s
+}
+.ta-brand:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(11,29,58,.1)}
+.ta-brand:focus-visible{outline:2px solid var(--ta-red);outline-offset:2px}
+.ta-brand-name{font:800 14px/1 'Poppins VN',Arial,sans-serif;color:var(--ta-navy);letter-spacing:.3px}
+.ta-brand-seg{font:500 11px/1.2 'Poppins VN',Arial,sans-serif;color:#85938e}
+.ta-brand--accent{background:#fdebed;border-color:#f4b6bb}
+.ta-brand--accent .ta-brand-name{color:var(--ta-red)}
+.ta-brand--accent .ta-brand-seg{color:#8b6267}
+.ta-brand.is-active{border-color:var(--ta-red)}
+
+/* Guide card */
+.ta-guide{
+  display:flex;gap:14px;align-items:flex-start;margin:18px 0 2px;padding:18px;
+  background:var(--ta-soft);border-radius:10px
+}
+.ta-guide-ic{
+  flex:0 0 34px;height:34px;width:34px;border-radius:50%;background:#e4eaf4;
+  display:flex;align-items:center;justify-content:center;color:var(--ta-navy)
+}
+.ta-guide-title{font:650 15px/1.3 'Poppins VN',Arial,sans-serif;color:var(--ta-navy);margin:0 0 4px}
+.ta-guide-text{font:400 13px/1.4 'Poppins VN',Arial,sans-serif;color:var(--ta-gray);margin:0 0 12px}
+.ta-guide-cta{
+  display:inline-flex;align-items:center;gap:6px;background:var(--ta-navy);color:#fff;
+  font:700 12px/1 'Poppins VN',Arial,sans-serif;letter-spacing:.4px;padding:10px 16px;border-radius:6px;
+  text-decoration:none;text-transform:uppercase
+}
+.ta-guide-cta:hover{background:#12294c;color:#fff}
+.ta-guide-cta:focus-visible{outline:2px solid var(--ta-red);outline-offset:2px}
+
+/* ==========================================================================
+   MOBILE NAV — off-canvas drawer (redesign 07/2026 theo mockup)
+   ========================================================================== */
+
+/* Drawer shell: full-width sheet like the mockup (capped for tablets). */
+/* Flatsome bọc drawer trong .mfp-content: inline-block co theo nội dung + overflow-x:hidden
+   + có transform => vừa là containing block VỪA là hộp cắt của drawer position:fixed.
+   Trên WebKit (Safari/Chrome iOS) nó xén mất mép trái drawer. Cho khung bọc và drawer
+   cùng bề rộng để không còn gì bị cắt. Tránh min()/100vw cho chắc tương thích. */
+.mfp-wrap.off-canvas .mfp-content{width:100% !important;max-width:430px !important}
+#main-menu.mobile-sidebar{width:100% !important;max-width:430px !important}
+#main-menu .sidebar-menu{padding:0 !important;background:#fff}
+#main-menu ul.nav.nav-sidebar{padding:0;margin:0;display:block;width:100%}
+/* Hide Magnific's floating × only for this off-canvas (we render our own). */
+.mfp-wrap.off-canvas:has(#main-menu) .mfp-close{display:none !important}
+
+.ta-mnav{display:flex;flex-direction:column;min-height:100vh;background:#fff;padding:0}
+.ta-mnav a{text-transform:none}
+.ta-mnav-list{list-style:none;margin:0;padding:0}
+
+/* --- Drawer header: logo + close (mockup 01) --- */
+.ta-mhead{
+  position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;
+  gap:12px;background:#fff;padding:max(12px,env(safe-area-inset-top)) 16px 12px 20px;
+  border-bottom:1px solid #e7ebef
+}
+.ta-mlogo{display:flex;align-items:center;min-height:44px}
+.ta-mlogo img{display:block;height:40px;width:auto;max-width:170px;object-fit:contain}
+.ta-mclose{
+  flex:0 0 auto;height:44px;width:44px;padding:0;border:0;border-radius:50%;
+  background:#f1f3f6;color:var(--ta-navy);display:flex;align-items:center;justify-content:center;cursor:pointer
+}
+.ta-mclose:hover{background:#e7ebf0}
+.ta-mclose:focus-visible{outline:2px solid var(--ta-red);outline-offset:2px}
+
+/* --- Views (main + drill-down screens) --- */
+.ta-mviews{flex:1 1 auto}
+.ta-mview{padding:4px 20px 30px}
+.ta-mview[hidden]{display:none}
+@keyframes ta-mv-fwd{from{opacity:.35;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+@keyframes ta-mv-back{from{opacity:.35;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+.ta-mview.ta-anim-fwd{animation:ta-mv-fwd .22s ease}
+.ta-mview.ta-anim-back{animation:ta-mv-back .22s ease}
+
+/* --- Main screen rows --- */
+.ta-mitem{border-bottom:1px solid #eef1f3}
+.ta-mlink,.ta-mtoggle{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+  min-height:56px;padding:15px 8px;background:none;border:0;border-radius:10px;cursor:pointer;
+  text-align:left;font:600 16px/1.3 'Poppins VN',Arial,sans-serif;color:var(--ta-navy);
+  text-decoration:none;text-transform:none;letter-spacing:0
+}
+.ta-mlink:focus-visible,.ta-mtoggle:focus-visible,.ta-mback:focus-visible{outline:2px solid var(--ta-red);outline-offset:-2px}
+.ta-mlink.is-active{color:var(--ta-red)}
+.ta-mtoggle .ta-mchev{transition:transform .2s ease;color:var(--ta-navy);flex:0 0 auto}
+.ta-macc.ta-open .ta-mtoggle{color:var(--ta-red)}
+.ta-macc.ta-open .ta-mtoggle .ta-mchev{transform:rotate(180deg);color:var(--ta-red)}
+/* Active section: soft highlight row like the mockup */
+.ta-mdrill.is-active .ta-mtoggle,.ta-macc.is-active .ta-mtoggle{background:var(--ta-soft);padding-left:14px;padding-right:14px}
+.ta-mdrill.is-active .ta-mchev,.ta-macc.is-active .ta-mchev{color:var(--ta-red)}
+
+/* --- Accordion panel (Giới thiệu / Hợp tác) --- */
+.ta-mpanel{padding:2px 0 14px}
+.ta-mpanel[hidden]{display:none}
+.ta-msub{
+  display:flex;align-items:flex-start;gap:12px;padding:12px 12px;min-height:48px;
+  border-radius:10px;text-decoration:none;color:var(--ta-ink);
+  font:500 15px/1.3 'Poppins VN',Arial,sans-serif;background:#f7f9f8;margin:6px 0
+}
+.ta-msub .ta-dd-txt{display:flex;flex-direction:column;gap:2px}
+.ta-msub .ta-dd-desc{font-size:12px}
+.ta-msub.is-active{color:var(--ta-red)}
+
+/* --- Sub-screen top bar: back + title (mockup 02/03) --- */
+.ta-msubbar{
+  display:flex;align-items:center;gap:6px;min-height:54px;padding:6px 0;
+  border-bottom:1px solid #e7ebef;margin:0 0 16px
+}
+.ta-mback{
+  flex:0 0 auto;height:44px;width:44px;margin-left:-12px;padding:0;border:0;border-radius:50%;
+  background:none;color:var(--ta-navy);display:flex;align-items:center;justify-content:center;cursor:pointer
+}
+.ta-mback:hover{background:#f1f3f6}
+.ta-msubtitle{font:700 17px/1.2 'Poppins VN',Arial,sans-serif;color:var(--ta-navy);letter-spacing:.6px;text-transform:uppercase}
+
+/* --- Sản phẩm screen (mockup 02) --- */
+.ta-mcat{display:flex;align-items:center;justify-content:space-between;gap:12px;text-decoration:none}
+.ta-mcat--card{background:var(--ta-soft);border-radius:11px;padding:14px 16px;margin:0 0 12px}
+.ta-mcat--row{padding:16px 8px;border-bottom:1px solid #eef1f3}
+.ta-mcat-txt{flex:1 1 auto;min-width:0}
+.ta-mcat-label{display:block;font:600 15.5px/1.35 'Poppins VN',Arial,sans-serif;color:var(--ta-navy)}
+.ta-mcat-desc{display:block;margin-top:3px;font:400 12.5px/1.4 'Poppins VN',Arial,sans-serif;color:var(--ta-gray)}
+.ta-mcat.is-active .ta-mcat-label{color:var(--ta-red)}
+.ta-mbrands{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 8px}
+.ta-mbrands .ta-brand{padding:13px 6px}
+
+/* --- Hỗ trợ kỹ thuật screen (mockup 03): icon cards --- */
+.ta-mcard{
+  display:flex;align-items:flex-start;gap:12px;padding:16px 14px;margin:0 0 14px;
+  border:1px solid #e6eaed;border-radius:12px;background:#fff;text-decoration:none
+}
+.ta-mcard--featured{background:var(--ta-soft);border-color:transparent}
+.ta-mcard-ic{
+  flex:0 0 32px;height:32px;width:32px;border-radius:50%;background:#e4eaf4;
+  display:flex;align-items:center;justify-content:center;color:var(--ta-navy);margin-top:2px
+}
+.ta-mcard--accent .ta-mcard-ic{background:#fdebed;color:var(--ta-red)}
+.ta-mcard-txt{flex:1 1 auto;min-width:0}
+.ta-mcard-label{display:block;font:600 15.5px/1.35 'Poppins VN',Arial,sans-serif;color:var(--ta-navy)}
+.ta-mcard-desc{display:block;margin-top:4px;font:400 12.5px/1.45 'Poppins VN',Arial,sans-serif;color:var(--ta-gray)}
+.ta-mcard .ta-mega-arrow{align-self:center}
+.ta-mcard.is-active .ta-mcard-label{color:var(--ta-red)}
+
+/* --- Guide card (shared with desktop, mobile spacing) --- */
+.ta-guide--m{margin:16px 0 0}
+
+/* --- Buttons & footers --- */
+.ta-btn{
+  display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;
+  border-radius:9px;text-decoration:none;font:800 14px/1 'Poppins VN',Arial,sans-serif;
+  letter-spacing:.5px;text-transform:uppercase
+}
+.ta-btn:focus-visible{outline:2px solid var(--ta-navy);outline-offset:2px}
+/* .ta-mnav a{text-transform:none} would win over .ta-btn — restate for CTAs */
+.ta-mnav a.ta-btn,.ta-mnav a.ta-guide-cta{text-transform:uppercase}
+.ta-btn--support{background:var(--ta-navy);color:#fff;font-weight:750;font-size:13px}
+.ta-btn--support:hover{background:#12294c;color:#fff}
+.ta-btn--quote{background:var(--ta-red);color:#fff}
+.ta-btn--quote:hover{background:#c81a1f;color:#fff}
+.ta-mviewfoot{margin-top:20px;display:flex;flex-direction:column;gap:12px}
+.ta-mfoot{padding:22px 0 8px}
+.ta-mhotline{text-align:center;font:400 12px/1.4 'Poppins VN',Arial,sans-serif;color:var(--ta-gray);margin:14px 0 0}
+.ta-mhotline a{color:var(--ta-navy);font-weight:700;text-decoration:none}
+
+/* ============================ RESPONSIVE ================================= */
+/* Spec §14–15: desktop bar >=1200px, off-canvas hamburger <1200px.
+   Flatsome switches its header at 850px (.hide-for-medium / .show-for-medium);
+   we extend that switch to 1200px, scoped to the header only, so the 9 items
+   never wrap. Below 850px Flatsome's own rules already apply. */
+@media (min-width:850px) and (max-width:1199px){
+  #header .header-main .flex-col.hide-for-medium{display:none !important}
+  #header .header-main .flex-col.show-for-medium{display:flex !important}
+}
+/* Safety: never show the desktop custom bar below the breakpoint. */
+@media (max-width:1199px){
+  .ta-nav{display:none !important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .ta-chev,.ta-mchev,.ta-dd-panel,.ta-brand{transition:none !important}
+  .ta-mview.ta-anim-fwd,.ta-mview.ta-anim-back{animation:none !important}
+}
+
+/* ============ Header top bar — brand navy (match design) ============ */
+#top-bar{background-color:var(--ta-navy) !important}
+/* accent the top-bar contact icons in brand red like the design */
+#top-bar .header-top-icons .icon-email,
+#top-bar a[href^="tel:"] .ux-menu-link__icon,
+#top-bar .html a:hover{color:#fff}

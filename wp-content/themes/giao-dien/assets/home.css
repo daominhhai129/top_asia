@@ -1,0 +1,150 @@
+/* ==========================================================================
+   Top Asia — Homepage redesign (front-page)
+   Ported from the supplied design bundle. Scope: .taf-home only.
+   Palette: navy #0B1D3A / red #E31E24 / gray. Font: Poppins.
+   ========================================================================== */
+:root{
+  --navy-900:#0B1D3A;--red-600:#E31E24;--white:#fff;--gray-500:#6B7280;
+  --navy-800:#132A52;--navy-700:#1B3868;--navy-100:#E7EBF2;--navy-50:#F2F5F9;
+  --red-700:#C21419;--red-100:#FCE8E9;
+  --gray-900:#1A2230;--gray-700:#3E4756;--gray-600:#4b5563;--gray-400:#9AA1AD;--gray-300:#CBD0D9;--gray-200:#E2E5EB;--gray-100:#EFF1F5;--gray-50:#F7F8FA;
+  --border-1:var(--gray-200);--border-2:var(--gray-300);
+  --font-sans:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;
+  --control-h-sm:32px;--control-h-md:40px;--control-h-lg:48px;
+  --container:1200px;
+  --shadow-sm:0 1px 2px rgba(11,29,58,.08);--shadow-md:0 4px 14px rgba(11,29,58,.10);--shadow-lg:0 12px 32px rgba(11,29,58,.16);
+  --ease-out:cubic-bezier(.2,.7,.3,1);--dur-fast:120ms;--dur-med:200ms;
+}
+
+/* ---- scope base ---- */
+.taf-home{font-family:var(--font-sans);color:var(--gray-700);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;background:#fff}
+.taf-home *{box-sizing:border-box}
+.taf-home h1,.taf-home h2,.taf-home h3,.taf-home h4{font-family:var(--font-sans);color:var(--navy-900);margin:0;line-height:1.25;letter-spacing:-.01em;font-weight:800}
+.taf-home a{text-decoration:none}
+.taf-home img{max-width:100%}
+.taf-wrap{max-width:var(--container);margin:0 auto;padding:0 24px}
+
+/* ---- lucide icon wrapper ---- */
+.taf-home .ic{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+.taf-home .ic svg{width:100%;height:100%;display:block;stroke-width:2}
+
+/* ---- split accent bar motif ---- */
+.taf-bar{height:6px;background:var(--navy-900);display:flex}
+.taf-bar > i{display:block;width:22%;height:100%;background:var(--red-600)}
+
+/* ---- buttons ---- */
+.taf-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:var(--control-h-md);padding:0 22px;border:0;border-radius:2px;font:700 13.5px/1 var(--font-sans);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast),border-color var(--dur-fast)}
+.taf-btn--lg{height:var(--control-h-lg);padding:0 28px;font-size:14px}
+.taf-btn--sm{height:var(--control-h-sm);padding:0 16px;font-size:12.5px}
+.taf-btn--accent{background:var(--red-600);color:#fff}
+.taf-btn--accent:hover{background:var(--red-700);color:#fff}
+.taf-btn--primary{background:var(--navy-900);color:#fff}
+.taf-btn--primary:hover{background:var(--navy-800);color:#fff}
+.taf-btn--secondary{background:#fff;color:var(--navy-900);border:1.5px solid var(--border-2)}
+.taf-btn--secondary:hover{border-color:var(--navy-900);color:var(--navy-900)}
+.taf-btn--ghost{background:transparent;color:var(--gray-700)}
+.taf-btn--ghost:hover{color:var(--navy-900)}
+.taf-btn--outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35)}
+.taf-btn--outline:hover{background:rgba(255,255,255,.08);border-color:#fff;color:#fff}
+
+/* ---- section header ---- */
+.taf-eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 11px/1 var(--font-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--red-600);margin-bottom:12px}
+.taf-eyebrow i{display:block;width:24px;height:1px;background:var(--red-600)}
+.taf-h2{font-size:31px;font-weight:800;letter-spacing:-.01em;line-height:1.2;color:var(--navy-900)}
+.taf-h2--light{color:#fff}
+/* .taf-home h1..h4 (0,1,1) de cac class 1 cap (0,1,0) — nang specificity cho bien the sang tren nen navy */
+.taf-home .taf-h2--light,.taf-home .taf-hero-h1{color:#fff}
+.taf-head--center{text-align:center;max-width:720px;margin:0 auto 34px}
+.taf-head{margin-bottom:34px}
+
+/* ---- image placeholder / real image box ---- */
+.taf-ph{position:relative;overflow:hidden;background:var(--gray-100);border:1px solid var(--border-1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--gray-400)}
+.taf-ph > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.taf-ph .taf-ph-lbl{font:600 11.5px/1.3 var(--font-sans);letter-spacing:.04em;color:var(--gray-500);text-align:center;padding:0 12px}
+
+/* ---- interactions ---- */
+.taf-tab.is-active{color:var(--navy-900) !important;box-shadow:inset 0 -2px 0 var(--red-600)}
+.taf-tab:hover{color:var(--navy-900) !important}
+.taf-app:hover .taf-app-ov{opacity:1 !important}
+.taf-cat:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.taf-prod:hover{box-shadow:var(--shadow-md)}
+.taf-prod-add:hover{background:var(--red-700) !important}
+.taf-dlg input:focus,.taf-dlg select:focus{outline:none;border-color:var(--navy-900);box-shadow:0 0 0 3px rgba(11,29,58,.12)}
+/* WooCommerce price inside product cards */
+.taf-price{line-height:1.2}
+.taf-price .amount,.taf-price bdi{font-weight:800;color:var(--navy-900);font-size:17px}
+.taf-price del{color:var(--gray-400);font-weight:500;font-size:12.5px;margin-right:4px}
+.taf-price ins{text-decoration:none}
+.taf-prod-add{border-radius:0}
+
+/* ---- responsive grids ---- */
+.taf-g2{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.taf-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.taf-g4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.taf-hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;min-height:520px}
+
+@media (max-width:1023px){
+  .taf-h2{font-size:26px}
+  .taf-g4{grid-template-columns:repeat(2,1fr)}
+  .taf-hero-grid{grid-template-columns:1fr;min-height:0}
+  .taf-hero-media{min-height:320px}
+}
+@media (max-width:767px){
+  .taf-wrap{padding:0 16px}
+  .taf-g2,.taf-g3{grid-template-columns:1fr;gap:28px}
+  .taf-g4{grid-template-columns:repeat(2,1fr);gap:14px}
+  .taf-h2{font-size:23px}
+  .taf-sec{padding-top:48px !important;padding-bottom:48px !important}
+  .taf-hero-inner{padding:44px 0 !important}
+}
+@media (max-width:479px){
+  .taf-g4{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .taf-home *{transition:none !important}
+}
+
+/* ==========================================================================
+   Hero slider (banner kéo 3 slide) — thêm 25/07
+   ========================================================================== */
+.taf-hero{position:relative;overflow:hidden;background:var(--navy-900);touch-action:pan-y;cursor:grab}
+.taf-hero.is-dragging{cursor:grabbing}
+.taf-hero-track{display:flex;transition:transform .55s var(--ease-out);will-change:transform}
+.taf-hero.is-dragging .taf-hero-track{transition:none}
+.taf-hero-slide{position:relative;flex:0 0 100%;min-width:100%;min-height:560px;display:flex;align-items:center;overflow:hidden}
+.taf-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.03)}
+.taf-hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,29,58,.80),rgba(11,29,58,.30) 40%,rgba(11,29,58,0) 62%)}
+.taf-hero-inner2{position:relative;z-index:2;width:100%}
+.taf-hero-copy{max-width:600px;color:#fff;padding:32px 0}
+.taf-hero-badge{display:inline-flex;align-items:center;gap:9px;padding:6px 14px;border:1px solid rgba(255,255,255,.22);font:600 11px/1 var(--font-sans);letter-spacing:.12em;text-transform:uppercase;color:#fff;margin-bottom:20px}
+.taf-hero-badge span{width:7px;height:7px;background:var(--red-600);flex:0 0 auto}
+.taf-hero-h1{font-size:44px;line-height:1.12;font-weight:800;letter-spacing:-.015em;color:#fff;margin:0 0 18px}
+.taf-hero-sub{font-size:16px;line-height:1.65;color:#C3CCDB;max-width:520px;margin:0 0 28px}
+.taf-hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px}
+.taf-hero-feats{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:22px}
+.taf-hero-feat{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:#D7DEE9}
+.taf-hero-stnums{display:flex;gap:34px}
+.taf-hero-stnums b{display:block;font-size:30px;font-weight:800;color:#fff;line-height:1;letter-spacing:-.01em}
+.taf-hero-stnums span{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#A9B4C6;margin-top:6px}
+.taf-hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:46px;height:46px;border:0;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background var(--dur-fast) var(--ease-out)}
+.taf-hero-arrow:hover{background:var(--red-600)}
+.taf-hero-prev{left:20px}
+.taf-hero-next{right:20px}
+.taf-hero-dots{position:absolute;left:0;right:0;bottom:22px;z-index:5;display:flex;gap:8px;justify-content:center}
+.taf-hero-dot{width:9px;height:9px;border:0;border-radius:50%;padding:0;background:rgba(255,255,255,.45);cursor:pointer;transition:all var(--dur-med) var(--ease-out)}
+.taf-hero-dot.is-active{width:26px;border-radius:5px;background:var(--red-600)}
+@media (max-width:1023px){
+  .taf-hero-slide{min-height:440px}
+  .taf-hero-h1{font-size:33px}
+}
+@media (max-width:767px){
+  .taf-hero-slide{min-height:470px}
+  .taf-hero-shade{background:linear-gradient(180deg,rgba(11,29,58,.60),rgba(11,29,58,.9))}
+  .taf-hero-h1{font-size:26px}
+  .taf-hero-sub{font-size:14.5px}
+  .taf-hero-copy{max-width:100%}
+  .taf-hero-arrow{display:none}
+  .taf-hero-stnums{gap:24px}
+  .taf-hero-stnums b{font-size:24px}
+}

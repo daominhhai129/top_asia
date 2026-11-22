@@ -1,0 +1,20 @@
+# Ignore everything in the WordPress root by default
+*
+
+# Allow .gitignore itself
+!.gitignore
+
+# Traverse and track only custom theme code
+!wp-content/
+!wp-content/themes/
+!wp-content/themes/giao-dien/
+!wp-content/themes/giao-dien/*/
+!wp-content/themes/giao-dien/*/*/
+!wp-content/themes/giao-dien/**
+
+# Traverse and track only custom plugins
+!wp-content/plugins/
+!wp-content/plugins/ocean-contact-buttons/
+!wp-content/plugins/ocean-contact-buttons/*/
+!wp-content/plugins/ocean-contact-buttons/*/*/
+!wp-content/plugins/ocean-contact-buttons/**

@@ -1,0 +1,398 @@
+<?php
+/**
+ * Top Asia — Custom primary navigation (desktop mega menu + mobile off-canvas accordion)
+ *
+ * Reference spec: topasia-menu-implementation.md
+ * - Single shared config array for desktop + mobile (spec §20.4).
+ * - Injected into Flatsome header via `pre_wp_nav_menu` for the `primary`
+ *   (desktop) and `primary_mobile` (mobile, inside Flatsome off-canvas) locations.
+ * - Accessible: <button> triggers with aria-expanded/aria-controls, <a> real links,
+ *   aria-current on active item (spec §16).
+ *
+ * To edit menu items/labels/URLs, change ONLY topasia_menu_config() below.
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * 1) MENU CONFIG — single source of truth for desktop + mobile.
+ * ---------------------------------------------------------------------------
+ * type: link | cta | dropdown | mega
+ * Paths are site-relative and resolved with home_url() at render time.
+ */
+function topasia_menu_config() {
+	return array(
+		array( 'label' => 'Trang chủ', 'url' => '/', 'type' => 'link' ),
+
+		array(
+			'label'    => 'Giới thiệu',
+			'type'     => 'dropdown',
+			'children' => array(
+				array( 'label' => 'Về Top Asia', 'url' => '/gioi-thieu/', 'desc' => 'Câu chuyện thương hiệu và định hướng', 'icon' => 'info' ),
+				array( 'label' => 'Nhà máy & Năng lực sản xuất', 'url' => '/nha-may-san-xuat-tam-polycarbonate-top-asia/', 'desc' => 'Khẳng định năng lực nhà sản xuất B2B', 'icon' => 'factory' ),
+			),
+		),
+
+		array(
+			'label'    => 'Sản phẩm',
+			'type'     => 'mega',
+			'children' => array(
+				array(
+					'label'  => 'Tấm Polycarbonate đặc cường lực',
+					'url'    => '/tat-ca-san-pham/tam-nhua-kinh-polycarbonate-cuong-luc/',
+					'brands' => array(
+						array( 'name' => 'ASIA GOLD', 'seg' => 'Phân khúc phổ thông', 'url' => '/danh-muc-san-pham/tam-nhua-polycarbonate-cuong-luc-asia-gold/', 'accent' => true ),
+						array( 'name' => 'ASIA PEARL', 'seg' => 'Phân khúc chuyên nghiệp', 'url' => '/danh-muc-san-pham/tam-nhua-polycarbonate-cuong-luc-asia-pearl/' ),
+						array( 'name' => 'ASIA LITE', 'seg' => 'Phân khúc cao cấp', 'url' => '/danh-muc-san-pham/tam-nhua-polycarbonate-cuong-luc-asia-lite/' ),
+					),
+				),
+				array( 'label' => 'Tấm Polycarbonate đặc sần', 'url' => '/tat-ca-san-pham/polycarbonate-dac-san/' ),
+				array( 'label' => 'Phụ kiện chuyên dụng', 'url' => '/tat-ca-san-pham/phu-kien-chuyen-dung/', 'desc' => 'Nẹp · Canopy · Phụ kiện thi công đồng bộ' ),
+			),
+			// Guide card (spec §7.4). NOTE: target page currently missing on this environment.
+			'card'     => array(
+				'title' => 'Chưa biết chọn loại tấm nào?',
+				'text'  => 'Xem Cẩm nang Tấm lợp lấy sáng để tìm sản phẩm phù hợp',
+				'cta'   => 'Tìm sản phẩm phù hợp',
+				'url'   => '/tam-lop-lay-sang-polycarbonate/',
+			),
+		),
+
+		array(
+			'label'    => 'Hợp tác',
+			'type'     => 'dropdown',
+			// NOTE: both target pages currently missing on this environment (spec §8 — report, do not create).
+			'children' => array(
+				array( 'label' => 'Chủ đầu tư & Nhà thầu', 'url' => '/chu-dau-tu-nha-thau/', 'icon' => 'building' ),
+				array( 'label' => 'Đại lý & Nhà phân phối', 'url' => '/tuyen-dai-ly/', 'icon' => 'handshake' ),
+			),
+		),
+
+		array( 'label' => 'Báo giá', 'url' => '/bao-gia/', 'type' => 'cta' ),
+
+		array( 'label' => 'Dự án', 'url' => '/du-an/', 'type' => 'link' ),
+
+		array(
+			'label'       => 'Hỗ trợ kỹ thuật',
+			'type'        => 'dropdown',
+			// NOTE: anchors on /ho-tro-ky-thuat/ missing -> first two point to the hub (spec §11.2 — report).
+			'children'    => array(
+				array( 'label' => 'Hướng dẫn thi công & khẩu độ', 'url' => '/ho-tro-ky-thuat/', 'desc' => 'Thông số, lưu ý và quy trình thực hành', 'icon' => 'guide' ),
+				array( 'label' => 'Tiêu chuẩn, bảo hành & xử lý sự cố', 'url' => '/ho-tro-ky-thuat/', 'desc' => 'Tiêu chuẩn chất lượng, bảo hành, khắc phục lỗi', 'icon' => 'shield' ),
+				array( 'label' => 'Tài liệu & Tải về', 'url' => '/tai-ve/', 'desc' => 'Catalogue, bảng màu, datasheet, hồ sơ năng lực', 'icon' => 'download' ),
+			),
+			// Support CTA shown only inside this group on mobile (spec §11.4).
+			// NOTE: contact form param/anchor missing -> points to /lien-he/ (report).
+			'support_cta' => array( 'label' => 'Gửi yêu cầu hỗ trợ', 'url' => '/lien-he/' ),
+		),
+
+		array( 'label' => 'Tin tức', 'url' => '/tin-tuc-top-asia/', 'type' => 'link' ),
+
+		array( 'label' => 'Liên hệ', 'url' => '/lien-he/', 'type' => 'link' ),
+	);
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * 2) HELPERS
+ * ---------------------------------------------------------------------------
+ */
+
+/** Resolve a config URL (site-relative path or absolute) to a full URL. */
+function topasia_menu_url( $url ) {
+	if ( preg_match( '#^https?://#i', $url ) ) {
+		return $url;
+	}
+	return home_url( $url );
+}
+
+/** Normalised path (leading + trailing slash, no query/hash) for comparison. */
+function topasia_menu_norm_path( $url ) {
+	$path = wp_parse_url( topasia_menu_url( $url ), PHP_URL_PATH );
+	if ( ! $path ) {
+		$path = '/';
+	}
+	$path = '/' . trim( $path, '/' );
+	if ( '/' !== $path ) {
+		$path .= '/';
+	}
+	return $path;
+}
+
+/** Current request path, normalised. */
+function topasia_menu_current_path() {
+	static $current = null;
+	if ( null !== $current ) {
+		return $current;
+	}
+	$path = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( wp_unslash( $_SERVER['REQUEST_URI'] ), PHP_URL_PATH ) : '/';
+	$path = '/' . trim( (string) $path, '/' );
+	if ( '/' !== $path ) {
+		$path .= '/';
+	}
+	$current = $path;
+	return $current;
+}
+
+/** Is this single URL the current page? (home matches only exactly) */
+function topasia_menu_is_current( $url ) {
+	$item = topasia_menu_norm_path( $url );
+	$cur  = topasia_menu_current_path();
+	if ( '/' === $item ) {
+		return '/' === $cur;
+	}
+	// Exact match, or current page is a descendant of a section URL.
+	return ( $cur === $item ) || ( 0 === strpos( $cur, $item ) );
+}
+
+/** Does any URL inside an item (children/brands/link) match the current page? */
+function topasia_menu_item_active( $item ) {
+	if ( ! empty( $item['url'] ) && topasia_menu_is_current( $item['url'] ) ) {
+		return true;
+	}
+	if ( ! empty( $item['children'] ) ) {
+		foreach ( $item['children'] as $child ) {
+			if ( ! empty( $child['url'] ) && topasia_menu_is_current( $child['url'] ) ) {
+				return true;
+			}
+			if ( ! empty( $child['brands'] ) ) {
+				foreach ( $child['brands'] as $b ) {
+					if ( ! empty( $b['url'] ) && topasia_menu_is_current( $b['url'] ) ) {
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+/** Minimal inline SVG icon set (currentColor). */
+function topasia_menu_icon( $key ) {
+	$icons = array(
+		'chevron'   => '<path d="M4 6l4 4 4-4"/>',
+		'arrow'     => '<path d="M3 8h9M9 5l3 3-3 3"/>',
+		'info'      => '<path d="M8 2l6 11H2z"/>',
+		'factory'   => '<path d="M2 13V6l4 3V6l4 3V4h4v9z"/>',
+		'guide'     => '<path d="M3 4l5 2 5-2v9l-5 2-5-2z"/><path d="M8 6v9"/>',
+		'shield'    => '<path d="M8 2l5 2v4c0 3-2 5-5 6-3-1-5-3-5-6V4z"/>',
+		'download'  => '<path d="M8 2v8m-3-3l3 3 3-3M3 13h10"/>',
+		'building'  => '<path d="M4 14V3h8v11M6 6h1M9 6h1M6 9h1M9 9h1"/>',
+		'handshake' => '<path d="M2 8l3-3 3 2 3-2 3 3-3 3-3-2-3 2z"/>',
+		'compass'   => '<circle cx="8" cy="8" r="6"/><path d="M8 4l2 4-2 4-2-4z"/>',
+	);
+	$p = isset( $icons[ $key ] ) ? $icons[ $key ] : '';
+	if ( ! $p ) {
+		return '';
+	}
+	return '<svg class="ta-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . $p . '</svg>';
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * 3) DESKTOP RENDERER
+ * ---------------------------------------------------------------------------
+ */
+function topasia_render_desktop_nav() {
+	static $inst = 0;
+	$inst++;
+	$items = topasia_menu_config();
+	$out   = '<nav class="ta-nav" aria-label="Điều hướng chính"><ul class="ta-nav-list">';
+	$i     = 0;
+
+	foreach ( $items as $item ) {
+		$i++;
+		$type   = isset( $item['type'] ) ? $item['type'] : 'link';
+		$active = topasia_menu_item_active( $item );
+		$acls   = $active ? ' is-active' : '';
+
+		// Simple link / CTA.
+		if ( 'link' === $type || 'cta' === $type ) {
+			$cta   = ( 'cta' === $type ) ? ' ta-cta' : '';
+			$aria  = $active ? ' aria-current="page"' : '';
+			$out  .= '<li class="ta-item' . $acls . '"><a class="ta-link' . $cta . '" href="' . esc_url( topasia_menu_url( $item['url'] ) ) . '"' . $aria . ' data-ta-menu="' . esc_attr( $item['label'] ) . '"' . ( 'cta' === $type ? ' data-ta-cta="1"' : '' ) . '>' . esc_html( $item['label'] ) . '</a></li>';
+			continue;
+		}
+
+		// Dropdown / Mega.
+		$panel_id = 'ta-dd-' . $inst . '-' . $i;
+		$out     .= '<li class="ta-item ta-has-dd' . ( 'mega' === $type ? ' ta-has-mega' : '' ) . $acls . '">';
+		$out     .= '<button type="button" class="ta-link ta-dd-toggle" aria-expanded="false" aria-controls="' . $panel_id . '" data-ta-menu="' . esc_attr( $item['label'] ) . '">';
+		$out     .= '<span>' . esc_html( $item['label'] ) . '</span>';
+		$out     .= '<svg class="ta-chev" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . topasia_menu_icon( 'chevron' ) . '</svg>';
+		$out     .= '</button>';
+
+		if ( 'mega' === $type ) {
+			$out .= topasia_render_mega_panel( $item, $panel_id );
+		} else {
+			$out .= topasia_render_dropdown_panel( $item, $panel_id );
+		}
+		$out .= '</li>';
+	}
+
+	$out .= '</ul></nav>';
+	return $out;
+}
+
+/** Simple dropdown panel (Giới thiệu / Hợp tác / Hỗ trợ kỹ thuật). */
+function topasia_render_dropdown_panel( $item, $panel_id ) {
+	$out  = '<div class="ta-dd-panel" id="' . $panel_id . '" role="region" aria-label="' . esc_attr( $item['label'] ) . '">';
+	$out .= '<div class="ta-dd-inner"><p class="ta-dd-title">' . esc_html( strtoupper( $item['label'] ) ) . '</p><ul class="ta-dd-list">';
+	foreach ( $item['children'] as $child ) {
+		$cur   = topasia_menu_is_current( $child['url'] );
+		$aria  = $cur ? ' aria-current="page"' : '';
+		$ico   = ! empty( $child['icon'] ) ? '<span class="ta-dd-ic">' . topasia_menu_icon( $child['icon'] ) . '</span>' : '';
+		$desc  = ! empty( $child['desc'] ) ? '<span class="ta-dd-desc">' . esc_html( $child['desc'] ) . '</span>' : '';
+		$out  .= '<li><a class="ta-dd-link' . ( $cur ? ' is-active' : '' ) . '" href="' . esc_url( topasia_menu_url( $child['url'] ) ) . '"' . $aria . ' data-ta-menu="' . esc_attr( $child['label'] ) . '">' . $ico . '<span class="ta-dd-txt"><span class="ta-dd-label">' . esc_html( $child['label'] ) . '</span>' . $desc . '</span></a></li>';
+	}
+	$out .= '</ul></div></div>';
+	return $out;
+}
+
+/** Mega panel (Sản phẩm): category rows + brand cards + guide card. */
+function topasia_render_mega_panel( $item, $panel_id ) {
+	$out  = '<div class="ta-dd-panel ta-mega-panel" id="' . $panel_id . '" role="region" aria-label="' . esc_attr( $item['label'] ) . '">';
+	$out .= '<div class="ta-mega-inner"><p class="ta-dd-title">' . esc_html( strtoupper( $item['label'] ) ) . '</p><div class="ta-mega-cats">';
+
+	foreach ( $item['children'] as $child ) {
+		$cur  = topasia_menu_is_current( $child['url'] );
+		$out .= '<div class="ta-mega-cat">';
+		$out .= '<a class="ta-mega-cat-head' . ( $cur ? ' is-active' : '' ) . '" href="' . esc_url( topasia_menu_url( $child['url'] ) ) . '"' . ( $cur ? ' aria-current="page"' : '' ) . ' data-ta-menu="' . esc_attr( $child['label'] ) . '"><span>' . esc_html( $child['label'] ) . '</span>';
+		if ( empty( $child['brands'] ) ) {
+			$out .= '<span class="ta-mega-arrow" aria-hidden="true">›</span>';
+		}
+		$out .= '</a>';
+		if ( ! empty( $child['desc'] ) ) {
+			$out .= '<p class="ta-mega-cat-desc">' . esc_html( $child['desc'] ) . '</p>';
+		}
+		if ( ! empty( $child['brands'] ) ) {
+			$out .= '<div class="ta-brands">';
+			foreach ( $child['brands'] as $b ) {
+				$bcur = topasia_menu_is_current( $b['url'] );
+				$acc  = ! empty( $b['accent'] ) ? ' ta-brand--accent' : '';
+				$out .= '<a class="ta-brand' . $acc . ( $bcur ? ' is-active' : '' ) . '" href="' . esc_url( topasia_menu_url( $b['url'] ) ) . '"' . ( $bcur ? ' aria-current="page"' : '' ) . ' data-ta-menu="' . esc_attr( $b['name'] ) . '"><span class="ta-brand-name">' . esc_html( $b['name'] ) . '</span><span class="ta-brand-seg">' . esc_html( $b['seg'] ) . '</span></a>';
+			}
+			$out .= '</div>';
+		}
+		$out .= '</div>';
+	}
+	$out .= '</div>'; // .ta-mega-cats
+
+	if ( ! empty( $item['card'] ) ) {
+		$c    = $item['card'];
+		$out .= '<aside class="ta-guide"><span class="ta-guide-ic">' . topasia_menu_icon( 'compass' ) . '</span><div class="ta-guide-body"><p class="ta-guide-title">' . esc_html( $c['title'] ) . '</p><p class="ta-guide-text">' . esc_html( $c['text'] ) . '</p><a class="ta-guide-cta" href="' . esc_url( topasia_menu_url( $c['url'] ) ) . '" data-ta-guide="1">' . esc_html( strtoupper( $c['cta'] ) ) . '</a></div></aside>';
+	}
+
+	$out .= '</div></div>';
+	return $out;
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * 4) MOBILE RENDERER (accordion, rendered inside Flatsome off-canvas #main-menu)
+ * ---------------------------------------------------------------------------
+ */
+function topasia_render_mobile_nav() {
+	static $inst = 0;
+	$inst++;
+	$items = topasia_menu_config();
+	$out   = '<nav class="ta-mnav" aria-label="Điều hướng chính"><ul class="ta-mnav-list">';
+	$i     = 0;
+
+	foreach ( $items as $item ) {
+		$i++;
+		$type   = isset( $item['type'] ) ? $item['type'] : 'link';
+		$active = topasia_menu_item_active( $item );
+
+		if ( 'link' === $type || 'cta' === $type ) {
+			// CTA (Báo giá) is rendered as full-width button at the very end instead.
+			if ( 'cta' === $type ) {
+				continue;
+			}
+			$aria = topasia_menu_is_current( $item['url'] ) ? ' aria-current="page"' : '';
+			$out .= '<li class="ta-mitem"><a class="ta-mlink' . ( $active ? ' is-active' : '' ) . '" href="' . esc_url( topasia_menu_url( $item['url'] ) ) . '"' . $aria . ' data-ta-menu="' . esc_attr( $item['label'] ) . '">' . esc_html( $item['label'] ) . '</a></li>';
+			continue;
+		}
+
+		$panel_id = 'ta-macc-' . $inst . '-' . $i;
+		$out     .= '<li class="ta-mitem ta-macc' . ( $active ? ' is-active' : '' ) . '">';
+		$out     .= '<button type="button" class="ta-mtoggle" aria-expanded="false" aria-controls="' . $panel_id . '" data-ta-menu="' . esc_attr( $item['label'] ) . '"><span>' . esc_html( $item['label'] ) . '</span><svg class="ta-mchev" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . topasia_menu_icon( 'chevron' ) . '</svg></button>';
+		$out     .= '<div class="ta-mpanel" id="' . $panel_id . '" hidden>';
+
+		if ( 'mega' === $type ) {
+			foreach ( $item['children'] as $child ) {
+				$out .= '<a class="ta-msub ta-msub--head" href="' . esc_url( topasia_menu_url( $child['url'] ) ) . '" data-ta-menu="' . esc_attr( $child['label'] ) . '"><span>' . esc_html( $child['label'] ) . '</span>' . ( empty( $child['brands'] ) ? '<span class="ta-mega-arrow" aria-hidden="true">›</span>' : '' ) . '</a>';
+				if ( ! empty( $child['brands'] ) ) {
+					$out .= '<div class="ta-mbrands">';
+					foreach ( $child['brands'] as $b ) {
+						$acc  = ! empty( $b['accent'] ) ? ' ta-brand--accent' : '';
+						$out .= '<a class="ta-brand' . $acc . '" href="' . esc_url( topasia_menu_url( $b['url'] ) ) . '" data-ta-menu="' . esc_attr( $b['name'] ) . '"><span class="ta-brand-name">' . esc_html( $b['name'] ) . '</span><span class="ta-brand-seg">' . esc_html( $b['seg'] ) . '</span></a>';
+					}
+					$out .= '</div>';
+				}
+			}
+			if ( ! empty( $item['card'] ) ) {
+				$c    = $item['card'];
+				$out .= '<aside class="ta-guide ta-guide--m"><span class="ta-guide-ic">' . topasia_menu_icon( 'compass' ) . '</span><div class="ta-guide-body"><p class="ta-guide-title">' . esc_html( $c['title'] ) . '</p><p class="ta-guide-text">' . esc_html( $c['text'] ) . '</p><a class="ta-guide-cta" href="' . esc_url( topasia_menu_url( $c['url'] ) ) . '" data-ta-guide="1">' . esc_html( strtoupper( $c['cta'] ) ) . '</a></div></aside>';
+			}
+		} else {
+			foreach ( $item['children'] as $child ) {
+				$cur  = topasia_menu_is_current( $child['url'] );
+				$ico  = ! empty( $child['icon'] ) ? '<span class="ta-dd-ic">' . topasia_menu_icon( $child['icon'] ) . '</span>' : '';
+				$desc = ! empty( $child['desc'] ) ? '<span class="ta-dd-desc">' . esc_html( $child['desc'] ) . '</span>' : '';
+				$out .= '<a class="ta-msub' . ( $cur ? ' is-active' : '' ) . '" href="' . esc_url( topasia_menu_url( $child['url'] ) ) . '"' . ( $cur ? ' aria-current="page"' : '' ) . ' data-ta-menu="' . esc_attr( $child['label'] ) . '">' . $ico . '<span class="ta-dd-txt"><span class="ta-dd-label">' . esc_html( $child['label'] ) . '</span>' . $desc . '</span></a>';
+			}
+			if ( ! empty( $item['support_cta'] ) ) {
+				$sc   = $item['support_cta'];
+				$out .= '<a class="ta-btn ta-btn--support" href="' . esc_url( topasia_menu_url( $sc['url'] ) ) . '" data-ta-support="1">' . esc_html( strtoupper( $sc['label'] ) ) . '</a>';
+			}
+		}
+
+		$out .= '</div></li>';
+	}
+
+	$out .= '</ul>';
+
+	// Bottom CTA: Nhận báo giá + hotline (spec §15 CTA mobile).
+	$out .= '<div class="ta-mfoot"><a class="ta-btn ta-btn--quote" href="' . esc_url( topasia_menu_url( '/bao-gia/' ) ) . '" data-ta-cta="1">NHẬN BÁO GIÁ</a><p class="ta-mhotline">Hotline: <a href="tel:0896699996">0896 699 996</a></p></div>';
+	$out .= '</nav>';
+	return $out;
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * 5) INJECT into Flatsome header via pre_wp_nav_menu.
+ * ---------------------------------------------------------------------------
+ * Flatsome renders the header nav with wp_nav_menu(theme_location=primary) and
+ * the mobile off-canvas with theme_location=primary_mobile. We short-circuit
+ * both and return our own accessible markup, reusing Flatsome's off-canvas shell.
+ */
+function topasia_menu_inject( $output, $args ) {
+	$loc = isset( $args->theme_location ) ? $args->theme_location : '';
+	if ( 'primary' === $loc ) {
+		return topasia_render_desktop_nav();
+	}
+	if ( 'primary_mobile' === $loc ) {
+		return topasia_render_mobile_nav();
+	}
+	return $output;
+}
+add_filter( 'pre_wp_nav_menu', 'topasia_menu_inject', 10, 2 );
+
+/**
+ * ---------------------------------------------------------------------------
+ * 6) ASSETS
+ * ---------------------------------------------------------------------------
+ */
+function topasia_menu_assets() {
+	$dir = get_stylesheet_directory();
+	$uri = get_stylesheet_directory_uri();
+	$css = $dir . '/assets/topasia-menu.css';
+	$js  = $dir . '/assets/topasia-menu.js';
+	wp_enqueue_style( 'topasia-menu', $uri . '/assets/topasia-menu.css', array(), file_exists( $css ) ? filemtime( $css ) : '1' );
+	wp_enqueue_script( 'topasia-menu', $uri . '/assets/topasia-menu.js', array(), file_exists( $js ) ? filemtime( $js ) : '1', true );
+}
+add_action( 'wp_enqueue_scripts', 'topasia_menu_assets', 20 );
