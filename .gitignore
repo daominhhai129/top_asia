@@ -1,8 +1,9 @@
 # Ignore everything in the WordPress root by default
 *
 
-# Allow .gitignore itself
+# Allow .gitignore and agent instructions
 !.gitignore
+!AGENTS.md
 
 # Traverse and track only custom theme code
 !wp-content/
@@ -23,3 +24,12 @@
 !wp-content/novamira-sandbox/
 !wp-content/novamira-sandbox/*/
 !wp-content/novamira-sandbox/**
+
+# Explicit safeguards: never track media uploads, database dumps, or archives
+wp-content/uploads/
+**/uploads/
+*.sql
+*.sql.gz
+*.sqlite
+*.db
+*.daf
