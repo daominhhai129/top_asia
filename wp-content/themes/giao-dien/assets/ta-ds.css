@@ -251,3 +251,7 @@ label { font-weight: 600; font-size: var(--ta-fs-small); color: var(--ta-navy); 
 .ta-mitem { display: block; }
 .ta-mitem > .ta-mtoggle { align-items: center !important; }
 @media (max-width: 849px) { .single-product .next-prev-thumbs, .single-product .product-nav { display: none; } }
+
+/* Header: logo luôn ở bên trái khi hiện menu desktop */
+@media (min-width: 1366px) { #header .header-main .header-inner > .logo, #header .header-main .header-inner > .flex-col.logo { order: -1 !important; } }
+

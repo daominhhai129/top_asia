@@ -319,24 +319,24 @@
 
 /* ============================ RESPONSIVE ================================= */
 /* Clean single-line desktop menu at >=1024px; off-canvas drawer below 1024px. */
-@media (min-width:1280px){
+@media (min-width:1366px){
   #header .header-main .flex-col.hide-for-medium{display:flex !important}
   #header .header-main .flex-col.show-for-medium{display:none !important}
   .ta-nav{display:flex !important}
 }
-@media (min-width:850px) and (max-width:1279px){
+@media (min-width:850px) and (max-width:1365px){
   #header .header-main .flex-col.hide-for-medium{display:none !important}
   #header .header-main .flex-col.show-for-medium{display:flex !important}
 }
-@media (max-width:1279px){
+@media (max-width:1365px){
   .ta-nav{display:none !important}
 }
 
-@media (min-width:1280px) and (max-width:1279px){
+@media (min-width:1366px) and (max-width:1365px){
   .ta-nav-list > .ta-item > .ta-link{padding:14px 9px !important;font-size:13px !important}
   .ta-nav-list > .ta-item > .ta-link.ta-cta{padding:10px 14px !important;margin-left:6px}
 }
-@media (min-width:1280px){
+@media (min-width:1366px){
   .ta-nav-list > .ta-item > .ta-link{padding:15px 12px !important;font-size:14px !important}
   .ta-nav-list > .ta-item > .ta-link.ta-cta{padding:11px 18px !important;margin-left:8px}
 }
@@ -367,7 +367,7 @@
 .ta-nav, .ta-nav *, .ta-mnav, .ta-mnav *{font-family:'Google Sans Flex','Poppins VN',Arial,sans-serif}
 
 /* Mobile logo alignment inside header */
-@media (max-width:1279px){
+@media (max-width:1365px){
   #header .header-main #logo img{max-height:44px !important;width:auto !important;object-fit:contain}
   #top-bar li.header-search,#top-bar li.cart-item{display:none !important}
 }
