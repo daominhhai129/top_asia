@@ -234,3 +234,20 @@ label { font-weight: 600; font-size: var(--ta-fs-small); color: var(--ta-navy); 
 .single-product .product-footer .woocommerce-tabs .nav > li.active > a { color: var(--ta-navy); border-color: var(--ta-red); }
 .single-product .breadcrumbs { white-space: normal; }
 .single-product .quantity .minus, .single-product .quantity .plus, .single-product .quantity input { border-radius: 0; border-color: var(--ta-steel); }
+
+/* ---------- 14. HOÀN THIỆN ---------- */
+#header .nav > li > a, .ta-nav-list > .ta-item > .ta-link { font-weight: 500 !important; }
+.woocommerce-Price-currencySymbol { font-size: inherit !important; vertical-align: baseline !important; position: static !important; text-decoration: none !important; text-transform: none; }
+.price .amount, .price bdi { white-space: nowrap; }
+.single-product .next-prev-thumbs, .single-product .product-nav { gap: 8px; display: flex; }
+.single-product .next-prev-thumbs li a, .single-product .product-nav a { border-radius: var(--ta-radius); }
+.single-product .social-icons { display: flex; gap: 8px; flex-wrap: wrap; }
+.single-product .social-icons a.icon { margin: 0; border-radius: var(--ta-radius); }
+.single-product .quantity .minus, .single-product .quantity .plus { color: var(--ta-navy); background: #fff; font-weight: 600; }
+.single-product .quantity input.qty { color: var(--ta-navy); font-weight: 600; }
+.single-product .product-info { padding-right: 0; }
+/* Menu mobile: card cấp 1 cao bằng hàng link, nhãn căn giữa */
+.ta-mdrill .ta-mtoggle, .ta-macc .ta-mtoggle { min-height: 56px !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+.ta-mitem { display: block; }
+.ta-mitem > .ta-mtoggle { align-items: center !important; }
+@media (max-width: 849px) { .single-product .next-prev-thumbs, .single-product .product-nav { display: none; } }
