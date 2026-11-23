@@ -81,12 +81,9 @@ class TopAsia_SEO_H1 {
 	/** Danh mục sản phẩm (product_cat): slug => nội dung H1. */
 	private static function product_categories() {
 		return array(
-			'tam-nhua-polycarbonate-cuong-luc-asia-gold'  => 'Tấm nhựa Polycarbonate cường lực Asia Gold',
-			'tam-nhua-polycarbonate-cuong-luc-asia-pearl' => 'Tấm nhựa Polycarbonate cường lực Asia Pearl',
-			'tam-nhua-polycarbonate-cuong-luc-asia-lite'  => 'Tấm nhựa Polycarbonate cường lực Asia Lite',
-			'mai-che-canopy'                              => 'Mái che Canopy Polycarbonate Top Asia',
-			'phu-kien-mai-che-canopy'                     => 'Phụ kiện mái che Canopy',
-			'phu-kien-thi-cong'                           => 'Phụ kiện thi công tấm Polycarbonate',
+			'mai-che-canopy'          => 'Mái che Canopy Polycarbonate Top Asia',
+			'phu-kien-mai-che-canopy' => 'Phụ kiện mái che Canopy',
+			'phu-kien-thi-cong'       => 'Phụ kiện thi công tấm Polycarbonate',
 		);
 	}
 
@@ -196,9 +193,6 @@ class TopAsia_SEO_H1 {
 				$map = self::product_categories();
 				if ( isset( $map[ $term->slug ] ) ) {
 					return $map[ $term->slug ];
-				}
-				if ( self::FALLBACK_ALL_CATEGORIES && ! empty( $term->name ) ) {
-					return $term->name;
 				}
 			}
 		}
@@ -369,18 +363,13 @@ class TopAsia_SEO_H1 {
 		if ( self::VISIBLE ) {
 
 			$css = '.ta-archive-h1{'
-				. 'font-size:clamp(26px,3vw,36px);line-height:1.2;font-weight:800;'
-				. 'letter-spacing:-0.025em;color:#0B1D3A;'
+				. 'font-size:28px;line-height:1.3;font-weight:600;'
 				. 'margin:' . (int) self::GAP_TOP . 'px auto ' . (int) self::GAP_BOTTOM . 'px;'
-				. 'padding:0 15px;max-width:1180px;'
+				. 'padding:0 15px;max-width:1080px;'
 				. 'text-align:' . ( 'left' === self::ALIGN ? 'left' : 'center' ) . ';'
 				. '}'
-				. '.ta-archive-h1::after{'
-				. 'content:"";display:block;width:36px;height:3px;background:#E31E24;border-radius:2px;'
-				. 'margin:' . ( 'left' === self::ALIGN ? '12px 0 0' : '12px auto 0' ) . ';'
-				. '}'
 				. '@media(max-width:549px){.ta-archive-h1{'
-				. 'font-size:24px;'
+				. 'font-size:22px;'
 				. 'margin:' . (int) self::GAP_TOP_MOBILE . 'px auto ' . (int) self::GAP_BOTTOM_MOBILE . 'px;'
 				. '}}';
 

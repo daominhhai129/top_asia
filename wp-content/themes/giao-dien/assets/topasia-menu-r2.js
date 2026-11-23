@@ -229,11 +229,64 @@
   }
 
   
-  function init() {
-    document.querySelectorAll('.ta-nav').forEach(initDesktop);
-    document.querySelectorAll('.ta-mnav').forEach(initMobile);
+  function normalizeCategoryLinks(nav) {
+    // Category archives on this site use root-level slugs, without /category/.
+    nav.querySelectorAll('a[href*="/category/"]').forEach(function (a) {
+      var url;
+      try { url = new URL(a.href, window.location.href); } catch (e) { return; }
+      if (url.origin !== window.location.origin) return;
+      url.pathname = url.pathname.replace(/\/category\//, '/');
+      a.setAttribute('href', url.pathname + url.search + url.hash);
+    });
   }
-  if (document.readyState === 'loading') {
+
+  function normalizeStagingLinks(root) {
+    if (!/^\/staging(?:\/|$)/.test(window.location.pathname)) return;
+    var scope = root || document;
+    var links = [];
+    if (scope.nodeType === 1 && scope.matches && scope.matches('a[href]')) links.push(scope);
+    if (scope.querySelectorAll) {
+      Array.prototype.forEach.call(scope.querySelectorAll('a[href]'), function (a) { links.push(a); });
+    }
+    links.forEach(function (a) {
+      var url;
+      try { url = new URL(a.getAttribute('href'), window.location.href); } catch (e) { return; }
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+      var host = url.hostname.toLowerCase().replace(/^www\./, '');
+      var currentHost = window.location.hostname.toLowerCase().replace(/^www\./, '');
+      if (host !== currentHost && host !== 'topasia.vn') return;
+      if (/^\/staging(?:\/|$)/.test(url.pathname)) return;
+      if (/^\/(?:wp-admin|wp-login\.php|wp-json|xmlrpc\.php)(?:\/|$)/i.test(url.pathname)) return;
+      url.pathname = '/staging' + (url.pathname === '/' ? '/' : url.pathname);
+      a.setAttribute('href', url.pathname + url.search + url.hash);
+    });
+  }
+
+  function init() {
+    document.querySelectorAll('.ta-nav').forEach(function (nav) {
+      normalizeCategoryLinks(nav);
+      initDesktop(nav);
+    });
+    document.querySelectorAll('.ta-mnav').forEach(function (nav) {
+      normalizeCategoryLinks(nav);
+      initMobile(nav);
+    });
+    normalizeCategoryLinks(document);
+    normalizeStagingLinks(document);
+    if (window.MutationObserver && document.body) {
+      var observer = new MutationObserver(function (records) {
+        records.forEach(function (record) {
+          Array.prototype.forEach.call(record.addedNodes, function (node) {
+            if (node.nodeType === 1) {
+              normalizeCategoryLinks(node);
+              normalizeStagingLinks(node);
+            }
+          });
+        });
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+  }  if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();

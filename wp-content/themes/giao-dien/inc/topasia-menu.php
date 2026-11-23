@@ -6,6 +6,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+if ( ! function_exists( 'topasia_menu_cat_url' ) ) {
+	function topasia_menu_cat_url( $slug ) {
+		$term = get_category_by_slug( $slug );
+		if ( $term && ! is_wp_error( $term ) ) {
+			$link = get_category_link( $term->term_id );
+			if ( ! is_wp_error( $link ) ) {
+				return $link;
+			}
+		}
+		return '/' . ltrim( $slug, '/' ) . '/';
+	}
+}
+
 function topasia_menu_config() {
 	return array(
 		array( 'label' => 'Trang chủ', 'url' => '/', 'type' => 'link', 'desktop' => false ),
@@ -117,18 +130,6 @@ function topasia_menu_logo_url() {
 }
 
 
-
-
-function topasia_menu_cat_url( $slug ) {
-	$term = get_category_by_slug( $slug );
-	if ( $term && ! is_wp_error( $term ) ) {
-		$link = get_category_link( $term->term_id );
-		if ( $link && ! is_wp_error( $link ) ) {
-			return $link;
-		}
-	}
-	return '/' . trim( $slug, '/' ) . '/';
-}
 
 
 function topasia_menu_url( $url ) {
@@ -572,3 +573,20 @@ function topasia_header_top_right_elements( $value ) {
 	return $value;
 }
 add_filter( 'theme_mod_topbar_elements_right', 'topasia_header_top_right_elements' );
+
+
+
+// Re-register pre_wp_nav_menu at priority 999 so topasia_render_desktop_nav() takes precedence cleanly.
+remove_filter( 'pre_wp_nav_menu', 'topasia_menu_inject', 10 );
+add_filter( 'pre_wp_nav_menu', 'topasia_menu_inject', 999, 2 );
+
+// Remove search icon from Header Main Left so it does not overlap .ta-nav.
+if ( ! function_exists( 'topasia_header_main_left_elements' ) ) {
+    function topasia_header_main_left_elements( $value ) {
+        if ( is_admin() || ! is_array( $value ) ) {
+            return $value;
+        }
+        return array_values( array_diff( $value, array( 'search' ) ) );
+    }
+}
+add_filter( 'theme_mod_header_elements_left', 'topasia_header_main_left_elements' );

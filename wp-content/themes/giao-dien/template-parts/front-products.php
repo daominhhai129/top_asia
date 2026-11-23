@@ -91,7 +91,7 @@ $taf_series = array(
 									<div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--red-600);margin-bottom:6px"><?php echo esc_html( $s['label'] ); ?></div>
 									<a href="<?php the_permalink(); ?>" style="display:block;font-size:14.5px;font-weight:600;color:var(--navy-900);line-height:1.4;margin-bottom:10px;min-height:40px"><?php echo esc_html( get_the_title() ); ?></a>
 									<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-										<div class="taf-price" style="font-size:17px;font-weight:800;color:var(--navy-900)"><?php echo $price ? wp_kses_post( $price ) : '<span style="font-size:13px;font-weight:600;color:var(--red-600)">Liên hệ báo giá</span>'; ?></div>
+										<div class="taf-price" style="font-size:17px;font-weight:800;color:var(--navy-900)"><?php echo wp_kses_post( $price ); ?></div>
 										<a href="<?php echo esc_url( $cart ); ?>" class="taf-prod-add add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr( $pid ); ?>" data-quantity="1" rel="nofollow" aria-label="Thêm vào giỏ" style="width:38px;height:38px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;background:var(--red-600);color:#fff;transition:background var(--dur-fast) var(--ease-out)"><span class="ic" style="width:18px;height:18px"><i data-lucide="plus"></i></span></a>
 									</div>
 								</div>
