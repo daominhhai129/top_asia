@@ -91,8 +91,8 @@ get_header();
 				<p class="ta-hero__sub">Giải pháp Polycarbonate chất lượng cao cho kiến trúc hiện đại.</p>
 				<p class="ta-hero__desc">TOP ASIA là đơn vị sản xuất và cung cấp tấm Polycarbonate tại Việt Nam, mang đến giải pháp vật liệu lấy sáng cho các công trình dân dụng, thương mại và công nghiệp.</p>
 				<div class="ta-hero__cta">
-					<a class="ta-btn ta-btn--accent ta-btn--lg" href="#san-pham">Khám phá sản phẩm</a>
-					<a class="ta-btn ta-btn--light ta-btn--lg" href="<?php echo ta_url( 'bao-gia/' ); ?>">Nhận báo giá</a>
+					<a class="tx-btn tx-btn--accent tx-btn--lg" href="#san-pham">Khám phá sản phẩm</a>
+					<a class="tx-btn tx-btn--light tx-btn--lg" href="<?php echo ta_url( 'bao-gia/' ); ?>">Nhận báo giá</a>
 				</div>
 			</div>
 		</div>
@@ -116,7 +116,7 @@ get_header();
 						<li><b>Kiểm soát chất lượng</b><span>Kiểm định theo ISO 9001:2015 và tiêu chuẩn kỹ thuật Việt Nam.</span></li>
 						<li><b>Năng lực cung ứng</b><span>Báo giá trực tiếp từ nhà sản xuất cho dự án và nhà phân phối.</span></li>
 					</ul>
-					<a class="ta-link" href="<?php echo ta_url( 'nha-may-san-xuat-tam-polycarbonate-top-asia/' ); ?>">Xem nhà máy &amp; năng lực sản xuất</a>
+					<a class="ta-more" href="<?php echo ta_url( 'nha-may-san-xuat-tam-polycarbonate-top-asia/' ); ?>">Xem nhà máy &amp; năng lực sản xuất</a>
 				</div>
 				<div class="ta-cap__visual">
 					<img src="<?php echo esc_url( taf_opt( 'about_img' ) ); ?>" alt="Nhà máy sản xuất tấm Polycarbonate TOP ASIA" width="900" height="1000" loading="lazy" decoding="async">
@@ -162,7 +162,7 @@ get_header();
 								<?php if ( $d['width'] ) : ?><div><dt>Khổ rộng</dt><dd><?php echo esc_html( $d['width'] ); ?></dd></div><?php endif; ?>
 								<?php if ( $d['count'] ) : ?><div><dt>Quy cách</dt><dd><?php echo esc_html( $d['count'] ); ?></dd></div><?php endif; ?>
 							</dl>
-							<a class="ta-btn ta-btn--ghost ta-line__btn" href="<?php echo esc_url( $link ); ?>">Xem chi tiết <?php echo ta_arrow(); ?></a>
+							<a class="tx-btn tx-btn--ghost ta-line__btn" href="<?php echo esc_url( $link ); ?>">Xem chi tiết <?php echo ta_arrow(); ?></a>
 						</div>
 					</article>
 				<?php endforeach; ?>
@@ -207,7 +207,7 @@ get_header();
 					<span class="ta-eyebrow">Dự án</span>
 					<h2 id="ta-proj-title" class="ta-h2">DẤU ẤN TOP ASIA TRONG NHỮNG CÔNG TRÌNH THỰC TẾ</h2>
 				</div>
-				<a class="ta-link" href="<?php echo ta_url( 'du-an/' ); ?>">Xem tất cả dự án</a>
+				<a class="ta-more" href="<?php echo ta_url( 'du-an/' ); ?>">Xem tất cả dự án</a>
 			</header>
 			<?php
 			$ta_proj = new WP_Query( array(
@@ -253,8 +253,8 @@ get_header();
 				<p class="ta-lead">Năng lực cung ứng ổn định, báo giá trực tiếp từ nhà sản xuất và đội ngũ kỹ thuật hỗ trợ từ khâu chọn quy cách đến thi công.</p>
 			</div>
 			<div class="ta-partner__cards">
-				<a class="ta-pcard" href="<?php echo ta_url( 'tuyen-dai-ly/' ); ?>"><h3>Nhà phân phối &amp; đại lý</h3><p>Chính sách hợp tác, nguồn hàng ổn định và hỗ trợ bán hàng.</p><span class="ta-link">Trở thành đối tác</span></a>
-				<a class="ta-pcard" href="<?php echo ta_url( 'chu-dau-tu-nha-thau/' ); ?>"><h3>Chủ đầu tư &amp; nhà thầu</h3><p>Tư vấn quy cách, báo giá dự án và hỗ trợ kỹ thuật thi công.</p><span class="ta-link">Hợp tác dự án</span></a>
+				<a class="ta-pcard" href="<?php echo ta_url( 'tuyen-dai-ly/' ); ?>"><h3>Nhà phân phối &amp; đại lý</h3><p>Chính sách hợp tác, nguồn hàng ổn định và hỗ trợ bán hàng.</p><span class="ta-more">Trở thành đối tác</span></a>
+				<a class="ta-pcard" href="<?php echo ta_url( 'chu-dau-tu-nha-thau/' ); ?>"><h3>Chủ đầu tư &amp; nhà thầu</h3><p>Tư vấn quy cách, báo giá dự án và hỗ trợ kỹ thuật thi công.</p><span class="ta-more">Hợp tác dự án</span></a>
 			</div>
 		</div>
 	</section>
@@ -295,15 +295,15 @@ get_header();
 	</section>
 
 	<!-- 09 · CTA -->
-	<section class="ta-cta" aria-labelledby="ta-cta-title">
-		<div class="ta-container ta-cta__inner">
+	<section class="ta-final" aria-labelledby="ta-final-title">
+		<div class="ta-container ta-final__inner">
 			<div>
-				<h2 id="ta-cta-title" class="ta-h2">CÙNG TOP ASIA KIẾN TẠO NHỮNG CÔNG TRÌNH BỀN VỮNG.</h2>
+				<h2 id="ta-final-title" class="ta-h2">CÙNG TOP ASIA KIẾN TẠO NHỮNG CÔNG TRÌNH BỀN VỮNG.</h2>
 				<p>Liên hệ TOP ASIA để được tư vấn sản phẩm và giải pháp Polycarbonate phù hợp với dự án của bạn.</p>
 			</div>
-			<div class="ta-cta__btns">
-				<a class="ta-btn ta-btn--accent ta-btn--lg" href="<?php echo ta_url( 'lien-he/' ); ?>">Liên hệ tư vấn</a>
-				<a class="ta-btn ta-btn--light ta-btn--lg" href="<?php echo ta_url( 'bao-gia/' ); ?>">Yêu cầu báo giá</a>
+			<div class="ta-final__btns">
+				<a class="tx-btn tx-btn--accent tx-btn--lg" href="<?php echo ta_url( 'lien-he/' ); ?>">Liên hệ tư vấn</a>
+				<a class="tx-btn tx-btn--light tx-btn--lg" href="<?php echo ta_url( 'bao-gia/' ); ?>">Yêu cầu báo giá</a>
 			</div>
 		</div>
 	</section>

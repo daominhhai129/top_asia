@@ -71,8 +71,8 @@ img { max-width: 100%; height: auto; }
 :focus-visible { outline: 2px solid var(--ta-red); outline-offset: 2px; }
 ::selection { background: var(--ta-navy); color: #fff; }
 
-/* ---------- 3. BUTTONS — một hệ duy nhất: .ta-btn (+ ánh xạ nút Flatsome/Woo) ---------- */
-.ta-btn,
+/* ---------- 3. BUTTONS — một hệ duy nhất: .tx-btn (+ ánh xạ nút Flatsome/Woo) ---------- */
+.tx-btn,
 .button.primary, .button.alert, .single_add_to_cart_button, .wpcf7-submit,
 .woocommerce a.button, .woocommerce button.button, .woocommerce input.button {
 	display: inline-flex; align-items: center; justify-content: center; gap: 10px;
@@ -83,21 +83,21 @@ img { max-width: 100%; height: auto; }
 	background: var(--ta-navy); color: #fff; box-shadow: none; margin: 0;
 	transition: background .2s var(--ta-ease), border-color .2s var(--ta-ease), color .2s var(--ta-ease), transform .2s var(--ta-ease);
 }
-.ta-btn:hover, .button.primary:hover, .single_add_to_cart_button:hover, .wpcf7-submit:hover,
+.tx-btn:hover, .button.primary:hover, .single_add_to_cart_button:hover, .wpcf7-submit:hover,
 .woocommerce a.button:hover, .woocommerce button.button:hover {
 	background: var(--ta-navy-700); border-color: var(--ta-navy-700); color: #fff; box-shadow: none;
 }
-.ta-btn--accent, .single_add_to_cart_button, .wpcf7-submit { background: var(--ta-red); border-color: var(--ta-red); }
-.ta-btn--accent:hover, .single_add_to_cart_button:hover, .wpcf7-submit:hover { background: var(--ta-red-700); border-color: var(--ta-red-700); }
-.ta-btn--ghost { background: transparent; color: var(--ta-navy); }
-.ta-btn--ghost:hover { background: var(--ta-navy); color: #fff; }
-.ta-btn--light { background: transparent; border-color: rgba(255,255,255,.7); color: #fff; }
-.ta-btn--light:hover { background: #fff; border-color: #fff; color: var(--ta-navy); }
-.ta-btn--lg { min-height: 56px; padding: 0 36px; }
-.ta-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; text-decoration: none; color: var(--ta-navy); }
-.ta-link::after { content: "→"; transition: transform .2s var(--ta-ease); }
-.ta-link:hover { color: var(--ta-red); }
-.ta-link:hover::after { transform: translateX(4px); }
+.tx-btn--accent, .single_add_to_cart_button, .wpcf7-submit { background: var(--ta-red); border-color: var(--ta-red); }
+.tx-btn--accent:hover, .single_add_to_cart_button:hover, .wpcf7-submit:hover { background: var(--ta-red-700); border-color: var(--ta-red-700); }
+.tx-btn--ghost { background: transparent; color: var(--ta-navy); }
+.tx-btn--ghost:hover { background: var(--ta-navy); color: #fff; }
+.tx-btn--light { background: transparent; border-color: rgba(255,255,255,.7); color: #fff; }
+.tx-btn--light:hover { background: #fff; border-color: #fff; color: var(--ta-navy); }
+.tx-btn--lg { min-height: 56px; padding: 0 36px; }
+.ta-more { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; text-decoration: none; color: var(--ta-navy); }
+.ta-more::after { content: "→"; transition: transform .2s var(--ta-ease); }
+.ta-more:hover { color: var(--ta-red); }
+.ta-more:hover::after { transform: translateX(4px); }
 
 /* ---------- 4. FORMS ---------- */
 input[type=text], input[type=email], input[type=tel], input[type=number], input[type=search],

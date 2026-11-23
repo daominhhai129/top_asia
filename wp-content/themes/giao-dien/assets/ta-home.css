@@ -21,7 +21,7 @@
 .ta-hero__sub { font-size: clamp(1.1rem, 1rem + .5vw, 1.4rem); font-weight: 600; color: #fff; line-height: 1.4; }
 .ta-hero__desc { margin-top: 16px !important; color: rgba(255,255,255,.78); max-width: 52ch; font-size: 1rem; }
 .ta-hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
-.ta-hero__cta .ta-btn { flex: 1 1 200px; }
+.ta-hero__cta .tx-btn { flex: 1 1 200px; }
 .ta-hero__media { order: 1; position: relative; min-height: 300px; aspect-ratio: 4/3; background: var(--ta-navy-900); }
 .ta-hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 960px) {
@@ -29,7 +29,7 @@
 	.ta-hero__panel { order: 1; padding-left: max(32px, calc((100vw - var(--ta-container)) / 2 + 32px)); padding-right: clamp(32px, 4vw, 72px); }
 	.ta-hero__inner { margin-inline: 0; }
 	.ta-hero__media { order: 2; aspect-ratio: auto; }
-	.ta-hero__cta .ta-btn { flex: 0 0 auto; }
+	.ta-hero__cta .tx-btn { flex: 0 0 auto; }
 }
 
 /* 02 NĂNG LỰC */
@@ -147,14 +147,20 @@
 @media (min-width: 1000px) { .ta-docs { grid-template-columns: repeat(3, 1fr); } }
 
 /* 09 CTA */
-.ta-cta { background: var(--ta-navy-900); color: #fff; padding-block: clamp(56px, 8vw, 96px); border-top: 4px solid var(--ta-red); }
-.ta-cta__inner { display: grid; gap: 32px; align-items: center; }
-.ta-cta .ta-h2 { color: #fff; max-width: 24ch; margin-top: 0 !important; }
-.ta-cta p { color: rgba(255,255,255,.78); margin-top: 16px !important; max-width: 56ch; }
-.ta-cta__btns { display: flex; flex-wrap: wrap; gap: 12px; }
-.ta-cta__btns .ta-btn { flex: 1 1 200px; }
-@media (min-width: 900px) { .ta-cta__inner { grid-template-columns: 1.4fr 1fr; } .ta-cta__btns { justify-content: flex-end; } .ta-cta__btns .ta-btn { flex: 0 0 auto; } }
+.ta-final { background: var(--ta-navy-900); color: #fff; padding-block: clamp(56px, 8vw, 96px); border-top: 4px solid var(--ta-red); }
+.ta-final__inner { display: grid; gap: 32px; align-items: center; }
+.ta-final .ta-h2 { color: #fff; max-width: 24ch; margin-top: 0 !important; }
+.ta-final p { color: rgba(255,255,255,.78); margin-top: 16px !important; max-width: 56ch; }
+.ta-final__btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.ta-final__btns .tx-btn { flex: 1 1 200px; }
+@media (min-width: 900px) { .ta-final__inner { grid-template-columns: 1.4fr 1fr; } .ta-final__btns { justify-content: flex-end; } .ta-final__btns .tx-btn { flex: 0 0 auto; } }
 
 /* Reveal nhẹ (tắt khi prefers-reduced-motion hoặc không có JS) */
 .js .ta-reveal { transform: translateY(14px); transition: transform .6s var(--ta-ease); }
 .js .ta-reveal.is-in { transform: none; }
+
+/* Chống tràn do min-content của grid */
+.ta-hero > *, .ta-cap__grid > *, .ta-partner > *, .ta-final__inner > *, .ta-lines > *, .ta-apps > *, .ta-projects > * { min-width: 0; }
+.ta-hero__media img, .ta-cap__visual img { max-width: 100%; }
+.ta-hero__media { width: 100%; max-width: 100%; }
+
