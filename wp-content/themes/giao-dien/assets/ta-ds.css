@@ -1,0 +1,198 @@
+/* ==========================================================================
+   TOP ASIA — DESIGN SYSTEM v1 (Modern Industrial · Premium Corporate)
+   Nạp toàn site, SAU style.css. Chỉ là lớp trình bày: không đổi dữ liệu/URL.
+   1 Tokens · 2 Base · 3 Buttons · 4 Forms · 5 Tables · 6 Breadcrumb
+   7 Product cards (Woo) + 3 dòng sản phẩm · 8 Header · 9 Footer · 10 Utilities
+   ========================================================================== */
+
+/* ---------- 1. TOKENS ---------- */
+:root {
+	/* Brand */
+	--ta-navy: #142B49;
+	--ta-navy-700: #1d3a60;
+	--ta-navy-900: #0d1e35;
+	--ta-red: #D92F35;
+	--ta-red-700: #b8242a;
+	--ta-white: #FFFFFF;
+	--ta-soft: #F5F7FA;
+	--ta-graphite: #222B36;
+	--ta-steel: #DCE3EB;
+	--ta-muted: #5b6776;      /* chữ phụ, đạt AA trên nền trắng */
+	--ta-line: #DCE3EB;
+
+	/* Dòng sản phẩm */
+	--ta-gold: #B58A2A;       --ta-gold-soft: #F6EFDD;  --ta-gold-ink: #7a5a14;
+	--ta-pearl: #3E78B8;      --ta-pearl-soft: #E9EEF5; --ta-pearl-silver: #C5CDD8;
+	--ta-lite: #0F4D3A;       --ta-lite-soft: #E6EFEA;  --ta-lite-platinum: #E3E4E2;
+
+	/* Type */
+	--ta-font: 'Google Sans Flex', 'Google Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+	--ta-fs-hero: clamp(2.25rem, 1.4rem + 3.6vw, 4.25rem);
+	--ta-fs-h2: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+	--ta-fs-h3: clamp(1.15rem, 1.05rem + .5vw, 1.4rem);
+	--ta-fs-body: 1rem;
+	--ta-fs-small: .875rem;
+
+	/* Space (8pt) */
+	--ta-s1: 4px; --ta-s2: 8px; --ta-s3: 16px; --ta-s4: 24px; --ta-s5: 32px; --ta-s6: 48px; --ta-s7: 72px; --ta-s8: 112px;
+	--ta-section: clamp(56px, 8vw, 112px);
+
+	/* Shape / elevation (tiết chế) */
+	--ta-radius: 4px;
+	--ta-radius-lg: 8px;
+	--ta-shadow: 0 1px 2px rgba(20,43,73,.06), 0 8px 24px rgba(20,43,73,.07);
+	--ta-container: 1240px;
+	--ta-ease: cubic-bezier(.2,.7,.2,1);
+}
+
+/* ---------- 2. BASE ---------- */
+html { scroll-behavior: smooth; }
+body,
+button, input, select, textarea,
+.nav > li > a, .button, h1, h2, h3, h4, h5, h6 {
+	font-family: var(--ta-font);
+}
+body {
+	color: var(--ta-graphite);
+	font-size: var(--ta-fs-body);
+	font-weight: 400;
+	line-height: 1.65;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	overflow-x: hidden;
+}
+h1, h2, h3, h4, h5, h6 { color: var(--ta-navy); letter-spacing: -.01em; text-transform: none; }
+h1 { font-weight: 700; line-height: 1.1; }
+h2 { font-weight: 650; line-height: 1.18; }
+h3, h4 { font-weight: 600; line-height: 1.3; }
+a { color: var(--ta-navy); transition: color .2s var(--ta-ease); }
+a:hover { color: var(--ta-red); }
+img { max-width: 100%; height: auto; }
+:focus-visible { outline: 2px solid var(--ta-red); outline-offset: 2px; }
+::selection { background: var(--ta-navy); color: #fff; }
+
+/* ---------- 3. BUTTONS — một hệ duy nhất: .ta-btn (+ ánh xạ nút Flatsome/Woo) ---------- */
+.ta-btn,
+.button.primary, .button.alert, .single_add_to_cart_button, .wpcf7-submit,
+.woocommerce a.button, .woocommerce button.button, .woocommerce input.button {
+	display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+	min-height: 48px; padding: 0 28px;
+	font-family: var(--ta-font); font-size: .9375rem; font-weight: 600; letter-spacing: .02em;
+	text-transform: uppercase; line-height: 1; text-decoration: none; cursor: pointer;
+	border: 1.5px solid var(--ta-navy); border-radius: var(--ta-radius);
+	background: var(--ta-navy); color: #fff; box-shadow: none; margin: 0;
+	transition: background .2s var(--ta-ease), border-color .2s var(--ta-ease), color .2s var(--ta-ease), transform .2s var(--ta-ease);
+}
+.ta-btn:hover, .button.primary:hover, .single_add_to_cart_button:hover, .wpcf7-submit:hover,
+.woocommerce a.button:hover, .woocommerce button.button:hover {
+	background: var(--ta-navy-700); border-color: var(--ta-navy-700); color: #fff; box-shadow: none;
+}
+.ta-btn--accent, .single_add_to_cart_button, .wpcf7-submit { background: var(--ta-red); border-color: var(--ta-red); }
+.ta-btn--accent:hover, .single_add_to_cart_button:hover, .wpcf7-submit:hover { background: var(--ta-red-700); border-color: var(--ta-red-700); }
+.ta-btn--ghost { background: transparent; color: var(--ta-navy); }
+.ta-btn--ghost:hover { background: var(--ta-navy); color: #fff; }
+.ta-btn--light { background: transparent; border-color: rgba(255,255,255,.7); color: #fff; }
+.ta-btn--light:hover { background: #fff; border-color: #fff; color: var(--ta-navy); }
+.ta-btn--lg { min-height: 56px; padding: 0 36px; }
+.ta-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; text-decoration: none; color: var(--ta-navy); }
+.ta-link::after { content: "→"; transition: transform .2s var(--ta-ease); }
+.ta-link:hover { color: var(--ta-red); }
+.ta-link:hover::after { transform: translateX(4px); }
+
+/* ---------- 4. FORMS ---------- */
+input[type=text], input[type=email], input[type=tel], input[type=number], input[type=search],
+input[type=password], input[type=url], select, textarea, .wpcf7-form-control:not(.wpcf7-submit) {
+	min-height: 48px; padding: 12px 16px;
+	font: inherit; font-size: 1rem; color: var(--ta-graphite);
+	background: #fff; border: 1.5px solid var(--ta-steel); border-radius: var(--ta-radius);
+	box-shadow: none; transition: border-color .2s, box-shadow .2s;
+}
+textarea { min-height: 128px; }
+input:focus, select:focus, textarea:focus { border-color: var(--ta-navy); box-shadow: 0 0 0 3px rgba(20,43,73,.12); outline: 0; }
+label { font-weight: 600; font-size: var(--ta-fs-small); color: var(--ta-navy); }
+.wpcf7-not-valid-tip { color: var(--ta-red); font-size: var(--ta-fs-small); }
+.wpcf7 form .wpcf7-response-output { border-radius: var(--ta-radius); margin: 16px 0 0; }
+
+/* ---------- 5. TABLES (TablePress, bảng quy cách, nội dung) ---------- */
+.entry-content table, .tablepress, .woocommerce table.shop_attributes {
+	width: 100%; border-collapse: collapse; font-size: .9375rem; border: 1px solid var(--ta-steel);
+}
+.entry-content table th, .tablepress thead th, .tablepress tfoot th, .woocommerce table.shop_attributes th {
+	background: var(--ta-navy); color: #fff; font-weight: 600; text-transform: none; letter-spacing: 0;
+	padding: 14px 16px; text-align: left; border: 0;
+}
+.entry-content table td, .tablepress td, .woocommerce table.shop_attributes td {
+	padding: 12px 16px; border: 0; border-top: 1px solid var(--ta-steel); background: #fff; color: var(--ta-graphite);
+}
+.tablepress tbody tr:nth-child(even) td, .entry-content table tr:nth-child(even) td { background: var(--ta-soft); }
+.tablepress .sorting:hover, .tablepress tbody tr:hover td { background: #eaf0f7; }
+.entry-content .table-wrap, .tablepress-scroll-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ---------- 6. BREADCRUMB ---------- */
+.breadcrumbs, .woocommerce-breadcrumb, .rank-math-breadcrumb, .f-breadcrumbs {
+	font-size: var(--ta-fs-small); font-weight: 500; color: var(--ta-muted); text-transform: none; letter-spacing: 0;
+}
+.breadcrumbs a, .woocommerce-breadcrumb a, .rank-math-breadcrumb a { color: var(--ta-muted); }
+.breadcrumbs a:hover, .woocommerce-breadcrumb a:hover { color: var(--ta-red); }
+.breadcrumbs .divider { opacity: .5; margin: 0 6px; }
+
+/* ---------- 7. PRODUCT CARDS (WooCommerce / Flatsome) ---------- */
+.product-small.box, .products .product-small {
+	background: #fff; border: 1px solid var(--ta-steel); border-radius: var(--ta-radius-lg); overflow: hidden;
+	transition: border-color .25s var(--ta-ease), box-shadow .25s var(--ta-ease), transform .25s var(--ta-ease);
+}
+.product-small.box:hover { border-color: var(--ta-navy); box-shadow: var(--ta-shadow); transform: translateY(-2px); }
+.product-small .box-image { background: var(--ta-soft); }
+.product-small .box-text { padding: 16px; text-align: left; }
+.product-small .name.product-title a, .product-small .title-wrapper a {
+	color: var(--ta-navy); font-weight: 600; line-height: 1.35; text-decoration: none;
+}
+.price, .amount { color: var(--ta-navy); font-weight: 650; }
+.price del, .price del .amount { color: var(--ta-muted); font-weight: 400; }
+.price ins { text-decoration: none; }
+.badge-container .badge-inner, .onsale { background: var(--ta-red); border-radius: var(--ta-radius); font-weight: 600; }
+
+/* Nhận diện 3 dòng — gán bằng class .ta-line-* (home) hoặc body.term-/product_cat-* (Woo) */
+.ta-line-gold,  body.tax-product_cat.term-tam-nhua-polycarbonate-cuong-luc-asia-gold,  .product_cat-tam-nhua-polycarbonate-cuong-luc-asia-gold  { --ta-line: var(--ta-gold);  --ta-line-soft: var(--ta-gold-soft);  --ta-line-ink: var(--ta-gold-ink); }
+.ta-line-pearl, body.tax-product_cat.term-tam-nhua-polycarbonate-cuong-luc-asia-pearl, .product_cat-tam-nhua-polycarbonate-cuong-luc-asia-pearl { --ta-line: var(--ta-pearl); --ta-line-soft: var(--ta-pearl-soft); --ta-line-ink: var(--ta-navy); }
+.ta-line-lite,  body.tax-product_cat.term-tam-nhua-polycarbonate-cuong-luc-asia-lite,  .product_cat-tam-nhua-polycarbonate-cuong-luc-asia-lite  { --ta-line: var(--ta-lite);  --ta-line-soft: var(--ta-lite-soft);  --ta-line-ink: var(--ta-lite); }
+.product[class*="product_cat-tam-nhua-polycarbonate-cuong-luc-asia-"] .product-small { border-top: 3px solid var(--ta-line, var(--ta-steel)); }
+.single-product .product_title { font-size: var(--ta-fs-h2); font-weight: 650; }
+.single-product div.product .product-info { padding-top: 8px; }
+
+/* ---------- 8. HEADER ---------- */
+#header .header-main, #header .header-wrapper { font-family: var(--ta-font); }
+#header .header-main { background: #fff; border-bottom: 1px solid var(--ta-steel); }
+#header .nav > li > a { font-weight: 500; color: var(--ta-graphite); text-transform: none; letter-spacing: 0; font-size: .9375rem; }
+#header .nav > li > a:hover, #header .nav > li.active > a, #header .nav > li.current-menu-item > a { color: var(--ta-red); }
+#header.has-sticky .header-wrapper.stuck .header-main { box-shadow: 0 1px 0 var(--ta-steel), 0 8px 24px rgba(20,43,73,.06); }
+/* Thanh trên cùng: chỉ giữ khi có nội dung thật; ẩn placeholder mặc định của Flatsome */
+#top-bar { background: var(--ta-navy-900); font-size: .8125rem; }
+
+/* ---------- 9. FOOTER (HTML nằm trong widget — chỉ restyle) ---------- */
+#footer, .footer-wrapper { background: var(--ta-navy-900); color: rgba(255,255,255,.78); font-family: var(--ta-font); }
+#footer h2, #footer h3, #footer .ta-footer-kicker { color: #fff; }
+#footer a { color: rgba(255,255,255,.82); text-decoration: none; }
+#footer a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+#footer .ta-footer-kicker { letter-spacing: .18em; font-size: .75rem; font-weight: 600; text-transform: uppercase; color: var(--ta-red); }
+#footer .ta-footer-column h3, #footer .ta-footer-contact h3 { font-size: .8125rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #fff; }
+#footer .ta-footer-lower { border-top: 1px solid rgba(255,255,255,.14); }
+.absolute-footer { background: #091526; color: rgba(255,255,255,.6); }
+
+/* ---------- 10. UTILITIES / TRANG NỘI DUNG ---------- */
+.ta-container { width: 100%; max-width: var(--ta-container); margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); }
+.ta-eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: .8125rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--ta-red); }
+.ta-eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+.page-title-inner, .page-header-wrapper .title-wrapper { font-family: var(--ta-font); }
+.page-title h1, .entry-title { color: var(--ta-navy); font-weight: 700; text-transform: none; }
+.entry-content p { max-width: 75ch; }
+.entry-content img { border-radius: var(--ta-radius); }
+.article-inner .entry-header .entry-title { font-size: var(--ta-fs-h2); }
+.blog-archive .box-blog-post, .post-item .box { border: 1px solid var(--ta-steel); border-radius: var(--ta-radius-lg); overflow: hidden; background: #fff; }
+.widget-title, .widgettitle { font-weight: 600; font-size: .8125rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ta-navy); }
+.pagination .page-number, .page-numbers { border-radius: var(--ta-radius); font-weight: 600; }
+.page-numbers.current { background: var(--ta-navy); border-color: var(--ta-navy); color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+	* { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

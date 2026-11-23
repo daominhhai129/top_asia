@@ -1,15 +1,15 @@
-<?php
+﻿<?php
 // Add custom Theme Functions here
 
-// Top Asia — custom primary navigation (desktop mega menu + mobile off-canvas accordion).
+// Top Asia â€” custom primary navigation (desktop mega menu + mobile off-canvas accordion).
 require_once __DIR__ . '/inc/topasia-menu.php';
 
-// Top Asia — homepage redesign assets (front page only).
+// Top Asia â€” homepage redesign assets (front page only).
 require_once __DIR__ . '/inc/home.php';
 
-// Top Asia — H1 cho trang chuyên mục + dọn H1 thừa ở hero trang chủ.
-// Dùng file_exists() để nếu chưa upload inc/topasia-h1.php thì site vẫn chạy bình thường
-// (require_once thẳng vào file không tồn tại sẽ gây fatal error, trắng site).
+// Top Asia â€” H1 cho trang chuyÃªn má»¥c + dá»n H1 thá»«a á»Ÿ hero trang chá»§.
+// DÃ¹ng file_exists() Ä‘á»ƒ náº¿u chÆ°a upload inc/topasia-h1.php thÃ¬ site váº«n cháº¡y bÃ¬nh thÆ°á»ng
+// (require_once tháº³ng vÃ o file khÃ´ng tá»“n táº¡i sáº½ gÃ¢y fatal error, tráº¯ng site).
 $topasia_h1_file = __DIR__ . '/inc/topasia-h1.php';
 if ( file_exists( $topasia_h1_file ) ) {
 	require_once $topasia_h1_file;
@@ -42,12 +42,12 @@ add_filter("mce_buttons", "ilc_mce_buttons");
 
 
 
-//Thay đổi Giao Diện - Logo cho trang đăng nhập
+//Thay Ä‘á»•i Giao Diá»‡n - Logo cho trang Ä‘Äƒng nháº­p
 
 add_action( 'login_enqueue_scripts', 'giuseart_login_enqueue_scripts' );
 function giuseart_login_enqueue_scripts(){
 echo '<style type="text/css" media="screen">';
-// FIX: khối CSS cũ thiếu dấu } đóng nên nuốt luôn các rule phía sau.
+// FIX: khá»‘i CSS cÅ© thiáº¿u dáº¥u } Ä‘Ã³ng nÃªn nuá»‘t luÃ´n cÃ¡c rule phÃ­a sau.
 echo '#login h1 a{background-image:url(https://i.ibb.co/C9v38Dd/logo.png);}';
 echo '</style>';
 }
@@ -70,36 +70,36 @@ function tp_custom_logo() { ?>
 <?php }
 add_action('login_enqueue_scripts', 'tp_custom_logo');
 
-//Thay đổi Giao Diện - Logo cho trang đăng nhập
-// Tạo shortcode hiển thị breadcrumb
+//Thay Ä‘á»•i Giao Diá»‡n - Logo cho trang Ä‘Äƒng nháº­p
+// Táº¡o shortcode hiá»ƒn thá»‹ breadcrumb
 add_shortcode('f_breadcrumbs', function() {
     ob_start();
     woocommerce_breadcrumb();
     return ob_get_clean();
 });
 
-// tạo poup trang web
+// táº¡o poup trang web
 /**
- * Popup tư vấn toàn website
- * Không hiển thị ở Giỏ hàng và Thanh toán
- * Không chạy trong UX Builder / Customizer / admin / AJAX (gây kẹt UX Builder).
+ * Popup tÆ° váº¥n toÃ n website
+ * KhÃ´ng hiá»ƒn thá»‹ á»Ÿ Giá» hÃ ng vÃ  Thanh toÃ¡n
+ * KhÃ´ng cháº¡y trong UX Builder / Customizer / admin / AJAX (gÃ¢y káº¹t UX Builder).
  */
 add_action('wp_footer', 'topasia_popup_form');
 
 function topasia_popup_form() {
 
-    // FIX 1 — không chạy trong admin, AJAX, Customizer.
+    // FIX 1 â€” khÃ´ng cháº¡y trong admin, AJAX, Customizer.
     if ( is_admin() || wp_doing_ajax() || is_customize_preview() ) {
         return;
     }
 
-    // FIX 2 — không chạy trong iframe/app của UX Builder (Flatsome).
+    // FIX 2 â€” khÃ´ng cháº¡y trong iframe/app cá»§a UX Builder (Flatsome).
     if ( isset( $_GET['app'] ) || isset( $_GET['uxb_iframe'] ) || isset( $_GET['ux_builder'] ) ) {
         return;
     }
 
-    // FIX 3 — bọc is_cart()/is_checkout() trong function_exists để không fatal
-    // khi WooCommerce bị tắt (ví dụ lúc test lỗi bằng cách deactivate plugin).
+    // FIX 3 â€” bá»c is_cart()/is_checkout() trong function_exists Ä‘á»ƒ khÃ´ng fatal
+    // khi WooCommerce bá»‹ táº¯t (vÃ­ dá»¥ lÃºc test lá»—i báº±ng cÃ¡ch deactivate plugin).
     if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) {
         return;
     }
@@ -112,13 +112,13 @@ function topasia_popup_form() {
     <script>
     jQuery(document).ready(function($){
 
-        // FIX 4 — chặn lỗi JS nếu Magnific Popup chưa được nạp trên trang.
+        // FIX 4 â€” cháº·n lá»—i JS náº¿u Magnific Popup chÆ°a Ä‘Æ°á»£c náº¡p trÃªn trang.
         if ( ! $.magnificPopup ) {
             return;
         }
 
-        // Chỉ hiện lại sau 60 giây (60000 ms).
-        // Muốn 1 lần / 24h thì đổi 60000 thành 86400000.
+        // Chá»‰ hiá»‡n láº¡i sau 60 giÃ¢y (60000 ms).
+        // Muá»‘n 1 láº§n / 24h thÃ¬ Ä‘á»•i 60000 thÃ nh 86400000.
         var popupShown = localStorage.getItem('topasia_popup');
 
         if(popupShown){
@@ -152,18 +152,46 @@ function topasia_popup_form() {
 }
 
 /* ==========================================================================
- * TOP ASIA DESIGN SYSTEM — global subpages, products & news (2026-11)
+ * TOP ASIA DESIGN SYSTEM â€” global subpages, products & news (2026-11)
  * ========================================================================== */
 
-// 1. Google Sans cho toàn site (CSS design system nằm cuối style.css).
+// 1. Google Sans cho toÃ n site (CSS design system náº±m cuá»‘i style.css).
 add_action( 'wp_enqueue_scripts', function () {
 	if ( is_admin() || isset( $_GET['app'] ) || isset( $_GET['uxb_iframe'] ) ) {
 		return;
 	}
-	wp_enqueue_style( 'topasia-google-sans', 'https://fonts.googleapis.com/css2?family=Google+Sans:opsz,wght@17..18,400..700&display=swap', array(), null );
+	// (ÄÃ£ bá» Google Fonts CDN â€” font tá»± host trong assets/fonts, xem khá»‘i "DESIGN SYSTEM v1" bÃªn dÆ°á»›i.)
 }, 5 );
 
-// 2. Body class khi sidebar shop / blog trống -> CSS ẩn cột trống.
+/* ==========================================================================
+ * TOP ASIA DESIGN SYSTEM v1 â€” font tá»± host + CSS dÃ¹ng chung + CSS trang chá»§
+ * ========================================================================== */
+add_action( 'wp_enqueue_scripts', function () {
+	if ( is_admin() || isset( $_GET['app'] ) || isset( $_GET['uxb_iframe'] ) ) {
+		return;
+	}
+	$dir = get_stylesheet_directory();
+	$uri = get_stylesheet_directory_uri();
+	$ver = function ( $f ) use ( $dir ) { return file_exists( $dir . $f ) ? filemtime( $dir . $f ) : '1'; };
+
+	wp_enqueue_style( 'ta-fonts', $uri . '/assets/topasia-fonts-flex.css', array(), $ver( '/assets/topasia-fonts-flex.css' ) );
+	wp_enqueue_style( 'ta-ds', $uri . '/assets/ta-ds.css', array( 'ta-fonts' ), $ver( '/assets/ta-ds.css' ) );
+
+	if ( is_front_page() ) {
+		wp_enqueue_style( 'ta-home', $uri . '/assets/ta-home.css', array( 'ta-ds' ), $ver( '/assets/ta-home.css' ) );
+		wp_enqueue_script( 'ta-home', $uri . '/assets/ta-home.js', array(), $ver( '/assets/ta-home.js' ), true );
+	}
+}, 100 );
+
+// Preload font Viá»‡t + Latin (LCP/CLS).
+add_action( 'wp_head', function () {
+	$u = get_stylesheet_directory_uri() . '/assets/fonts/';
+	foreach ( array( 'GoogleSansFlex-vietnamese.woff2', 'GoogleSansFlex-latin.woff2' ) as $f ) {
+		echo '<link rel="preload" href="' . esc_url( $u . $f ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+	}
+}, 1 );
+
+// 2. Body class khi sidebar shop / blog trá»‘ng -> CSS áº©n cá»™t trá»‘ng.
 add_filter( 'body_class', function ( $classes ) {
 	if ( ! is_active_sidebar( 'shop-sidebar' ) ) {
 		$classes[] = 'ta-no-shop-sidebar';
@@ -174,7 +202,7 @@ add_filter( 'body_class', function ( $classes ) {
 	return $classes;
 } );
 
-// 3. Ẩn shortcode thô [ez-toc ...] / [rank_math_breadcrumb] bị in ra trang.
+// 3. áº¨n shortcode thÃ´ [ez-toc ...] / [rank_math_breadcrumb] bá»‹ in ra trang.
 add_action( 'init', function () {
 	if ( ! shortcode_exists( 'ez-toc' ) ) {
 		add_shortcode( 'ez-toc', '__return_empty_string' );
@@ -191,9 +219,9 @@ add_filter( 'the_content', function ( $content ) {
 	return preg_replace( '/\[(?:ez-toc|rank_math_breadcrumb)[^\]]*\]/iu', '', $content );
 }, 20 );
 
-// 4. Link chuyên mục trong menu (/tin-tuc-bao-gia/, /kien-thuc-ky-thuat/,
-//    /top-asia-cap-nhat/, /cong-trinh-thuc-te/) bị 404 khi permalink còn /category/
-//    -> chuyển hướng 301 về đúng link chuyên mục.
+// 4. Link chuyÃªn má»¥c trong menu (/tin-tuc-bao-gia/, /kien-thuc-ky-thuat/,
+//    /top-asia-cap-nhat/, /cong-trinh-thuc-te/) bá»‹ 404 khi permalink cÃ²n /category/
+//    -> chuyá»ƒn hÆ°á»›ng 301 vá» Ä‘Ãºng link chuyÃªn má»¥c.
 add_action( 'template_redirect', function () {
 	if ( ! is_404() ) {
 		return;
@@ -211,7 +239,7 @@ add_action( 'template_redirect', function () {
 	}
 }, 1 );
 
-// 5. H1 cho danh mục sản phẩm chưa có H1 (Asia Gold / Pearl / Lite...).
+// 5. H1 cho danh má»¥c sáº£n pháº©m chÆ°a cÃ³ H1 (Asia Gold / Pearl / Lite...).
 add_action( 'woocommerce_archive_description', function () {
 	if ( ! function_exists( 'is_product_category' ) || ! is_product_category() ) {
 		return;
@@ -220,15 +248,15 @@ add_action( 'woocommerce_archive_description', function () {
 	if ( ! $term || empty( $term->name ) ) {
 		return;
 	}
-	// Các slug này đã có H1 từ inc/topasia-h1.php.
+	// CÃ¡c slug nÃ y Ä‘Ã£ cÃ³ H1 tá»« inc/topasia-h1.php.
 	if ( in_array( $term->slug, array( 'mai-che-canopy', 'phu-kien-mai-che-canopy', 'phu-kien-thi-cong' ), true ) ) {
 		return;
 	}
 	echo '<h1 class="ta-archive-h1 ta-archive-h1--product">' . esc_html( $term->name ) . '</h1>';
 }, 5 );
 
-// 6. Cache-busting: style.css của child theme dùng filemtime làm ?ver=
-//    (Cloudflare cache ?ver=4.13 trong 7 ngày nên sửa CSS không hiện ra).
+// 6. Cache-busting: style.css cá»§a child theme dÃ¹ng filemtime lÃ m ?ver=
+//    (Cloudflare cache ?ver=4.13 trong 7 ngÃ y nÃªn sá»­a CSS khÃ´ng hiá»‡n ra).
 add_filter( 'style_loader_src', function ( $src ) {
 	if ( false === strpos( $src, '/themes/giao-dien/style.css' ) ) {
 		return $src;
@@ -240,7 +268,7 @@ add_filter( 'style_loader_src', function ( $src ) {
 	return $src;
 }, 99 );
 
-// 7. Trang dựng bằng HTML (.tap): tắt wpautop để không chèn <p>/<br> làm vỡ layout.
+// 7. Trang dá»±ng báº±ng HTML (.tap): táº¯t wpautop Ä‘á»ƒ khÃ´ng chÃ¨n <p>/<br> lÃ m vá»¡ layout.
 add_filter( 'the_content', function ( $content ) {
 	if ( false !== strpos( $content, 'class="tap ' ) || false !== strpos( $content, 'class="tap"' ) ) {
 		remove_filter( 'the_content', 'wpautop' );
@@ -249,16 +277,16 @@ add_filter( 'the_content', function ( $content ) {
 	return $content;
 }, 1 );
 
-// 8. Shortcode [ta_posts cat="slug1,slug2" count="9" cols="3" more="/du-an/" more_label="Xem tất cả"]
-//    Hiển thị bài viết dạng card theo design system Top Asia.
+// 8. Shortcode [ta_posts cat="slug1,slug2" count="9" cols="3" more="/du-an/" more_label="Xem táº¥t cáº£"]
+//    Hiá»ƒn thá»‹ bÃ i viáº¿t dáº¡ng card theo design system Top Asia.
 add_shortcode( 'ta_posts', function ( $atts ) {
 	$a = shortcode_atts( array(
 		'cat'        => '',
 		'count'      => 9,
 		'cols'       => 3,
 		'more'       => '',
-		'more_label' => 'Xem tất cả',
-		'empty'      => 'Nội dung đang được cập nhật.',
+		'more_label' => 'Xem táº¥t cáº£',
+		'empty'      => 'Ná»™i dung Ä‘ang Ä‘Æ°á»£c cáº­p nháº­t.',
 	), $atts, 'ta_posts' );
 
 	$args = array(
@@ -292,8 +320,8 @@ add_shortcode( 'ta_posts', function ( $atts ) {
 				echo '<span class="tap-tag">' . esc_html( $label ) . '</span>';
 			}
 			echo '<h3>' . esc_html( get_the_title() ) . '</h3>';
-			echo '<p>' . esc_html( wp_trim_words( get_the_excerpt(), 22, '…' ) ) . '</p>';
-			echo '<div class="tap-post-meta"><span>' . esc_html( get_the_date( 'd/m/Y' ) ) . '</span><b>Xem chi tiết →</b></div>';
+			echo '<p>' . esc_html( wp_trim_words( get_the_excerpt(), 22, 'â€¦' ) ) . '</p>';
+			echo '<div class="tap-post-meta"><span>' . esc_html( get_the_date( 'd/m/Y' ) ) . '</span><b>Xem chi tiáº¿t â†’</b></div>';
 			echo '</div></a>';
 		}
 		echo '</div>';
@@ -308,7 +336,7 @@ add_shortcode( 'ta_posts', function ( $atts ) {
 } );
 
 
-// Top Asia — floating contact buttons (Phone & Zalo: 0896 699 996).
+// Top Asia â€” floating contact buttons (Phone & Zalo: 0896 699 996).
 if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 	function topasia_render_floating_contact() {
 		if ( is_admin() || wp_doing_ajax() || is_customize_preview() ) {
@@ -325,13 +353,13 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 		$phone_display = '0896 699 996';
 		$zalo_url      = 'https://zalo.me/' . $phone_raw;
 		?>
-		<div class="ta-float-contact" role="region" aria-label="Liên hệ nhanh Top Asia">
-			<a class="ta-fc-btn ta-fc-call" href="tel:<?php echo esc_attr( $phone_raw ); ?>" data-ta-contact="phone" aria-label="Gọi hotline <?php echo esc_attr( $phone_display ); ?>">
+		<div class="ta-float-contact" role="region" aria-label="LiÃªn há»‡ nhanh Top Asia">
+			<a class="ta-fc-btn ta-fc-call" href="tel:<?php echo esc_attr( $phone_raw ); ?>" data-ta-contact="phone" aria-label="Gá»i hotline <?php echo esc_attr( $phone_display ); ?>">
 				<span class="ta-fc-ic" aria-hidden="true">
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
 				</span>
 				<span class="ta-fc-txt">
-					<strong class="ta-fc-label">Gọi ngay</strong>
+					<strong class="ta-fc-label">Gá»i ngay</strong>
 					<small class="ta-fc-sub"><?php echo esc_html( $phone_display ); ?></small>
 				</span>
 			</a>
@@ -525,3 +553,11 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 	}
 }
 add_action( 'wp_footer', 'topasia_render_floating_contact', 40 );
+// Trang chủ (page 5784 gán page-blank): ép dùng front-page.php mà KHÔNG sửa dữ liệu trang.
+add_filter( 'template_include', function ( $tpl ) {
+	if ( is_front_page() && ! is_admin() && empty( $_GET['legacy_home'] ) && file_exists( get_stylesheet_directory() . '/front-page.php' ) ) {
+		return get_stylesheet_directory() . '/front-page.php';
+	}
+	return $tpl;
+}, 99 );
+
