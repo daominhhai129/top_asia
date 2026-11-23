@@ -196,3 +196,20 @@ label { font-weight: 600; font-size: var(--ta-fs-small); color: var(--ta-navy); 
 @media (prefers-reduced-motion: reduce) {
 	* { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* ---------- 11. ĐỒNG BỘ TRANG NỘI DUNG CŨ (gtb-/bgq-/tap-/pcat-) ---------- */
+.gtb-btn, .bgq-kh, .bgq-line-btn, .bgq-rowbtn, .tap-btn, .single_add_to_cart_button,
+.woocommerce a.button, .woocommerce button.button { border-radius: var(--ta-radius) !important; }
+.gtb-btn, .bgq-kh, .bgq-line-btn, .bgq-rowbtn, .tap-btn { font-family: var(--ta-font) !important; font-weight: 600 !important; letter-spacing: .02em; }
+.entry-content h2, .tap h2, .page-wrapper h2 { font-weight: 650; letter-spacing: -.01em; }
+.entry-content h1, .tap h1 { font-weight: 700; }
+/* Badge giảm giá không đè lên tên sản phẩm / không tràn khỏi thẻ */
+.product-small .badge-container { left: 12px; top: 12px; margin: 0; }
+.product-small .badge-container .badge { width: auto; height: auto; }
+.product-small .badge-inner.on-sale { border-radius: var(--ta-radius); padding: 4px 10px; }
+/* Ký hiệu tiền tệ rõ ràng */
+.woocommerce-Price-currencySymbol { text-decoration: none; font-weight: inherit; font-size: inherit; }
+/* Gallery sản phẩm: nút tròn/đồng nhất */
+.product-gallery .zoom-button, .product-gallery .image-tools a { border-radius: var(--ta-radius); }
+/* Bảng cuộn ngang gọn trên mobile */
+.bgq-table, .pcat-table { max-width: 100%; }
