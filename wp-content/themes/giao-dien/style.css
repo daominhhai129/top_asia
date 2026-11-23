@@ -359,7 +359,7 @@ body.woocommerce.compare {
 }
 body,
 body *:not(i):not(svg):not(.icon):not([class^="icon-"]):not([class*=" icon-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.dashicons):not(.material-icons) {
-    font-family: "Google Sans", Arial, sans-serif !important;
+    font-family: 'Google Sans Flex', Arial, sans-serif !important;
 }
 body { color: var(--ta-ink); }
 a { text-underline-offset: 3px; }
@@ -1031,7 +1031,7 @@ body.page-id-356 #main .row + .row input[type="submit"] {
     color: #FFFFFF;
 }
 #footer .absolute-footer .copyright-footer {
-    font-family: 'Google Sans', Arial, sans-serif;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
     font-size: 12px;
 }
 @media (max-width: 767px) {
@@ -1069,7 +1069,7 @@ body.page:not(.page-id-5664) #main .banner .text-inner {
 body.page:not(.page-id-5664) #main .banner .text-inner h1,
 body.page:not(.page-id-5664) #main .banner .text-inner h2 {
     color: #FFFFFF;
-    font-family: "Google Sans", Arial, sans-serif;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
     font-size: clamp(30px, 4vw, 46px) !important;
     font-weight: 800;
     line-height: 1.12;
@@ -1104,7 +1104,7 @@ body.single-post #main .ez-toc-container {
     background: var(--ta-surface) !important;
     box-shadow: none !important;
     color: var(--ta-navy);
-    font-family: "Google Sans", Arial, sans-serif;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
 }
 body.page:not(.page-id-5664) #main .ez-toc-title,
 body.single-post #main .ez-toc-title {
@@ -1371,7 +1371,7 @@ body.page-id-670 #main section.section:first-of-type {
     margin: 0 auto;
     padding: 0 28px;
     color: rgba(255, 255, 255, .94);
-    font-family: "Google Sans", Arial, sans-serif;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
 }
 .ta-global-footer *,
 .ta-global-footer *::before,
@@ -1398,7 +1398,7 @@ body.page-id-670 #main section.section:first-of-type {
 .ta-global-footer .ta-footer-intro h2 {
     margin: 0;
     color: #FFFFFF;
-    font-family: "Google Sans", Arial, sans-serif;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
     font-size: clamp(24px, 3vw, 32px);
     font-weight: 800;
     line-height: 1.18;
@@ -1655,7 +1655,7 @@ button,
 input,
 select,
 textarea {
-  font-family: 'Google Sans', Arial, sans-serif;
+  font-family: 'Google Sans Flex', Arial, sans-serif;
 }
 
 body {
@@ -1665,7 +1665,7 @@ body {
 
 h1, h2, h3, h4, h5, h6,
 .heading-font {
-  font-family: 'Google Sans', Arial, sans-serif;
+  font-family: 'Google Sans Flex', Arial, sans-serif;
   color: var(--ta-navy);
 }
 
@@ -2503,10 +2503,10 @@ form.woocommerce-ordering::before, form.woocommerce-ordering::after,
 
 /* Base */
 .tap { --n:#0B1D3A; --r:#E31E24; --rh:#C51A1F; --ink:#0B1D3A; --body:#37445A; --mu:#6B7280; --ln:#E4E9F0; --soft:#F7F8FA; --pale:#FDEEEF;
-  font-family:'Google Sans',Arial,sans-serif; color:var(--ink); font-size:16px; line-height:1.65; background:#fff; overflow:hidden; }
+  font-family:'Google Sans Flex',Arial,sans-serif; color:var(--ink); font-size:16px; line-height:1.65; background:#fff; overflow:hidden; }
 .tap *, .tap *::before, .tap *::after { box-sizing:border-box; }
 .tap p { margin:0 0 14px; color:var(--body); }
-.tap h1, .tap h2, .tap h3, .tap h4 { font-family:'Google Sans',Arial,sans-serif; color:var(--n); margin:0 0 12px; text-transform:none; letter-spacing:-0.02em; }
+.tap h1, .tap h2, .tap h3, .tap h4 { font-family:'Google Sans Flex',Arial,sans-serif; color:var(--n); margin:0 0 12px; text-transform:none; letter-spacing:-0.02em; }
 .tap img { max-width:100%; height:auto; display:block; }
 .tap a { text-decoration:none; }
 .tap ul { margin:0; padding:0; list-style:none; }

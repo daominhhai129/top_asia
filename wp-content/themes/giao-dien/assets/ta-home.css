@@ -13,10 +13,10 @@
 .ta-eyebrow--light::before { background: var(--ta-red); }
 
 /* 01 HERO */
-.ta-hero { display: grid; grid-template-columns: 1fr; min-height: min(86vh, 760px); background: var(--ta-navy); }
+.ta-hero { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 100%; overflow: hidden; min-height: min(86vh, 760px); background: var(--ta-navy); }
 .ta-hero__panel { background: var(--ta-navy); color: #fff; display: flex; align-items: center; padding: clamp(40px, 7vw, 96px) clamp(20px, 5vw, 72px); order: 2; }
 .ta-hero__inner { max-width: 600px; margin-inline: auto; width: 100%; }
-.ta-hero__title { font-size: var(--ta-fs-hero); font-weight: 700; line-height: 1.04; color: #fff; margin: 24px 0 24px; letter-spacing: -.02em; text-transform: uppercase; }
+.ta-hero__title { font-size: clamp(1.875rem, 1.1rem + 3.6vw, 4.25rem); overflow-wrap: anywhere; font-weight: 700; line-height: 1.04; color: #fff; margin: 24px 0 24px; letter-spacing: -.02em; text-transform: uppercase; }
 .ta-hero__title span { color: #fff; opacity: .72; }
 .ta-hero__sub { font-size: clamp(1.1rem, 1rem + .5vw, 1.4rem); font-weight: 600; color: #fff; line-height: 1.4; }
 .ta-hero__desc { margin-top: 16px !important; color: rgba(255,255,255,.78); max-width: 52ch; font-size: 1rem; }
@@ -156,5 +156,5 @@
 @media (min-width: 900px) { .ta-cta__inner { grid-template-columns: 1.4fr 1fr; } .ta-cta__btns { justify-content: flex-end; } .ta-cta__btns .ta-btn { flex: 0 0 auto; } }
 
 /* Reveal nhẹ (tắt khi prefers-reduced-motion hoặc không có JS) */
-.js .ta-reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s var(--ta-ease), transform .6s var(--ta-ease); }
-.js .ta-reveal.is-in { opacity: 1; transform: none; }
+.js .ta-reveal { transform: translateY(14px); transition: transform .6s var(--ta-ease); }
+.js .ta-reveal.is-in { transform: none; }
