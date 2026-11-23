@@ -164,3 +164,6 @@
 .ta-hero__media img, .ta-cap__visual img { max-width: 100%; }
 .ta-hero__media { width: 100%; max-width: 100%; }
 
+
+/* Phase 5: bỏ qua render các section dưới màn hình đầu (INP/LCP) + giữ chỗ chống CLS */
+.ta-capability, #san-pham, #ung-dung, #du-an, #chat-luong, #doi-tac, #tai-lieu, .ta-final { content-visibility: auto; contain-intrinsic-size: auto 720px; }

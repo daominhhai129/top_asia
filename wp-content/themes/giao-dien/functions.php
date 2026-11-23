@@ -565,3 +565,34 @@ add_filter( 'template_include', function ( $tpl ) {
 	return $tpl;
 }, 99 );
 
+
+/* ==========================================================================
+ * PHASE 5 — Tối ưu tải trang (chỉ front-end, không ảnh hưởng dữ liệu)
+ * ========================================================================== */
+// 1. Bỏ CSS Poppins cũ: 'Poppins VN' đã được alias sang Google Sans Flex trong topasia-fonts-flex.css.
+add_action( 'wp_enqueue_scripts', function () {
+	wp_dequeue_style( 'topasia-fonts' );
+	wp_deregister_style( 'topasia-fonts' );
+}, 120 );
+
+// 2. Trang chủ: preload ảnh hero (LCP).
+add_action( 'wp_head', function () {
+	if ( ! is_front_page() || ! function_exists( 'taf_opt' ) ) {
+		return;
+	}
+	$img = taf_opt( 'hero1_img' );
+	if ( $img ) {
+		echo '<link rel="preload" as="image" href="' . esc_url( $img ) . '" fetchpriority="high">' . "\n";
+	}
+}, 2 );
+
+// 3. Preconnect không cần nữa (font tự host) — chặn Google Fonts nếu plugin khác còn chèn.
+add_filter( 'wp_resource_hints', function ( $urls, $relation ) {
+	if ( 'preconnect' === $relation || 'dns-prefetch' === $relation ) {
+		$urls = array_filter( $urls, function ( $u ) {
+			$h = is_array( $u ) ? ( isset( $u['href'] ) ? $u['href'] : '' ) : $u;
+			return false === strpos( $h, 'fonts.g' );
+		} );
+	}
+	return $urls;
+}, 10, 2 );
