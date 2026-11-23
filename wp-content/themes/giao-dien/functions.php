@@ -252,6 +252,10 @@ add_action( 'woocommerce_archive_description', function () {
 	if ( in_array( $term->slug, array( 'mai-che-canopy', 'phu-kien-mai-che-canopy', 'phu-kien-thi-cong' ), true ) ) {
 		return;
 	}
+	// Mô tả danh mục đã có H1 riêng (SEO) -> không in thêm H1 thứ hai.
+	if ( false !== stripos( (string) term_description( $term->term_id, 'product_cat' ), '<h1' ) ) {
+		return;
+	}
 	echo '<h1 class="ta-archive-h1 ta-archive-h1--product">' . esc_html( $term->name ) . '</h1>';
 }, 5 );
 
