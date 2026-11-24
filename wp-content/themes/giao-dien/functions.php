@@ -7,6 +7,13 @@ require_once __DIR__ . '/inc/topasia-menu.php';
 // Top Asia â€” homepage redesign assets (front page only).
 require_once __DIR__ . '/inc/home.php';
 
+// Top Asia — global site footer (code-driven links & company data).
+$topasia_footer_file = __DIR__ . '/inc/topasia-footer.php';
+if ( file_exists( $topasia_footer_file ) ) {
+	require_once $topasia_footer_file;
+}
+unset( $topasia_footer_file );
+
 // Top Asia â€” H1 cho trang chuyÃªn má»¥c + dá»n H1 thá»«a á»Ÿ hero trang chá»§.
 // DÃ¹ng file_exists() Ä‘á»ƒ náº¿u chÆ°a upload inc/topasia-h1.php thÃ¬ site váº«n cháº¡y bÃ¬nh thÆ°á»ng
 // (require_once tháº³ng vÃ o file khÃ´ng tá»“n táº¡i sáº½ gÃ¢y fatal error, tráº¯ng site).
