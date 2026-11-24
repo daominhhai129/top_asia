@@ -32,6 +32,13 @@ if ( file_exists( $topasia_h1_file ) ) {
 }
 unset( $topasia_h1_file );
 
+// Top Asia — Quotation page (/bao-gia/) Desktop & Mobile optimizer.
+$topasia_quote_file = __DIR__ . '/inc/topasia-quote.php';
+if ( file_exists( $topasia_quote_file ) ) {
+	require_once $topasia_quote_file;
+}
+unset( $topasia_quote_file );
+
 
 add_filter('use_block_editor_for_post', '__return_false');
 

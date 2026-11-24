@@ -1,0 +1,1281 @@
+/* ==========================================================================
+   TOP ASIA — QUOTATION PAGE (/bao-gia/) DESKTOP & MOBILE STYLESHEET
+   Strict breakpoint separation:
+     - Desktop / Tablet (>= 768px): keeps full desktop tables & comparison view
+     - Mobile Phones (<= 767px): renders optimized mobile quotation workspace
+   ========================================================================== */
+
+/* ---------- 0. DESKTOP vs MOBILE VISIBILITY SEPARATION ---------- */
+@media (min-width: 768px) {
+	.bgq-mobile-only {
+		display: none !important;
+	}
+	.bgq-desktop-only {
+		display: block;
+	}
+}
+
+@media (max-width: 767px) {
+	.bgq-desktop-only {
+		display: none !important;
+	}
+	.bgq-mobile-only {
+		display: block;
+	}
+}
+
+/* Allow position: sticky inside .tap wrapper without breaking sticky ancestors */
+body.ta-quote-page .tap,
+body.ta-quote-page .tap-bgq {
+	overflow-x: clip !important;
+}
+
+/* Smooth anchor offsets beneath sticky header */
+body.ta-quote-page #bang-gia,
+body.ta-quote-page #gia-asia-gold,
+body.ta-quote-page #gia-asia-pearl,
+body.ta-quote-page #gia-asia-lite,
+body.ta-quote-page #form-bao-gia,
+body.ta-quote-page #bgq-mobile-app,
+body.ta-quote-page #bgq-m-calc {
+	scroll-margin-top: 92px;
+}
+
+/* ---------- 1. FIX FORM SECTION DARK NAVY CONTRAST & DOUBLE CARD PADDING ---------- */
+/* Customizer had ".page-id-1723 .bgq-form { background: #fff }" which accidentally hit <section id="form-bao-gia" class="... bgq-form"> */
+body.ta-quote-page section#form-bao-gia.tap-section--navy.bgq-form,
+body.page-id-1723 section#form-bao-gia.tap-section--navy.bgq-form {
+	max-width: none !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 68px 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	background: var(--n, #142B49) !important;
+}
+
+body.ta-quote-page #form-bao-gia .tap-heading h2 {
+	color: #FFFFFF !important;
+}
+
+body.ta-quote-page #form-bao-gia .tap-heading p {
+	color: #CBD5E3 !important;
+}
+
+body.ta-quote-page .tap-card.tap-form {
+	padding: 32px !important;
+	background: #FFFFFF !important;
+	border-radius: 14px !important;
+	box-shadow: 0 18px 44px rgba(11, 29, 58, .22) !important;
+}
+
+body.ta-quote-page .tap-card.tap-form .bgq-form {
+	max-width: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	background: transparent !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+}
+
+/* Desktop highlight when a price row is clicked */
+.bgq-table tbody tr.is-selected td,
+.bgq-table tbody tr.is-selected th {
+	background: #FFF5F5 !important;
+}
+
+.bgq-table tbody tr.is-selected .bgq-rowbtn {
+	background: var(--r, #D92F35);
+	border-color: var(--r, #D92F35);
+	color: #FFFFFF;
+}
+
+/* Live selection summary banner inside #form-bao-gia */
+.bgq-form-selected {
+	display: none;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	margin: 0 0 18px;
+	padding: 12px 14px;
+	border-radius: 10px;
+	background: #FEF2F2;
+	border: 1px solid #FECACA;
+	color: #0B1D3A;
+	font-size: 13.5px;
+	line-height: 1.4;
+}
+
+.bgq-form-selected.is-visible {
+	display: flex;
+}
+
+.bgq-form-selected strong {
+	color: #B91C22;
+	font-weight: 700;
+}
+
+.bgq-form-selected-clear {
+	flex: 0 0 auto;
+	border: 0;
+	background: transparent;
+	color: #64748B;
+	font-size: 12px;
+	font-weight: 600;
+	text-decoration: underline;
+	cursor: pointer;
+	padding: 4px 6px;
+}
+
+/* Floating feedback toast */
+.bgq-toast {
+	position: fixed;
+	left: 50%;
+	bottom: 24px;
+	transform: translate(-50%, 16px);
+	z-index: 9995;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	max-width: calc(100vw - 24px);
+	padding: 11px 16px;
+	border-radius: 999px;
+	background: #0B1D3A;
+	color: #FFFFFF;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.35;
+	box-shadow: 0 12px 28px rgba(11, 29, 58, .32);
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+}
+
+.bgq-toast.is-visible {
+	opacity: 1;
+	visibility: visible;
+	transform: translate(-50%, 0);
+}
+
+.bgq-toast-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #22C55E;
+	flex: 0 0 auto;
+}
+
+/* ==========================================================================
+   2. MOBILE OPTIMIZED LAYOUT (<= 767px ONLY)
+   ========================================================================== */
+@media (max-width: 767px) {
+	body.ta-quote-page,
+	body.page-id-1723.ta-quote-page {
+		padding-bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+	}
+
+	body.ta-quote-page #bang-gia,
+	body.ta-quote-page #form-bao-gia,
+	body.ta-quote-page #bgq-mobile-app,
+	body.ta-quote-page #bgq-m-calc {
+		scroll-margin-top: calc(var(--bgq-hdr-h, 70px) + 12px);
+	}
+
+	body.ta-quote-page .tap-wrap,
+	body.ta-quote-page .tap-narrow {
+		width: calc(100% - 28px) !important;
+	}
+
+	/* --- Hero tailored cleanly for small mobile screens --- */
+	body.ta-quote-page .bgq-hero {
+		padding: 24px 0 28px !important;
+	}
+
+	body.ta-quote-page .bgq-hero .tap-crumb {
+		font-size: 12px;
+		margin-bottom: 10px;
+	}
+
+	body.ta-quote-page .bgq-hero .tap-kicker {
+		padding: 5px 10px;
+		font-size: 11px;
+		margin-bottom: 12px;
+	}
+
+	body.ta-quote-page .bgq-hero h1 {
+		font-size: 25px !important;
+		line-height: 1.2 !important;
+		margin-bottom: 10px !important;
+	}
+
+	body.ta-quote-page .bgq-hero p {
+		font-size: 14px !important;
+		line-height: 1.55 !important;
+		margin-bottom: 16px !important;
+	}
+
+	body.ta-quote-page .bgq-hero .tap-hero-actions {
+		display: grid !important;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px !important;
+		margin-top: 14px !important;
+	}
+
+	body.ta-quote-page .bgq-hero .tap-hero-actions .tap-btn {
+		width: 100% !important;
+		min-height: 44px !important;
+		padding: 10px 10px !important;
+		font-size: 12px !important;
+		line-height: 1.25;
+		text-align: center;
+	}
+
+	body.ta-quote-page .bgq-hero .tap-hero-actions [data-bgq="cta"] {
+		grid-column: 1 / -1;
+		min-height: 48px !important;
+		font-size: 13px !important;
+	}
+
+	body.ta-quote-page .bgq-hero .tap-hero-actions [data-bgq="tel"] {
+		grid-column: 1 / -1;
+		background: rgba(255, 255, 255, .08) !important;
+		border-color: rgba(255, 255, 255, .28) !important;
+		font-size: 12px !important;
+		letter-spacing: .01em;
+	}
+
+	/* --- Main Pricing Section --- */
+	body.ta-quote-page #bang-gia.tap-section {
+		padding: 20px 0 36px !important;
+	}
+
+	/* Step headers */
+	.bgq-m-block {
+		margin-bottom: 14px;
+	}
+
+	.bgq-m-step-head {
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+		margin-bottom: 10px;
+	}
+
+	.bgq-m-step-head--compact {
+		align-items: center;
+		margin-bottom: 0;
+	}
+
+	.bgq-m-step-num {
+		flex: 0 0 auto;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 26px;
+		height: 26px;
+		border-radius: 7px;
+		background: var(--n, #142B49);
+		color: #FFFFFF;
+		font-size: 11px;
+		font-weight: 800;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.bgq-m-step-title {
+		margin: 0 !important;
+		font-size: 15px !important;
+		font-weight: 800 !important;
+		color: var(--n, #142B49) !important;
+		line-height: 1.3 !important;
+	}
+
+	.bgq-m-step-sub {
+		margin: 2px 0 0 !important;
+		font-size: 12px !important;
+		color: var(--mu, #64748B) !important;
+		line-height: 1.4 !important;
+	}
+
+	/* Step 1: Compact 3-column customer role pills */
+	.bgq-m-role-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	.bgq-m-role {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 4px;
+		width: 100%;
+		min-height: 68px;
+		padding: 10px 9px;
+		border: 1.5px solid #DCE3EB;
+		border-radius: 10px;
+		background: #FFFFFF;
+		text-align: left;
+		cursor: pointer;
+		transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
+		box-shadow: 0 2px 8px rgba(11, 29, 58, .04);
+	}
+
+	.bgq-m-role-name {
+		display: block;
+		font-size: 12px;
+		font-weight: 700;
+		line-height: 1.28;
+		color: #142B49;
+	}
+
+	.bgq-m-role-tag {
+		display: block;
+		font-size: 10.5px;
+		font-weight: 600;
+		line-height: 1.25;
+		color: #64748B;
+	}
+
+	.bgq-m-role[aria-pressed="true"] {
+		border-color: #D92F35;
+		background: #FEF2F2;
+		box-shadow: 0 4px 14px rgba(217, 47, 53, .14);
+	}
+
+	.bgq-m-role[aria-pressed="true"] .bgq-m-role-name {
+		color: #B91C22;
+	}
+
+	.bgq-m-role[aria-pressed="true"]::after {
+		content: "✓";
+		position: absolute;
+		top: 6px;
+		right: 7px;
+		font-size: 11px;
+		font-weight: 800;
+		color: #D92F35;
+	}
+
+	/* Step 2: Sticky Product-Line Tabs Bar */
+	.bgq-m-tabs-sticky {
+		position: sticky;
+		top: var(--bgq-sticky-top, 0px);
+		z-index: 45;
+		margin: 0 -14px 14px;
+		padding: 10px 14px 10px;
+		background: rgba(247, 248, 250, .96);
+		backdrop-filter: blur(8px);
+		border-bottom: 1px solid #E2E8F0;
+		transition: box-shadow .2s ease;
+	}
+
+	.bgq-m-tabs-sticky.is-stuck {
+		box-shadow: 0 8px 20px rgba(11, 29, 58, .09);
+	}
+
+	.bgq-m-tabs-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		margin-bottom: 9px;
+	}
+
+	.bgq-m-pdf-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		min-height: 30px;
+		padding: 4px 10px;
+		border: 1px solid #142B49;
+		border-radius: 999px;
+		background: #FFFFFF;
+		color: #142B49;
+		font-size: 11.5px;
+		font-weight: 700;
+		white-space: nowrap;
+		cursor: pointer;
+	}
+
+	.bgq-m-tablist {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 7px;
+	}
+
+	.bgq-m-tab {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 2px;
+		width: 100%;
+		padding: 8px 9px;
+		border: 1.5px solid #DCE3EB;
+		border-radius: 10px;
+		background: #FFFFFF;
+		text-align: left;
+		cursor: pointer;
+		transition: border-color .16s ease, background-color .16s ease, transform .12s ease;
+	}
+
+	.bgq-m-tab-tier {
+		font-size: 9.5px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: .04em;
+		color: #64748B;
+	}
+
+	.bgq-m-tab-name {
+		font-size: 13px;
+		font-weight: 800;
+		color: #142B49;
+		line-height: 1.2;
+	}
+
+	.bgq-m-tab-price {
+		font-size: 11px;
+		font-weight: 700;
+		color: #D92F35;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.bgq-m-tab.is-active {
+		background: #142B49;
+		border-color: #142B49;
+		box-shadow: 0 6px 14px rgba(20, 43, 73, .22);
+	}
+
+	.bgq-m-tab.is-active .bgq-m-tab-tier {
+		color: rgba(255, 255, 255, .74);
+	}
+
+	.bgq-m-tab.is-active .bgq-m-tab-name {
+		color: #FFFFFF;
+	}
+
+	.bgq-m-tab.is-active .bgq-m-tab-price {
+		color: #FDE68A;
+	}
+
+	.bgq-m-tab--gold.is-active {
+		border-bottom: 3px solid #D97706;
+	}
+
+	.bgq-m-tab--pearl.is-active {
+		border-bottom: 3px solid #60A5FA;
+	}
+
+	.bgq-m-tab--lite.is-active {
+		border-bottom: 3px solid #EF4444;
+	}
+
+	/* Active Panel Reveal */
+	.bgq-m-panel {
+		display: none;
+	}
+
+	.bgq-m-panel.is-active {
+		display: block;
+		animation: bgqFadeIn .18s ease-out;
+	}
+
+	@keyframes bgqFadeIn {
+		from { opacity: 0; transform: translateY(4px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
+	/* Line Summary Card */
+	.bgq-m-summary {
+		background: #FFFFFF;
+		border: 1px solid #DCE3EB;
+		border-top: 3px solid #142B49;
+		border-radius: 12px;
+		padding: 13px 14px;
+		margin-bottom: 12px;
+	}
+
+	.bgq-m-summary--gold { border-top-color: #B58A2A; }
+	.bgq-m-summary--pearl { border-top-color: #3E78B8; }
+	.bgq-m-summary--lite { border-top-color: #D92F35; }
+
+	.bgq-m-summary-top {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 8px;
+		margin-bottom: 6px;
+	}
+
+	.bgq-m-badge {
+		display: inline-block;
+		padding: 2px 8px;
+		border-radius: 999px;
+		font-size: 10.5px;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: .04em;
+		margin-bottom: 4px;
+	}
+
+	.bgq-m-badge--gold { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
+	.bgq-m-badge--pearl { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
+	.bgq-m-badge--lite { background: #FEF2F2; color: #D92F35; border: 1px solid #FECACA; }
+
+	.bgq-m-summary-title {
+		margin: 0 !important;
+		font-size: 16px !important;
+		font-weight: 800 !important;
+		color: #142B49 !important;
+	}
+
+	.bgq-m-count {
+		flex: 0 0 auto;
+		padding: 4px 9px;
+		border-radius: 999px;
+		background: #F1F5F9;
+		color: #334155;
+		font-size: 11px;
+		font-weight: 700;
+	}
+
+	.bgq-m-summary-desc {
+		margin: 0 0 8px !important;
+		font-size: 12.5px !important;
+		line-height: 1.45 !important;
+		color: #475569 !important;
+	}
+
+	.bgq-m-summary-foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 6px 12px;
+		padding-top: 8px;
+		border-top: 1px dashed #E2E8F0;
+	}
+
+	.bgq-m-highlight {
+		font-size: 12px;
+		font-weight: 600;
+		color: #142B49;
+	}
+
+	.bgq-m-catlink {
+		font-size: 12px;
+		font-weight: 800;
+		color: #D92F35 !important;
+		text-transform: uppercase;
+		letter-spacing: .02em;
+	}
+
+	/* Quick Filter Chips (horizontally scrollable, clean on 360px+) */
+	.bgq-m-filters {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+		margin: 0 -2px 12px;
+		padding: 2px;
+	}
+
+	.bgq-m-filters::-webkit-scrollbar {
+		display: none;
+	}
+
+	.bgq-m-chip {
+		flex: 0 0 auto;
+		min-height: 34px;
+		padding: 6px 12px;
+		border: 1px solid #CBD5E1;
+		border-radius: 999px;
+		background: #FFFFFF;
+		color: #334155;
+		font-size: 12px;
+		font-weight: 700;
+		white-space: nowrap;
+		cursor: pointer;
+		transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+	}
+
+	.bgq-m-chip.is-active,
+	.bgq-m-chip[aria-pressed="true"] {
+		background: #142B49;
+		border-color: #142B49;
+		color: #FFFFFF;
+	}
+
+	/* Mobile Price Cards (0 Horizontal Scrolling) */
+	.bgq-m-list {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 10px;
+		margin-bottom: 18px;
+	}
+
+	.bgq-m-card {
+		background: #FFFFFF;
+		border: 1.5px solid #E2E8F0;
+		border-radius: 12px;
+		padding: 13px 14px;
+		box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
+		transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
+	}
+
+	.bgq-m-card[hidden] {
+		display: none !important;
+	}
+
+	.bgq-m-card.is-selected {
+		border-color: #D92F35;
+		background: #FFF9F9;
+		box-shadow: 0 8px 20px rgba(217, 47, 53, .12);
+	}
+
+	.bgq-m-card-main {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 12px;
+	}
+
+	.bgq-m-card-left {
+		min-width: 0;
+		flex: 1 1 auto;
+	}
+
+	.bgq-m-thick-row {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		flex-wrap: wrap;
+	}
+
+	.bgq-m-thick {
+		font-size: 18px;
+		font-weight: 800;
+		color: #142B49;
+		line-height: 1.2;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.bgq-m-off {
+		display: inline-flex;
+		align-items: center;
+		padding: 2px 7px;
+		border-radius: 999px;
+		background: #FEF2F2;
+		border: 1px solid #FECACA;
+		color: #D92F35;
+		font-size: 11px;
+		font-weight: 800;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.bgq-m-spec {
+		margin-top: 4px;
+		font-size: 12.5px;
+		color: #334155;
+		line-height: 1.35;
+	}
+
+	.bgq-m-spec span {
+		color: #64748B;
+		font-weight: 600;
+	}
+
+	.bgq-m-card-right {
+		flex: 0 0 auto;
+		text-align: right;
+	}
+
+	.bgq-m-price-sale,
+	.bgq-m-price-std {
+		font-size: 18px;
+		font-weight: 800;
+		line-height: 1.15;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.bgq-m-price-sale {
+		color: #D92F35;
+	}
+
+	.bgq-m-price-std {
+		color: #142B49;
+	}
+
+	.bgq-m-price-sale small,
+	.bgq-m-price-std small {
+		font-size: 11.5px;
+		font-weight: 600;
+		color: #64748B;
+	}
+
+	.bgq-m-price-ref {
+		margin-top: 2px;
+		font-size: 11.5px;
+		color: #64748B;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.bgq-m-price-note {
+		margin-top: 2px;
+		font-size: 11px;
+		font-weight: 600;
+		color: #64748B;
+	}
+
+	.bgq-m-price-contact {
+		display: inline-block;
+		padding: 5px 10px;
+		border-radius: 6px;
+		background: #F1F5F9;
+		color: #142B49;
+		font-size: 12.5px;
+		font-weight: 700;
+	}
+
+	.bgq-m-colors {
+		margin-top: 9px;
+		padding: 7px 10px;
+		border-radius: 8px;
+		background: #F8FAFC;
+		font-size: 12px;
+		line-height: 1.45;
+		color: #334155;
+	}
+
+	.bgq-m-colors strong {
+		color: #64748B;
+		font-weight: 600;
+	}
+
+	.bgq-m-card-foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		margin-top: 10px;
+		padding-top: 10px;
+		border-top: 1px solid #F1F5F9;
+	}
+
+	.bgq-m-calc-trigger {
+		min-height: 38px;
+		padding: 6px 11px;
+		border: 1px solid #CBD5E1;
+		border-radius: 8px;
+		background: #FFFFFF;
+		color: #334155;
+		font-size: 12px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.bgq-m-rowbtn {
+		flex: 1 1 auto;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		min-height: 38px;
+		padding: 8px 12px;
+		border: 1.5px solid #D92F35;
+		border-radius: 8px;
+		background: #FEF2F2;
+		color: #D92F35;
+		font-size: 12.5px;
+		font-weight: 800;
+		cursor: pointer;
+		transition: background-color .15s ease, color .15s ease;
+	}
+
+	.bgq-m-rowbtn:active,
+	.bgq-m-card.is-selected .bgq-m-rowbtn {
+		background: #D92F35;
+		color: #FFFFFF;
+	}
+
+	/* --- Quick m2 Estimator --- */
+	.bgq-m-calc {
+		background: #FFFFFF;
+		border: 1.5px solid #142B49;
+		border-radius: 12px;
+		padding: 15px 14px;
+		margin-bottom: 18px;
+		box-shadow: 0 8px 22px rgba(20, 43, 73, .08);
+	}
+
+	.bgq-m-calc-kicker {
+		display: block;
+		font-size: 10.5px;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: .06em;
+		color: #D92F35;
+		margin-bottom: 2px;
+	}
+
+	.bgq-m-calc-head h3 {
+		margin: 0 0 12px !important;
+		font-size: 16px !important;
+		font-weight: 800 !important;
+		color: #142B49 !important;
+	}
+
+	.bgq-m-calc-field label {
+		display: block;
+		margin-bottom: 5px;
+		font-size: 12px;
+		font-weight: 700;
+		color: #334155;
+	}
+
+	.bgq-m-calc-field select,
+	.bgq-m-calc-field input {
+		width: 100%;
+		min-height: 44px !important;
+		padding: 9px 12px !important;
+		border: 1.5px solid #CBD5E1 !important;
+		border-radius: 8px !important;
+		background: #FFFFFF !important;
+		color: #142B49 !important;
+		font-size: 16px !important; /* Prevents iOS auto-zoom */
+		font-weight: 600;
+		margin: 0 0 10px !important;
+	}
+
+	.bgq-m-calc-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+		align-items: end;
+		margin-bottom: 10px;
+	}
+
+	.bgq-m-calc-row .bgq-m-calc-field input {
+		margin-bottom: 0 !important;
+	}
+
+	.bgq-m-calc-uv {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		min-height: 44px;
+		padding: 8px 10px;
+		border: 1.5px solid #DCE3EB;
+		border-radius: 8px;
+		background: #F8FAFC;
+		font-size: 12px;
+		font-weight: 700;
+		color: #142B49;
+		margin: 0;
+		cursor: pointer;
+	}
+
+	.bgq-m-calc-uv input {
+		width: 18px !important;
+		height: 18px !important;
+		min-height: 0 !important;
+		margin: 0 !important;
+		accent-color: #D92F35;
+	}
+
+	.bgq-m-calc-result {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 12px;
+		border-radius: 10px;
+		background: #0B1D3A;
+		color: #FFFFFF;
+	}
+
+	.bgq-m-calc-res-label {
+		display: block;
+		font-size: 11px;
+		color: #CBD5E3;
+	}
+
+	.bgq-m-calc-res-total {
+		display: block;
+		margin-top: 2px;
+		font-size: 20px;
+		font-weight: 800;
+		color: #FDE68A;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.bgq-m-calc-apply {
+		width: 100%;
+		min-height: 42px;
+		padding: 10px 14px;
+		border: 0;
+		border-radius: 8px;
+		background: #D92F35;
+		color: #FFFFFF;
+		font-size: 13px;
+		font-weight: 800;
+		cursor: pointer;
+	}
+
+	/* --- Conditions card, Form, FAQ & Docs on Mobile --- */
+	.bgq-conditions-card {
+		padding: 16px 14px !important;
+		border-radius: 12px !important;
+	}
+
+	.bgq-conditions-card h3 {
+		font-size: 16px !important;
+		margin-bottom: 10px !important;
+	}
+
+	.bgq-conditions-card .tap-specs-grid {
+		grid-template-columns: 1fr !important;
+		gap: 8px !important;
+		margin-top: 10px !important;
+	}
+
+	.bgq-conditions-card .tap-spec-item {
+		padding: 10px 12px !important;
+		background: #F8FAFC;
+	}
+
+	.bgq-conditions-card .tap-spec-item span {
+		font-size: 13.5px;
+		line-height: 1.45;
+	}
+
+	/* Form Section on Mobile */
+	body.ta-quote-page section#form-bao-gia.tap-section--navy.bgq-form,
+	body.page-id-1723 section#form-bao-gia.tap-section--navy.bgq-form {
+		padding: 36px 0 !important;
+	}
+
+	body.ta-quote-page #form-bao-gia .tap-heading {
+		margin-bottom: 20px !important;
+		text-align: left !important;
+	}
+
+	body.ta-quote-page #form-bao-gia .tap-heading h2 {
+		font-size: 22px !important;
+		line-height: 1.25 !important;
+	}
+
+	body.ta-quote-page #form-bao-gia .tap-heading p {
+		font-size: 13.5px !important;
+	}
+
+	body.ta-quote-page .tap-card.tap-form {
+		padding: 18px 15px !important;
+		border-radius: 12px !important;
+	}
+
+	/* Prevent iOS zoom on form inputs */
+	body.ta-quote-page .tap-form input[type="text"],
+	body.ta-quote-page .tap-form input[type="tel"],
+	body.ta-quote-page .tap-form input[type="email"],
+	body.ta-quote-page .tap-form textarea,
+	body.ta-quote-page .tap-form select {
+		font-size: 16px !important;
+		min-height: 46px !important;
+		padding: 10px 12px !important;
+	}
+
+	body.ta-quote-page .bgq-choice .wpcf7-radio {
+		display: grid !important;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px !important;
+	}
+
+	body.ta-quote-page .bgq-choice .wpcf7-list-item {
+		flex: initial !important;
+		margin: 0 !important;
+		width: 100%;
+	}
+
+	body.ta-quote-page .bgq-choice .wpcf7-list-item:first-child:nth-last-child(3) {
+		grid-column: 1 / -1;
+	}
+
+	body.ta-quote-page .bgq-choice .wpcf7-list-item label {
+		min-height: 44px !important;
+		padding: 9px 10px !important;
+		font-size: 12.5px !important;
+		justify-content: flex-start !important;
+		text-align: left !important;
+	}
+
+	body.ta-quote-page .bgq-choice .wpcf7-list-item-label {
+		padding-left: 22px !important;
+	}
+
+	/* FAQ & Docs on Mobile */
+	body.ta-quote-page .tap-section:not(.tap-section--navy):not(#bang-gia) {
+		padding: 36px 0 !important;
+	}
+
+	body.ta-quote-page .tap-section:not(#form-bao-gia) .tap-heading {
+		margin-bottom: 20px !important;
+	}
+
+	body.ta-quote-page .tap-section:not(#form-bao-gia) .tap-heading h2 {
+		font-size: 22px !important;
+	}
+
+	body.ta-quote-page .tap-faq details {
+		padding: 0 14px !important;
+	}
+
+	body.ta-quote-page .tap-faq summary {
+		padding: 14px 26px 14px 0 !important;
+		font-size: 14.5px !important;
+		line-height: 1.4;
+	}
+
+	body.ta-quote-page .tap-doc {
+		padding: 14px !important;
+	}
+
+	body.ta-quote-page .tap-doc strong {
+		font-size: 14.5px !important;
+	}
+
+	/* Coordinate toast cleanly above fixed Call/Zalo bottom bar */
+	body.ta-quote-page .bgq-toast {
+		bottom: calc(80px + env(safe-area-inset-bottom));
+	}
+}
+
+@media (max-width: 374px) {
+	.bgq-m-role-grid {
+		grid-template-columns: 1fr;
+	}
+	.bgq-m-tab-name {
+		font-size: 12px;
+	}
+	.bgq-m-tab-price {
+		font-size: 10px;
+	}
+	.bgq-m-calc-row {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ---------- 3. PDF DOWNLOAD GATE MODAL STYLES FOR /bao-gia/ ---------- */
+.bgq-pdf-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 999994;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity .24s ease, visibility .24s ease;
+}
+
+.bgq-pdf-modal.is-open {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+
+.bgq-pdf-modal .ta-modal__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(11, 29, 58, .66);
+	backdrop-filter: blur(4px);
+}
+
+.bgq-pdf-modal .ta-modal__dialog {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-width: 480px;
+	max-height: calc(100vh - 32px);
+	overflow-y: auto;
+	background: #FFFFFF;
+	color: var(--ta-graphite, #222B36);
+	border-radius: 12px;
+	padding: clamp(22px, 4vw, 30px);
+	box-shadow: 0 24px 60px rgba(11, 29, 58, .32);
+	transform: translateY(14px) scale(.97);
+	transition: transform .26s cubic-bezier(.22, 1, .36, 1);
+}
+
+.bgq-pdf-modal.is-open .ta-modal__dialog {
+	transform: translateY(0) scale(1);
+}
+
+.bgq-pdf-modal .ta-modal__close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	border: 1px solid #DCE3EB;
+	background: #F5F7FA;
+	color: #142B49;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.bgq-pdf-modal .ta-qmodal__title {
+	margin: 10px 0 8px !important;
+	font-size: clamp(1.3rem, 1.1rem + .8vw, 1.6rem);
+	font-weight: 700;
+	color: #142B49;
+}
+
+.bgq-pdf-modal .ta-qmodal__desc {
+	color: #5b6776;
+	font-size: .92rem;
+	line-height: 1.5;
+	margin-bottom: 18px !important;
+}
+
+.bgq-pdf-modal .ta-qmodal__lines {
+	border: 0;
+	padding: 0;
+	margin: 0 0 16px;
+}
+
+.bgq-pdf-modal .ta-qmodal__label {
+	display: block;
+	font-size: .8rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: .06em;
+	color: #142B49;
+	margin-bottom: 8px;
+}
+
+.bgq-pdf-modal .ta-qmodal__pills {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;
+}
+
+.bgq-pdf-modal .ta-qpill {
+	position: relative;
+	margin: 0;
+	cursor: pointer;
+}
+
+.bgq-pdf-modal .ta-qpill input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.bgq-pdf-modal .ta-qpill span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: 8px;
+	border-radius: 8px;
+	border: 1.5px solid #DCE3EB;
+	background: #F5F7FA;
+	color: #142B49;
+	font-size: .875rem;
+	font-weight: 600;
+}
+
+.bgq-pdf-modal .ta-qpill input:checked + span {
+	border-color: #D92F35;
+	background: #FEF2F2;
+	color: #D92F35;
+}
+
+.bgq-pdf-modal .ta-qmodal__field input {
+	width: 100%;
+	font-size: 16px !important;
+}
+
+.bgq-pdf-modal .ta-qmodal__hp {
+	position: absolute !important;
+	left: -9999px !important;
+	width: 1px !important;
+	height: 1px !important;
+	opacity: 0 !important;
+}
+
+.bgq-pdf-modal .ta-qmodal__error {
+	margin: 0 0 12px !important;
+	padding: 10px 12px;
+	border-radius: 8px;
+	background: #FEF2F2;
+	border: 1px solid #FECACA;
+	color: #B91C1C;
+	font-size: .875rem;
+	font-weight: 500;
+}
+
+.bgq-pdf-modal .ta-qmodal__error[hidden],
+.bgq-pdf-modal .ta-qmodal__form-view[hidden],
+.bgq-pdf-modal .ta-qmodal__success-view[hidden] {
+	display: none;
+}
+
+.bgq-pdf-modal .ta-qmodal__submit,
+.bgq-pdf-modal .ta-qmodal__done {
+	width: 100%;
+}
+
+.bgq-pdf-modal .ta-qmodal__badge {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background: #DCFCE7;
+	color: #15803D;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 6px;
+}
+
+.bgq-pdf-modal .ta-qmodal__downloads {
+	display: grid;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.bgq-pdf-modal .ta-qmodal__dl-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 11px 13px;
+	border: 1.5px solid #DCE3EB;
+	border-radius: 8px;
+	background: #F5F7FA;
+	color: #142B49;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.bgq-pdf-modal .ta-qmodal__dl-badge {
+	font-size: .75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding: 4px 10px;
+	border-radius: 4px;
+	background: #142B49;
+	color: #FFFFFF;
+}
