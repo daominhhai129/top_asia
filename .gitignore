@@ -19,6 +19,10 @@
 !wp-content/plugins/ocean-contact-buttons/*/
 !wp-content/plugins/ocean-contact-buttons/*/*/
 !wp-content/plugins/ocean-contact-buttons/**
+!wp-content/plugins/ta-quick-image-replace/
+!wp-content/plugins/ta-quick-image-replace/*/
+!wp-content/plugins/ta-quick-image-replace/*/*/
+!wp-content/plugins/ta-quick-image-replace/**
 
 # Traverse and track Novamira sandbox scripts
 !wp-content/novamira-sandbox/

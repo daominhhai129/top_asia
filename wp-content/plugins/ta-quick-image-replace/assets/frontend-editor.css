@@ -1,0 +1,264 @@
+/* TA Quick Image Replace - Frontend Editor */
+
+body.ta-qir-mode-active img.ta-qir-broken-img {
+	outline: 2px dashed #ef4444 !important;
+	outline-offset: -2px;
+	background: repeating-linear-gradient(
+		-45deg,
+		rgba(239, 68, 68, 0.08),
+		rgba(239, 68, 68, 0.08) 10px,
+		rgba(239, 68, 68, 0.16) 10px,
+		rgba(239, 68, 68, 0.16) 20px
+	) !important;
+	min-width: 120px;
+	min-height: 120px;
+}
+
+#wp-admin-bar-ta-qir-toggle.ta-qir-ab-on > a {
+	background: #16a34a !important;
+	color: #fff !important;
+}
+
+#ta-qir-overlay {
+	position: fixed;
+	z-index: 99990;
+	pointer-events: none;
+	border: 2px solid #2563eb;
+	border-radius: 6px;
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7), 0 8px 24px rgba(15, 23, 42, 0.2);
+	box-sizing: border-box;
+	display: none;
+	transition: opacity 0.12s ease;
+}
+
+#ta-qir-overlay.ta-qir-is-broken {
+	border-color: #ef4444;
+	border-style: dashed;
+}
+
+#ta-qir-overlay.ta-qir-is-dragover {
+	border-color: #16a34a;
+	background: rgba(22, 163, 74, 0.14);
+}
+
+#ta-qir-overlay.ta-qir-is-loading::after {
+	content: "Đang tải ảnh lên...";
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(15, 23, 42, 0.68);
+	color: #fff;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	border-radius: 4px;
+}
+
+.ta-qir-toolbar {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	pointer-events: auto;
+	background: rgba(15, 23, 42, 0.92);
+	padding: 5px 7px;
+	border-radius: 8px;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	max-width: calc(100% - 16px);
+}
+
+.ta-qir-btn {
+	appearance: none;
+	border: 0;
+	border-radius: 5px;
+	padding: 5px 10px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.3;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	color: #fff;
+	background: #334155;
+	transition: background 0.15s ease, transform 0.1s ease;
+	white-space: nowrap;
+}
+
+.ta-qir-btn:hover {
+	background: #475569;
+}
+
+.ta-qir-btn--primary {
+	background: #2563eb;
+}
+
+.ta-qir-btn--primary:hover {
+	background: #1d4ed8;
+}
+
+.ta-qir-btn--revert {
+	background: #dc2626;
+}
+
+.ta-qir-btn--revert:hover {
+	background: #b91c1c;
+}
+
+.ta-qir-btn--scope {
+	background: #0f766e;
+	font-size: 11px;
+	padding: 5px 8px;
+}
+
+.ta-qir-btn--scope:hover {
+	background: #0d9488;
+}
+
+.ta-qir-hint {
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+	background: rgba(15, 23, 42, 0.85);
+	color: #e2e8f0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	font-size: 11px;
+	line-height: 1.3;
+	padding: 4px 8px;
+	border-radius: 5px;
+	pointer-events: none;
+	max-width: calc(100% - 16px);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ta-qir-hint strong {
+	color: #fde047;
+}
+
+/* Modal nhập URL trực tiếp */
+#ta-qir-url-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 100050;
+	background: rgba(15, 23, 42, 0.55);
+	display: none;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+#ta-qir-url-modal.is-open {
+	display: flex;
+}
+
+.ta-qir-modal-card {
+	background: #fff;
+	color: #0f172a;
+	width: 100%;
+	max-width: 480px;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+.ta-qir-modal-card h3 {
+	margin: 0 0 12px;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.ta-qir-modal-input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 9px 12px;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	font-size: 13px;
+	margin-bottom: 12px;
+}
+
+.ta-qir-modal-preview {
+	display: none;
+	margin-bottom: 12px;
+	background: #f8fafc;
+	border: 1px solid #e2e8f0;
+	border-radius: 6px;
+	padding: 8px;
+	text-align: center;
+}
+
+.ta-qir-modal-preview img {
+	max-width: 100%;
+	max-height: 180px;
+	object-fit: contain;
+}
+
+.ta-qir-modal-scope {
+	display: flex;
+	gap: 16px;
+	margin-bottom: 16px;
+	font-size: 13px;
+}
+
+.ta-qir-modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+}
+
+.ta-qir-modal-actions button {
+	padding: 8px 14px;
+	border-radius: 6px;
+	border: 0;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.ta-qir-modal-cancel {
+	background: #e2e8f0;
+	color: #1e293b;
+}
+
+.ta-qir-modal-save {
+	background: #2563eb;
+	color: #fff;
+}
+
+/* Toast thông báo */
+#ta-qir-toast {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 100060;
+	background: #0f172a;
+	color: #fff;
+	padding: 10px 16px;
+	border-radius: 8px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	font-size: 13px;
+	font-weight: 500;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+	opacity: 0;
+	transform: translateY(10px);
+	pointer-events: none;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#ta-qir-toast.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+#ta-qir-toast.is-error {
+	background: #dc2626;
+}
