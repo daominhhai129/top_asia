@@ -182,6 +182,17 @@
     }
 
     function closeOffCanvas() {
+      var drawer = document.getElementById('ta-cmm-drawer');
+      var backdrop = document.getElementById('ta-cmm-backdrop');
+      var openBtn = document.getElementById('ta-cmm-open');
+      if (drawer && !drawer.hidden) {
+        drawer.hidden = true;
+        drawer.setAttribute('aria-hidden', 'true');
+        if (backdrop) backdrop.hidden = true;
+        if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+        document.documentElement.style.overflow = '';
+        return;
+      }
       try {
         if (window.jQuery && window.jQuery.magnificPopup && window.jQuery.magnificPopup.instance && window.jQuery.magnificPopup.instance.isOpen) {
           window.jQuery.magnificPopup.close();
@@ -192,10 +203,37 @@
       if (btn) btn.click();
     }
 
+    function openCustomDrawer() {
+      var drawer = document.getElementById('ta-cmm-drawer');
+      var backdrop = document.getElementById('ta-cmm-backdrop');
+      var openBtn = document.getElementById('ta-cmm-open');
+      if (!drawer || !backdrop) return;
+      resetDrawer();
+      backdrop.hidden = false;
+      drawer.hidden = false;
+      drawer.setAttribute('aria-hidden', 'false');
+      if (openBtn) openBtn.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+    }
+
     nav.addEventListener('click', function (e) {
       var close = e.target.closest('[data-ta-close]');
       if (close && nav.contains(close)) { closeOffCanvas(); }
     });
+
+    var cmmOpen = document.getElementById('ta-cmm-open');
+    var cmmBackdrop = document.getElementById('ta-cmm-backdrop');
+    if (cmmOpen && nav.closest('#ta-cmm-drawer')) {
+      cmmOpen.addEventListener('click', openCustomDrawer);
+      if (cmmBackdrop) cmmBackdrop.addEventListener('click', closeOffCanvas);
+      document.addEventListener('keydown', function (e) {
+        var drawer = document.getElementById('ta-cmm-drawer');
+        if (e.key === 'Escape' && drawer && !drawer.hidden) closeOffCanvas();
+      });
+      nav.querySelectorAll('a[href*="#"]').forEach(function (a) {
+        a.addEventListener('click', closeOffCanvas);
+      });
+    }
 
     document.addEventListener('click', function (e) {
       if (e.target.closest && e.target.closest('a[data-open="#main-menu"]')) resetDrawer();
