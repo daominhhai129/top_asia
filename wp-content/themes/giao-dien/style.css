@@ -2819,3 +2819,11 @@ body.single-post .blog-wrapper .row:has(> .post-sidebar #secondary:empty) > .lar
 @media (max-width: 767px) {
   .tap-specs-grid { grid-template-columns: 1fr; }
 }
+/* Disabled floating mobile "Nhận báo giá" bar everywhere */
+html body .bgq-sticky,
+html body.page-id-1723 .bgq-sticky,
+html body .bgq-sticky-btn {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

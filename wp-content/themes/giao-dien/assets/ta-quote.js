@@ -2,7 +2,6 @@
 	'use strict';
 
 	var started = false;
-	var toastTimer = null;
 
 	function dl() {
 		if (!window.dataLayer) {
@@ -50,32 +49,6 @@
 	function formatVND(num) {
 		if (!num || num <= 0) return '—';
 		return Number(num).toLocaleString('vi-VN') + 'đ';
-	}
-
-	/* ---------- Toast Notification ---------- */
-	function getToast() {
-		var el = document.getElementById('bgq-toast');
-		if (!el) {
-			el = document.createElement('div');
-			el.id = 'bgq-toast';
-			el.className = 'bgq-toast';
-			el.setAttribute('role', 'status');
-			el.setAttribute('aria-live', 'polite');
-			el.innerHTML = '<span class="bgq-toast-dot" aria-hidden="true"></span><span class="bgq-toast-text"></span>';
-			document.body.appendChild(el);
-		}
-		return el;
-	}
-
-	function showToast(msg) {
-		var toast = getToast();
-		var txt = toast.querySelector('.bgq-toast-text');
-		if (txt) txt.textContent = msg;
-		toast.classList.add('is-visible');
-		clearTimeout(toastTimer);
-		toastTimer = setTimeout(function () {
-			toast.classList.remove('is-visible');
-		}, 2800);
 	}
 
 	/* ---------- Live Selection Summary inside #form-bao-gia ---------- */
@@ -135,22 +108,11 @@
 		}, 650);
 	}
 
-	/* ---------- Sticky Header & Sticky Line Tabs Offset Sync ---------- */
-	function syncStickyOffsets() {
-		var headerWrapper = document.querySelector('#header .header-wrapper');
+	/* ---------- Header Height Scroll Margin Sync ---------- */
+	function syncHeaderOffset() {
 		var headerMain = document.querySelector('#header .header-main');
 		var hdrH = headerMain ? Math.round(headerMain.getBoundingClientRect().height) : 70;
-		var stuck = !!(headerWrapper && headerWrapper.classList.contains('stuck'));
-		var stickyTop = stuck ? hdrH : 0;
-
 		document.documentElement.style.setProperty('--bgq-hdr-h', hdrH + 'px');
-		document.documentElement.style.setProperty('--bgq-sticky-top', stickyTop + 'px');
-
-		var tabsBar = document.querySelector('[data-bgq-sticky-tabs]');
-		if (tabsBar) {
-			var rect = tabsBar.getBoundingClientRect();
-			tabsBar.classList.toggle('is-stuck', rect.top <= stickyTop + 2);
-		}
 	}
 
 	/* ---------- Mobile Line Tab Switcher ---------- */
@@ -240,7 +202,6 @@
 				var noteTxt = parts.join(', ') + '.';
 				appendNote(noteTxt);
 				setFormSelectionSummary(lineName + ' · ' + thick + (res.area > 0 ? ' (' + res.area + ' m²)' : ''));
-				showToast('Đã điền dự toán vào phiếu báo giá');
 				scrollToForm();
 			});
 		}
@@ -429,10 +390,9 @@
 	document.addEventListener('DOMContentLoaded', function () {
 		var calc = initMobileCalculator();
 		initPdfModal();
-		syncStickyOffsets();
+		syncHeaderOffset();
 
-		window.addEventListener('scroll', syncStickyOffsets, { passive: true });
-		window.addEventListener('resize', syncStickyOffsets, { passive: true });
+		window.addEventListener('resize', syncHeaderOffset, { passive: true });
 
 		// Handle direct hash links on mobile (#gia-asia-gold / #gia-asia-pearl / #gia-asia-lite)
 		var hash = window.location.hash || '';
@@ -507,7 +467,6 @@
 					btn.setAttribute('aria-pressed', btnNorm === normVal ? 'true' : 'false');
 				});
 				setRadio('customer-type', normVal);
-				showToast('Đã chọn nhóm: ' + normVal);
 				dl().push({ event: 'quote_customer_type_select', customer_type: normVal, lead_source: '/bao-gia/' });
 				return;
 			}
@@ -531,7 +490,6 @@
 				if (tr) tr.classList.add('is-selected');
 
 				setFormSelectionSummary(val + ' · ' + thick);
-				showToast('Đã chọn ' + val + ' ' + thick);
 				dl().push({
 					event: 'quote_price_row_select',
 					product_line: val,

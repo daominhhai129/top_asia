@@ -24,13 +24,16 @@
 	}
 }
 
-/* Allow position: sticky inside .tap wrapper without breaking sticky ancestors */
-body.ta-quote-page .tap,
-body.ta-quote-page .tap-bgq {
-	overflow-x: clip !important;
+/* Never render legacy floating mobile "Nhận báo giá" button */
+html body .bgq-sticky,
+html body.page-id-1723 .bgq-sticky,
+html body .bgq-sticky-btn {
+	display: none !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
 }
 
-/* Smooth anchor offsets beneath sticky header */
+/* Smooth anchor offsets beneath header */
 body.ta-quote-page #bang-gia,
 body.ta-quote-page #gia-asia-gold,
 body.ta-quote-page #gia-asia-pearl,
@@ -127,52 +130,13 @@ body.ta-quote-page .tap-card.tap-form .bgq-form {
 	padding: 4px 6px;
 }
 
-/* Floating feedback toast */
-.bgq-toast {
-	position: fixed;
-	left: 50%;
-	bottom: 24px;
-	transform: translate(-50%, 16px);
-	z-index: 9995;
-	display: inline-flex;
-	align-items: center;
-	gap: 8px;
-	max-width: calc(100vw - 24px);
-	padding: 11px 16px;
-	border-radius: 999px;
-	background: #0B1D3A;
-	color: #FFFFFF;
-	font-size: 13px;
-	font-weight: 600;
-	line-height: 1.35;
-	box-shadow: 0 12px 28px rgba(11, 29, 58, .32);
-	opacity: 0;
-	visibility: hidden;
-	pointer-events: none;
-	transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
-}
-
-.bgq-toast.is-visible {
-	opacity: 1;
-	visibility: visible;
-	transform: translate(-50%, 0);
-}
-
-.bgq-toast-dot {
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: #22C55E;
-	flex: 0 0 auto;
-}
-
 /* ==========================================================================
    2. MOBILE OPTIMIZED LAYOUT (<= 767px ONLY)
    ========================================================================== */
 @media (max-width: 767px) {
 	body.ta-quote-page,
 	body.page-id-1723.ta-quote-page {
-		padding-bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+		padding-bottom: calc(78px + env(safe-area-inset-bottom)) !important;
 	}
 
 	body.ta-quote-page #bang-gia,
@@ -359,21 +323,17 @@ body.ta-quote-page .tap-card.tap-form .bgq-form {
 		color: #D92F35;
 	}
 
-	/* Step 2: Sticky Product-Line Tabs Bar */
+	/* Step 2: Static Product-Line Tabs Card (clean in-flow, never floats or blocks content) */
+	.bgq-m-tabs-bar,
 	.bgq-m-tabs-sticky {
-		position: sticky;
-		top: var(--bgq-sticky-top, 0px);
-		z-index: 45;
-		margin: 0 -14px 14px;
-		padding: 10px 14px 10px;
-		background: rgba(247, 248, 250, .96);
-		backdrop-filter: blur(8px);
-		border-bottom: 1px solid #E2E8F0;
-		transition: box-shadow .2s ease;
-	}
-
-	.bgq-m-tabs-sticky.is-stuck {
-		box-shadow: 0 8px 20px rgba(11, 29, 58, .09);
+		position: static !important;
+		top: auto !important;
+		margin: 0 0 14px;
+		padding: 12px;
+		background: #FFFFFF;
+		border: 1px solid #DCE3EB;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(11, 29, 58, .04);
 	}
 
 	.bgq-m-tabs-head {
@@ -1049,11 +1009,6 @@ body.ta-quote-page .tap-card.tap-form .bgq-form {
 
 	body.ta-quote-page .tap-doc strong {
 		font-size: 14.5px !important;
-	}
-
-	/* Coordinate toast cleanly above fixed Call/Zalo bottom bar */
-	body.ta-quote-page .bgq-toast {
-		bottom: calc(80px + env(safe-area-inset-bottom));
 	}
 }
 

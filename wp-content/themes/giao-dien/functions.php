@@ -544,9 +544,6 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 			#top-link.back-to-top {
 				bottom: calc(74px + env(safe-area-inset-bottom)) !important;
 			}
-			body.page-id-1723 .bgq-sticky {
-				bottom: calc(72px + env(safe-area-inset-bottom)) !important;
-			}
 		}
 
 		@media (prefers-reduced-motion: reduce) {

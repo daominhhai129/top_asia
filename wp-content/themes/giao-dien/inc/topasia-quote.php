@@ -296,8 +296,8 @@ function topasia_quote_render_mobile_app( array $lines, $has_pdf_gate ) {
 			</div>
 		</div>
 
-		<!-- Thanh chuyển dòng sản phẩm (sticky dưới header khi cuộn trên mobile) -->
-		<div class="bgq-m-tabs-sticky" data-bgq-sticky-tabs>
+		<!-- Thanh chuyển dòng sản phẩm -->
+		<div class="bgq-m-tabs-bar">
 			<div class="bgq-m-tabs-head">
 				<div class="bgq-m-step-head bgq-m-step-head--compact">
 					<span class="bgq-m-step-num">02</span>
@@ -518,6 +518,29 @@ function topasia_quote_render_mobile_app( array $lines, $has_pdf_gate ) {
 }
 
 /**
+ * Remove legacy floating mobile quote bar (.bgq-sticky) cleanly wherever emitted.
+ */
+function topasia_quote_strip_floating_cta( $html ) {
+	if ( ! is_string( $html ) || false === strpos( $html, 'bgq-sticky' ) ) {
+		return $html;
+	}
+	return preg_replace( '/<div\b[^>]*class\s*=\s*["\'][^"\']*\bbgq-sticky\b[^"\']*["\'][^>]*>[\s\S]*?<\/div>/iu', '', $html );
+}
+
+/**
+ * Strip legacy .bgq-sticky from Flatsome shortcodes rendered on the quotation page.
+ */
+add_filter( 'do_shortcode_tag', function ( $output, $tag ) {
+	if ( ! topasia_is_quote_page() ) {
+		return $output;
+	}
+	if ( in_array( $tag, array( 'ux_text', 'block', 'text' ), true ) ) {
+		return topasia_quote_strip_floating_cta( $output );
+	}
+	return $output;
+}, 12, 2 );
+
+/**
  * Transform /bao-gia/ content to cleanly separate Desktop tables and Mobile view
  * while sharing one canonical contact form (#form-bao-gia), FAQ, and documents.
  */
@@ -525,6 +548,10 @@ add_filter( 'the_content', function ( $content ) {
 	if ( ! topasia_is_quote_page() || ! is_main_query() || ! in_the_loop() ) {
 		return $content;
 	}
+
+	// Always remove legacy floating mobile "Nhận báo giá" button if present in page content.
+	$content = topasia_quote_strip_floating_cta( $content );
+
 	if ( false === strpos( $content, 'tap-bgq' ) || false === strpos( $content, 'id="bang-gia"' ) ) {
 		return $content;
 	}
