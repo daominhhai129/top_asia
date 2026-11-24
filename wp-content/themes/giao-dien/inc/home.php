@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Top Asia homepage redesign — asset loading (front page only).
  */

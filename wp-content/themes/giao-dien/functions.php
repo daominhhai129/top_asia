@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Add custom Theme Functions here
 
 // Top Asia â€” custom primary navigation (desktop mega menu + mobile off-canvas accordion).
