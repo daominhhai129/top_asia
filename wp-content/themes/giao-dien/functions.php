@@ -296,8 +296,8 @@ add_shortcode( 'ta_posts', function ( $atts ) {
 		'count'      => 9,
 		'cols'       => 3,
 		'more'       => '',
-		'more_label' => 'Xem táº¥t cáº£',
-		'empty'      => 'Ná»™i dung Ä‘ang Ä‘Æ°á»£c cáº­p nháº­t.',
+		'more_label' => 'Xem tất cả',
+		'empty'      => 'Nội dung đang được cập nhật.',
 	), $atts, 'ta_posts' );
 
 	$args = array(
@@ -347,7 +347,7 @@ add_shortcode( 'ta_posts', function ( $atts ) {
 } );
 
 
-// Top Asia â€” floating contact buttons (Phone & Zalo: 0896 699 996).
+// Top Asia — floating contact buttons (Phone & Zalo: 0896 699 996).
 if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 	function topasia_render_floating_contact() {
 		if ( is_admin() || wp_doing_ajax() || is_customize_preview() ) {
@@ -388,7 +388,7 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 		.ta-float-contact,
 		.ta-float-contact * {
 			box-sizing: border-box;
-			font-family: 'Google Sans', Arial, sans-serif;
+			font-family: var(--ta-font, 'Google Sans Flex', 'Google Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif);
 		}
 		.ta-float-contact {
 			position: fixed;
@@ -460,7 +460,7 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 		}
 		.ta-fc-zalo-badge {
 			font-size: 11px;
-			font-weight: 800;
+			font-weight: 700;
 			letter-spacing: -.01em;
 			background: #FFFFFF;
 			color: #0B1D3A;
@@ -471,9 +471,9 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 			line-height: 1.15;
 		}
 		.ta-fc-label {
-			font-size: 13px;
-			font-weight: 800;
-			letter-spacing: .02em;
+			font-size: 13.5px;
+			font-weight: 700;
+			letter-spacing: .01em;
 			color: #FFFFFF;
 		}
 		.ta-fc-sub {
