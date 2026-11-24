@@ -20,8 +20,10 @@
 .ta-hero__title span { color: #fff; opacity: .72; }
 .ta-hero__sub { font-size: clamp(1.1rem, 1rem + .5vw, 1.4rem); font-weight: 600; color: #fff; line-height: 1.4; }
 .ta-hero__desc { margin-top: 16px !important; color: rgba(255,255,255,.78); max-width: 52ch; font-size: 1rem; }
-.ta-hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
-.ta-hero__cta .tx-btn { flex: 1 1 200px; }
+.ta-hero__cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+.ta-hero__cta .tx-btn { flex: 1 1 160px; padding: 0 20px; min-height: 52px; font-size: .875rem; white-space: nowrap; }
+.tx-btn--hero-ghost { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.28); color: #fff; }
+.tx-btn--hero-ghost:hover { background: rgba(255,255,255,.2); border-color: #fff; color: #fff; }
 .ta-hero__media { order: 1; position: relative; min-height: 300px; aspect-ratio: 4/3; background: var(--ta-navy-900); }
 .ta-hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 960px) {
@@ -29,7 +31,7 @@
 	.ta-hero__panel { order: 1; padding-left: max(32px, calc((100vw - var(--ta-container)) / 2 + 32px)); padding-right: clamp(32px, 4vw, 72px); }
 	.ta-hero__inner { margin-inline: 0; }
 	.ta-hero__media { order: 2; aspect-ratio: auto; }
-	.ta-hero__cta .tx-btn { flex: 0 0 auto; }
+	.ta-hero__cta .tx-btn { flex: 0 0 auto; padding: 0 18px; }
 }
 
 /* 02 NĂNG LỰC */
@@ -168,3 +170,259 @@
 
 /* Phase 5: bỏ qua render các section cuối trang (INP/LCP) + giữ chỗ chống CLS */
 .ta-capability, #san-pham, #chat-luong, #doi-tac, #tai-lieu, .ta-final { content-visibility: auto; contain-intrinsic-size: auto 720px; }
+
+/* ---------- MODAL TẢI BÁO GIÁ (Phone Gate) ---------- */
+.ta-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 999994;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity .24s ease, visibility .24s ease;
+}
+.ta-modal.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.ta-modal__backdrop { position: absolute; inset: 0; background: rgba(11, 29, 58, .66); backdrop-filter: blur(4px); }
+.ta-modal__dialog {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-width: 480px;
+	max-height: calc(100vh - 32px);
+	overflow-y: auto;
+	background: #fff;
+	color: var(--ta-graphite);
+	border-radius: 12px;
+	padding: clamp(24px, 4vw, 32px);
+	box-shadow: 0 24px 60px rgba(11, 29, 58, .32);
+	transform: translateY(14px) scale(.97);
+	transition: transform .26s cubic-bezier(.22, 1, .36, 1);
+}
+.ta-modal.is-open .ta-modal__dialog { transform: translateY(0) scale(1); }
+.ta-modal__close {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	border: 1px solid var(--ta-steel);
+	background: var(--ta-soft);
+	color: var(--ta-navy);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	padding: 0;
+	margin: 0;
+	transition: background .18s, color .18s, border-color .18s;
+}
+.ta-modal__close:hover { background: var(--ta-red); border-color: var(--ta-red); color: #fff; }
+.ta-qmodal__title { margin: 12px 0 8px !important; font-size: clamp(1.35rem, 1.1rem + .8vw, 1.65rem); font-weight: 700; color: var(--ta-navy); line-height: 1.2; }
+.ta-qmodal__desc { color: var(--ta-muted); font-size: .9375rem; line-height: 1.5; margin-bottom: 20px !important; }
+.ta-qmodal__lines { border: 0; padding: 0; margin: 0 0 18px; }
+.ta-qmodal__label { display: block; font-size: .8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ta-navy); margin-bottom: 8px; }
+.ta-qmodal__label span { color: var(--ta-red); }
+.ta-qmodal__pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ta-qpill { position: relative; margin: 0; cursor: pointer; }
+.ta-qpill input { position: absolute; opacity: 0; pointer-events: none; }
+.ta-qpill span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: 8px 10px;
+	border-radius: 8px;
+	border: 1.5px solid var(--ta-steel);
+	background: var(--ta-soft);
+	color: var(--ta-navy);
+	font-size: .875rem;
+	font-weight: 600;
+	text-align: center;
+	transition: border-color .18s, background .18s, color .18s;
+}
+.ta-qpill input:checked + span { border-color: var(--ta-red); background: #FEF2F2; color: var(--ta-red); }
+.ta-qpill input:focus-visible + span { outline: 2px solid var(--ta-red); outline-offset: 2px; }
+.ta-qmodal__field { margin-bottom: 16px; }
+.ta-qmodal__field input { width: 100%; margin: 0; }
+.ta-qmodal__hp { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; }
+.ta-qmodal__error { margin: 0 0 14px !important; padding: 10px 12px; border-radius: 8px; background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C; font-size: .875rem; font-weight: 500; }
+.ta-qmodal__error[hidden] { display: none; }
+.ta-qmodal__submit { width: 100%; }
+.ta-qmodal__submit[disabled] { opacity: .68; cursor: wait; }
+.ta-qmodal__success-view[hidden], .ta-qmodal__form-view[hidden] { display: none; }
+.ta-qmodal__badge {
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	background: #DCFCE7;
+	color: #15803D;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 4px;
+}
+.ta-qmodal__downloads { display: grid; gap: 10px; margin-bottom: 18px; }
+.ta-qmodal__dl-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 12px 14px;
+	border: 1.5px solid var(--ta-steel);
+	border-radius: 8px;
+	background: var(--ta-soft);
+	text-decoration: none;
+	color: var(--ta-navy);
+	font-weight: 600;
+	font-size: .9375rem;
+	transition: border-color .18s, background .18s, color .18s;
+}
+.ta-qmodal__dl-item:hover { border-color: var(--ta-red); background: #fff; color: var(--ta-red); }
+.ta-qmodal__dl-badge { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 4px 10px; border-radius: 4px; background: var(--ta-navy); color: #fff; }
+.ta-qmodal__dl-item:hover .ta-qmodal__dl-badge { background: var(--ta-red); }
+.ta-qmodal__done { width: 100%; }
+
+/* ---------- MODAL XEM CHỨNG CHỈ FULL SCREEN ---------- */
+.ta-cert-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 999995;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background: rgba(11, 29, 58, .96);
+	backdrop-filter: blur(8px);
+	color: #fff;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity .24s ease, visibility .24s ease;
+}
+.ta-cert-modal.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.ta-cert-modal__bar {
+	flex: 0 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px 20px;
+	padding: 14px clamp(14px, 3vw, 28px);
+	background: rgba(9, 21, 38, .92);
+	border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+.ta-cert-modal__kicker { display: block; font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ta-red); }
+.ta-cert-modal__title { margin: 2px 0 0 !important; font-size: clamp(1rem, .9rem + .4vw, 1.25rem); font-weight: 700; color: #fff !important; }
+.ta-cert-modal__tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.ta-cert-tab {
+	appearance: none;
+	flex: 0 0 auto;
+	border: 1px solid rgba(255, 255, 255, .24);
+	background: rgba(255, 255, 255, .07);
+	color: rgba(255, 255, 255, .86);
+	padding: 8px 14px;
+	border-radius: 6px;
+	font-size: .8125rem;
+	font-weight: 600;
+	cursor: pointer;
+	margin: 0;
+	transition: background .18s, border-color .18s, color .18s;
+}
+.ta-cert-tab:hover { background: rgba(255, 255, 255, .15); color: #fff; }
+.ta-cert-tab.is-active { background: #fff; border-color: #fff; color: var(--ta-navy); }
+.ta-cert-modal__controls { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.ta-cert-ctrl {
+	appearance: none;
+	min-width: 36px;
+	height: 38px;
+	padding: 0 10px;
+	border-radius: 6px;
+	border: 1px solid rgba(255, 255, 255, .24);
+	background: rgba(255, 255, 255, .08);
+	color: #fff;
+	font-size: 1rem;
+	font-weight: 700;
+	cursor: pointer;
+	margin: 0;
+}
+.ta-cert-ctrl--pct { font-size: .8125rem; font-variant-numeric: tabular-nums; min-width: 56px; }
+.ta-cert-ctrl:hover { background: rgba(255, 255, 255, .18); }
+.ta-cert-pdf-btn {
+	display: inline-flex;
+	align-items: center;
+	height: 38px;
+	padding: 0 14px;
+	border-radius: 6px;
+	background: var(--ta-navy-700);
+	border: 1px solid rgba(255, 255, 255, .24);
+	color: #fff !important;
+	font-size: .8125rem;
+	font-weight: 600;
+	text-decoration: none;
+}
+.ta-cert-pdf-btn:hover { background: #fff; color: var(--ta-navy) !important; }
+.ta-cert-pdf-btn[hidden] { display: none; }
+.ta-cert-close {
+	appearance: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 38px;
+	padding: 0 16px;
+	border: 0;
+	border-radius: 6px;
+	background: var(--ta-red);
+	color: #fff;
+	font-size: .875rem;
+	font-weight: 700;
+	cursor: pointer;
+	margin: 0;
+	transition: background .18s;
+}
+.ta-cert-close:hover { background: var(--ta-red-700); }
+.ta-cert-modal__stage {
+	flex: 1 1 auto;
+	overflow: auto;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: clamp(16px, 3vw, 32px);
+}
+.ta-cert-modal__canvas {
+	margin: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.ta-cert-modal__img {
+	display: block;
+	max-width: min(960px, 92vw);
+	max-height: calc(100vh - 180px);
+	width: auto;
+	height: auto;
+	border-radius: 6px;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+	background: #fff;
+	transform-origin: center top;
+	transition: transform .22s cubic-bezier(.22, 1, .36, 1);
+	cursor: zoom-in;
+}
+.ta-cert-modal__img.is-zoomed { cursor: zoom-out; max-height: none; }
+.ta-cert-modal__foot {
+	flex: 0 0 auto;
+	padding: 10px 20px;
+	background: rgba(9, 21, 38, .92);
+	border-top: 1px solid rgba(255, 255, 255, .12);
+	text-align: center;
+}
+.ta-cert-modal__caption { margin: 0 !important; font-size: .875rem; color: rgba(255, 255, 255, .82); }
+@media (max-width: 720px) {
+	.ta-cert-modal__tabs { order: 3; width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }
+	.ta-cert-tab { white-space: nowrap; }
+	.ta-cert-ctrl--pct { display: none; }
+}

@@ -91,8 +91,18 @@ get_header();
 				<p class="ta-hero__sub">Giải pháp Polycarbonate chất lượng cao cho kiến trúc hiện đại.</p>
 				<p class="ta-hero__desc">TOP ASIA là đơn vị sản xuất và cung cấp tấm Polycarbonate tại Việt Nam, mang đến giải pháp vật liệu lấy sáng cho các công trình dân dụng, thương mại và công nghiệp.</p>
 				<div class="ta-hero__cta">
-					<a class="tx-btn tx-btn--accent tx-btn--lg" href="#san-pham">Khám phá sản phẩm</a>
-					<a class="tx-btn tx-btn--light tx-btn--lg" href="<?php echo ta_url( 'bao-gia/' ); ?>">Nhận báo giá</a>
+					<button type="button" class="tx-btn tx-btn--accent tx-btn--lg" data-ta-open-quote aria-haspopup="dialog" aria-controls="ta-quote-modal">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+						<span>Tải báo giá</span>
+					</button>
+					<button type="button" class="tx-btn tx-btn--light tx-btn--lg" data-ta-open-cert aria-haspopup="dialog" aria-controls="ta-cert-modal">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+						<span>Xem chứng chỉ</span>
+					</button>
+					<a class="tx-btn tx-btn--hero-ghost tx-btn--lg" href="<?php echo ta_url( 'tat-ca-san-pham/' ); ?>">
+						<span>Xem sản phẩm</span>
+						<?php echo ta_arrow(); ?>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -307,5 +317,140 @@ get_header();
 			</div>
 		</div>
 	</section>
+
+	<?php
+	$ta_certs = array(
+		array(
+			'id'    => 'iso-9001',
+			'title' => 'Chứng chỉ ISO 9001:2015',
+			'desc'  => 'Chứng nhận hệ thống quản lý chất lượng cho hoạt động sản xuất tấm Polycarbonate.',
+			'img'   => function_exists( 'topasia_resolve_media_url' ) ? topasia_resolve_media_url( home_url( '/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-33.png' ) ) : home_url( '/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-33.png' ),
+			'pdf'   => home_url( '/wp-content/uploads/2026/07/3.-ISO-90012015-CHAT-LUONG-MOI.pdf' ),
+		),
+		array(
+			'id'    => 'hop-chuan-0019',
+			'title' => 'Giấy chứng nhận hợp chuẩn 0019-CPS',
+			'desc'  => 'Quyết định và giấy chứng nhận phù hợp tiêu chuẩn kỹ thuật cho sản phẩm tấm lợp.',
+			'img'   => function_exists( 'topasia_resolve_media_url' ) ? topasia_resolve_media_url( home_url( '/wp-content/uploads/2024/05/QD-CV-PL-GCN-0019.CPS_0001-images-2-scaled.jpg' ) ) : home_url( '/wp-content/uploads/2024/05/QD-CV-PL-GCN-0019.CPS_0001-images-2-scaled.jpg' ),
+			'pdf'   => home_url( '/wp-content/uploads/2024/05/QD-CV-PL-GCN-0019.CPS_0001-1.pdf' ),
+		),
+		array(
+			'id'    => 'iso-tong-hop',
+			'title' => 'Chứng nhận chất lượng ISO',
+			'desc'  => 'Chứng nhận kiểm định tiêu chuẩn chất lượng sản phẩm Top Asia.',
+			'img'   => function_exists( 'topasia_resolve_media_url' ) ? topasia_resolve_media_url( home_url( '/wp-content/uploads/2024/06/iso-chung-chi.png' ) ) : home_url( '/wp-content/uploads/2024/06/iso-chung-chi.png' ),
+			'pdf'   => '',
+		),
+	);
+	?>
+
+	<!-- MODAL 1: Tải báo giá (yêu cầu SĐT trước khi cho download PDF) -->
+	<div id="ta-quote-modal" class="ta-modal" role="dialog" aria-modal="true" aria-labelledby="ta-quote-modal-title" aria-hidden="true" inert>
+		<div class="ta-modal__backdrop" data-ta-modal-close></div>
+		<div class="ta-modal__dialog">
+			<button type="button" class="ta-modal__close" data-ta-modal-close aria-label="Đóng cửa sổ tải báo giá">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+			</button>
+
+			<div class="ta-qmodal__form-view" data-ta-qview="form">
+				<span class="ta-eyebrow">Bảng giá nhà máy Top Asia</span>
+				<h2 id="ta-quote-modal-title" class="ta-qmodal__title">Tải bảng báo giá PDF</h2>
+				<p class="ta-qmodal__desc">Vui lòng chọn dòng sản phẩm và nhập số điện thoại để hệ thống mở khóa liên kết tải xuống bảng giá niêm yết mới nhất.</p>
+
+				<form id="ta-quote-download-form" class="ta-qmodal__form" novalidate>
+					<fieldset class="ta-qmodal__lines">
+						<legend class="ta-qmodal__label">Chọn dòng bảng giá</legend>
+						<div class="ta-qmodal__pills">
+							<label class="ta-qpill">
+								<input type="radio" name="product" value="asia-gold" checked>
+								<span>Asia Gold</span>
+							</label>
+							<label class="ta-qpill">
+								<input type="radio" name="product" value="asia-pearl">
+								<span>Asia Pearl</span>
+							</label>
+							<label class="ta-qpill">
+								<input type="radio" name="product" value="asia-lite">
+								<span>Asia Lite</span>
+							</label>
+						</div>
+					</fieldset>
+
+					<div class="ta-qmodal__field">
+						<label for="ta-qd-phone" class="ta-qmodal__label">Số điện thoại nhận bảng giá <span aria-hidden="true">*</span></label>
+						<input id="ta-qd-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="VD: 0912 345 678" required>
+					</div>
+
+					<input type="text" name="taf_qd_company" tabindex="-1" autocomplete="off" class="ta-qmodal__hp" aria-hidden="true">
+
+					<p class="ta-qmodal__error" role="alert" hidden></p>
+
+					<button type="submit" class="tx-btn tx-btn--accent tx-btn--lg ta-qmodal__submit">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+						<span>Xác nhận &amp; Tải bảng giá</span>
+					</button>
+				</form>
+			</div>
+
+			<div class="ta-qmodal__success-view" data-ta-qview="success" hidden>
+				<div class="ta-qmodal__badge" aria-hidden="true">
+					<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+				</div>
+				<h2 class="ta-qmodal__title">Đã mở khóa bảng báo giá!</h2>
+				<p class="ta-qmodal__desc">Tệp báo giá bạn chọn đang tự động tải về. Bạn cũng có thể bấm chọn tải thêm bảng giá các dòng sản phẩm bên dưới:</p>
+				<div class="ta-qmodal__downloads" data-ta-qdownloads></div>
+				<button type="button" class="tx-btn tx-btn--ghost ta-qmodal__done" data-ta-modal-close>Đóng cửa sổ</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL 2: Xem chứng chỉ Full Screen -->
+	<div id="ta-cert-modal" class="ta-cert-modal" role="dialog" aria-modal="true" aria-labelledby="ta-cert-modal-title" aria-hidden="true" inert>
+		<div class="ta-cert-modal__bar">
+			<div class="ta-cert-modal__title-wrap">
+				<span class="ta-cert-modal__kicker">Hồ sơ chất lượng</span>
+				<h2 id="ta-cert-modal-title" class="ta-cert-modal__title"><?php echo esc_html( $ta_certs[0]['title'] ); ?></h2>
+			</div>
+
+			<div class="ta-cert-modal__tabs" role="tablist" aria-label="Danh sách chứng chỉ">
+				<?php foreach ( $ta_certs as $idx => $cert ) : ?>
+					<button
+						type="button"
+						class="ta-cert-tab<?php echo 0 === $idx ? ' is-active' : ''; ?>"
+						role="tab"
+						aria-selected="<?php echo 0 === $idx ? 'true' : 'false'; ?>"
+						data-ta-cert-tab
+						data-cert-title="<?php echo esc_attr( $cert['title'] ); ?>"
+						data-cert-desc="<?php echo esc_attr( $cert['desc'] ); ?>"
+						data-cert-img="<?php echo esc_url( $cert['img'] ); ?>"
+						data-cert-pdf="<?php echo esc_url( $cert['pdf'] ); ?>"
+					>
+						<?php echo esc_html( $cert['title'] ); ?>
+					</button>
+				<?php endforeach; ?>
+			</div>
+
+			<div class="ta-cert-modal__controls">
+				<button type="button" class="ta-cert-ctrl" data-ta-cert-zoom="out" aria-label="Thu nhỏ">−</button>
+				<button type="button" class="ta-cert-ctrl ta-cert-ctrl--pct" data-ta-cert-zoom="reset" aria-label="Đặt lại tỷ lệ">100%</button>
+				<button type="button" class="ta-cert-ctrl" data-ta-cert-zoom="in" aria-label="Phóng to">+</button>
+				<a class="ta-cert-pdf-btn" data-ta-cert-pdf-link href="<?php echo esc_url( $ta_certs[0]['pdf'] ); ?>" target="_blank" rel="noopener noreferrer">Mở PDF</a>
+				<button type="button" class="ta-cert-close" data-ta-cert-close aria-label="Đóng xem chứng chỉ">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+					<span>Đóng</span>
+				</button>
+			</div>
+		</div>
+
+		<div class="ta-cert-modal__stage" data-ta-cert-stage>
+			<div class="ta-cert-modal__canvas">
+				<img class="ta-cert-modal__img" src="<?php echo esc_url( $ta_certs[0]['img'] ); ?>" alt="<?php echo esc_attr( $ta_certs[0]['title'] ); ?>">
+			</div>
+		</div>
+
+		<div class="ta-cert-modal__foot">
+			<p class="ta-cert-modal__caption" data-ta-cert-caption><?php echo esc_html( $ta_certs[0]['desc'] ); ?></p>
+		</div>
+	</div>
 </main>
 <?php get_footer(); ?>
