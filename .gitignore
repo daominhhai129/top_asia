@@ -23,6 +23,10 @@
 !wp-content/plugins/ta-quick-image-replace/*/
 !wp-content/plugins/ta-quick-image-replace/*/*/
 !wp-content/plugins/ta-quick-image-replace/**
+!wp-content/plugins/dong-bo-hoa-du-lieu/
+!wp-content/plugins/dong-bo-hoa-du-lieu/*/
+!wp-content/plugins/dong-bo-hoa-du-lieu/*/*/
+!wp-content/plugins/dong-bo-hoa-du-lieu/**
 
 # Traverse and track Novamira sandbox scripts
 !wp-content/novamira-sandbox/
