@@ -495,13 +495,14 @@ function topasia_render_mobile_nav_inner() {
 		$def_open = ! empty( $item['mobile_open'] );
 		$open     = $def_open || $active;
 		$expanded = $open ? 'true' : 'false';
-		$hidden   = $open ? '' : ' hidden';
+		$p_hidden = $open ? 'false' : 'true';
+		$p_inert  = $open ? '' : ' inert';
 		$open_cls = $open ? ' ta-open' : '';
 		$def_attr = $def_open ? ' data-ta-default-open="1"' : '';
 
 		$list .= '<li class="ta-mitem ta-macc' . ( $active ? ' is-active' : '' ) . $open_cls . '"' . $def_attr . '>';
 		$list .= '<button type="button" class="ta-mtoggle" aria-expanded="' . $expanded . '" aria-controls="' . $panel_id . '" data-ta-menu="' . esc_attr( $item['label'] ) . '"><span>' . esc_html( $dlabel ) . '</span>' . topasia_menu_svg( 'chevron', 'ta-mchev', 18, '1.8' ) . '</button>';
-		$list .= '<div class="ta-mpanel" id="' . $panel_id . '"' . $hidden . '>';
+		$list .= '<div class="ta-mpanel" id="' . $panel_id . '" aria-hidden="' . $p_hidden . '"' . $p_inert . '><div class="ta-mpanel-inner">';
 
 		if ( 'mega' === $type ) {
 			$list .= topasia_render_mobile_mega_accordion_body( $item );
@@ -525,7 +526,7 @@ function topasia_render_mobile_nav_inner() {
 			}
 		}
 
-		$list .= '</div></li>';
+		$list .= '</div></div></li>';
 	}
 
 	$account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : topasia_menu_url( '/tai-khoan/' );
@@ -646,8 +647,8 @@ function topasia_render_custom_mobile_drawer() {
 	if ( is_admin() || isset( $_GET['app'] ) || isset( $_GET['uxb_iframe'] ) ) {
 		return;
 	}
-	echo '<div id="ta-cmm-backdrop" class="ta-cmm-backdrop" hidden></div>';
-	echo '<aside id="ta-cmm-drawer" class="ta-cmm-drawer" aria-label="Menu di động Top Asia" aria-hidden="true" hidden>';
+	echo '<div id="ta-cmm-backdrop" class="ta-cmm-backdrop" aria-hidden="true"></div>';
+	echo '<aside id="ta-cmm-drawer" class="ta-cmm-drawer" aria-label="Menu di động Top Asia" aria-hidden="true" inert>';
 	echo topasia_render_mobile_nav_inner();
 	echo '</aside>';
 }

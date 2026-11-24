@@ -137,7 +137,10 @@
       var p = li.querySelector('.ta-mpanel');
       li.classList.remove('ta-open');
       if (t) t.setAttribute('aria-expanded', 'false');
-      if (p) p.setAttribute('hidden', '');
+      if (p) {
+        p.setAttribute('aria-hidden', 'true');
+        p.setAttribute('inert', '');
+      }
     }
 
     function openAcc(li, silent) {
@@ -150,7 +153,11 @@
       var p = li.querySelector('.ta-mpanel');
       li.classList.add('ta-open');
       if (t) t.setAttribute('aria-expanded', 'true');
-      if (p) p.removeAttribute('hidden');
+      if (p) {
+        p.removeAttribute('hidden');
+        p.setAttribute('aria-hidden', 'false');
+        p.removeAttribute('inert');
+      }
       if (!silent) {
         var label = t ? (t.getAttribute('data-ta-menu') || t.textContent || '').trim() : '';
         track('menu_dropdown_open', { menu_item: label, menu_level: 1, device_type: 'mobile', menu_location: 'primary_mobile' });
@@ -166,7 +173,7 @@
     });
 
     function scrollDrawerTop() {
-      var els = [nav.closest('.sidebar-menu'), nav.closest('.mobile-sidebar'), nav.closest('.mfp-content'), nav.closest('.mfp-wrap')];
+      var els = [nav.closest('.ta-cmm-drawer'), nav.closest('.sidebar-menu'), nav.closest('.mobile-sidebar'), nav.closest('.mfp-content'), nav.closest('.mfp-wrap')];
       els.forEach(function (el) { if (el) { try { el.scrollTop = 0; } catch (e) {} } });
     }
 
@@ -185,11 +192,18 @@
       var drawer = document.getElementById('ta-cmm-drawer');
       var backdrop = document.getElementById('ta-cmm-backdrop');
       var openBtn = document.getElementById('ta-cmm-open');
-      if (drawer && !drawer.hidden) {
-        drawer.hidden = true;
+      if (drawer && drawer.classList.contains('is-open')) {
+        drawer.classList.remove('is-open');
         drawer.setAttribute('aria-hidden', 'true');
-        if (backdrop) backdrop.hidden = true;
-        if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+        drawer.setAttribute('inert', '');
+        if (backdrop) {
+          backdrop.classList.remove('is-open');
+          backdrop.setAttribute('aria-hidden', 'true');
+        }
+        if (openBtn) {
+          openBtn.setAttribute('aria-expanded', 'false');
+          try { openBtn.focus({ preventScroll: true }); } catch (e) {}
+        }
         document.documentElement.style.overflow = '';
         return;
       }
@@ -209,11 +223,17 @@
       var openBtn = document.getElementById('ta-cmm-open');
       if (!drawer || !backdrop) return;
       resetDrawer();
-      backdrop.hidden = false;
-      drawer.hidden = false;
+      backdrop.removeAttribute('hidden');
+      drawer.removeAttribute('hidden');
+      drawer.removeAttribute('inert');
+      backdrop.setAttribute('aria-hidden', 'false');
       drawer.setAttribute('aria-hidden', 'false');
       if (openBtn) openBtn.setAttribute('aria-expanded', 'true');
       document.documentElement.style.overflow = 'hidden';
+      requestAnimationFrame(function () {
+        backdrop.classList.add('is-open');
+        drawer.classList.add('is-open');
+      });
     }
 
     nav.addEventListener('click', function (e) {
@@ -228,7 +248,7 @@
       if (cmmBackdrop) cmmBackdrop.addEventListener('click', closeOffCanvas);
       document.addEventListener('keydown', function (e) {
         var drawer = document.getElementById('ta-cmm-drawer');
-        if (e.key === 'Escape' && drawer && !drawer.hidden) closeOffCanvas();
+        if (e.key === 'Escape' && drawer && drawer.classList.contains('is-open')) closeOffCanvas();
       });
       nav.querySelectorAll('a[href*="#"]').forEach(function (a) {
         a.addEventListener('click', closeOffCanvas);
