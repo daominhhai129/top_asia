@@ -364,13 +364,13 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 		$phone_display = '0896 699 996';
 		$zalo_url      = 'https://zalo.me/' . $phone_raw;
 		?>
-		<div class="ta-float-contact" role="region" aria-label="LiÃªn há»‡ nhanh Top Asia">
-			<a class="ta-fc-btn ta-fc-call" href="tel:<?php echo esc_attr( $phone_raw ); ?>" data-ta-contact="phone" aria-label="Gá»i hotline <?php echo esc_attr( $phone_display ); ?>">
+		<div class="ta-float-contact" role="region" aria-label="Liên hệ nhanh Top Asia">
+			<a class="ta-fc-btn ta-fc-call" href="tel:<?php echo esc_attr( $phone_raw ); ?>" data-ta-contact="phone" aria-label="Gọi hotline <?php echo esc_attr( $phone_display ); ?>">
 				<span class="ta-fc-ic" aria-hidden="true">
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
 				</span>
 				<span class="ta-fc-txt">
-					<strong class="ta-fc-label">Gá»i ngay</strong>
+					<strong class="ta-fc-label">Gọi ngay</strong>
 					<small class="ta-fc-sub"><?php echo esc_html( $phone_display ); ?></small>
 				</span>
 			</a>
@@ -603,3 +603,232 @@ add_filter( 'wp_resource_hints', function ( $urls, $relation ) {
 	}
 	return $urls;
 }, 10, 2 );
+
+/* ==========================================================================
+ * 4. FALLBACK LOGO LOCAL & CHUẨN HÓA LINK NỘI BỘ (/staging/ & root-relative)
+ * ========================================================================== */
+function topasia_logo_fallback_url() {
+	return get_stylesheet_directory_uri() . '/assets/img/logo-topasia.svg';
+}
+
+add_filter( 'wp_get_attachment_image_src', function ( $image, $attachment_id ) {
+	if ( is_admin() || ! $attachment_id ) {
+		return $image;
+	}
+	$logo_ids = array_filter( array_map( 'intval', array(
+		get_theme_mod( 'site_logo' ),
+		get_theme_mod( 'site_logo_sticky' ),
+		get_theme_mod( 'site_logo_dark' ),
+	) ) );
+	if ( ! in_array( (int) $attachment_id, $logo_ids, true ) ) {
+		return $image;
+	}
+	$file = get_attached_file( $attachment_id );
+	if ( ! $file || ! file_exists( $file ) ) {
+		return array( topasia_logo_fallback_url(), 210, 48, false );
+	}
+	return $image;
+}, 20, 2 );
+
+function topasia_resolve_internal_url( $url ) {
+	$url = trim( (string) $url );
+	if ( '' === $url || '#' === $url[0] || 0 === strpos( $url, 'mailto:' ) || 0 === strpos( $url, 'tel:' ) || 0 === strpos( $url, 'javascript:' ) || 0 === strpos( $url, '//' ) ) {
+		return $url;
+	}
+	// Chuyển link cứng /staging/ (tuyệt đối hoặc tương đối) về đúng gốc site hiện tại.
+	if ( preg_match( '#^https?://(?:www\.)?topasia\.vn/staging(/.*)?$#i', $url, $m ) ) {
+		$rel = ! empty( $m[1] ) ? $m[1] : '/';
+		return home_url( $rel );
+	}
+	if ( 0 === strpos( $url, '/staging/' ) || '/staging' === $url ) {
+		$rel = substr( $url, 8 );
+		return home_url( $rel ? $rel : '/' );
+	}
+	// Bỏ qua URL tuyệt đối ngoài site hoặc không bắt đầu bằng '/'.
+	if ( preg_match( '#^https?://#i', $url ) || '/' !== $url[0] ) {
+		return $url;
+	}
+	$home_path = rtrim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
+	if ( '' !== $home_path && ( $url === $home_path || 0 === strpos( $url, $home_path . '/' ) ) ) {
+		return $url;
+	}
+	return home_url( $url );
+}
+
+function topasia_rewrite_html_media_urls( $html ) {
+	if ( is_admin() || ! is_string( $html ) || false === strpos( $html, 'wp-content/uploads/' ) ) {
+		return $html;
+	}
+	return preg_replace_callback(
+		'/(src|data-src|poster)\s*=\s*(["\'])([^"\']*wp-content\/uploads\/[^"\']+)\2/i',
+		function ( $m ) {
+			return $m[1] . '=' . $m[2] . esc_url( topasia_resolve_media_url( html_entity_decode( $m[3], ENT_QUOTES, 'UTF-8' ) ) ) . $m[2];
+		},
+		$html
+	);
+}
+
+add_filter( 'the_content', function ( $content ) {
+	if ( is_admin() || ! is_string( $content ) ) {
+		return $content;
+	}
+	if ( false !== strpos( $content, 'href=' ) ) {
+		$content = preg_replace_callback(
+			'/(href\s*=\s*["\'])([^"\']+)(["\'])/i',
+			function ( $m ) {
+				return $m[1] . esc_url( topasia_resolve_internal_url( html_entity_decode( $m[2], ENT_QUOTES, 'UTF-8' ) ) ) . $m[3];
+			},
+			$content
+		);
+	}
+	return topasia_rewrite_html_media_urls( $content );
+}, 11 );
+
+add_filter( 'do_shortcode_tag', function ( $output, $tag ) {
+	if ( in_array( $tag, array( 'block', 'ux_text' ), true ) ) {
+		return topasia_rewrite_html_media_urls( $output );
+	}
+	return $output;
+}, 11, 2 );
+
+function topasia_resolve_media_url( $url ) {
+	$url = trim( (string) $url );
+	if ( '' === $url ) {
+		return $url;
+	}
+	if ( preg_match( '#^(?:https?://(?:www\.)?(?:topasia\.vn|localhost)(?::\d+)?(?:/staging|/top_asia)?)?/+(?:staging/|top_asia/)?wp-content/uploads/(.+)$#i', $url, $m ) ) {
+		$rel = ltrim( str_replace( '\\', '/', $m[1] ), '/' );
+		$rel_path = urldecode( strtok( $rel, '?#' ) );
+		$abs = ABSPATH . 'wp-content/uploads/' . $rel_path;
+		if ( ! file_exists( $abs ) || 0 === filesize( $abs ) ) {
+			$webp = preg_replace( '/\.(png|jpe?g)$/i', '.webp', $rel_path );
+			if ( $webp !== $rel_path && file_exists( ABSPATH . 'wp-content/uploads/' . $webp ) ) {
+				$rel = $webp;
+			}
+		}
+		return home_url( '/wp-content/uploads/' . $rel );
+	}
+	return $url;
+}
+
+// Bỏ qua các ảnh srcset không tồn tại trên đĩa & fallback về ảnh gốc nếu thiếu size crop.
+add_filter( 'wp_calculate_image_srcset', function ( $sources ) {
+	if ( is_admin() || ! is_array( $sources ) ) {
+		return $sources;
+	}
+	$base_url = trailingslashit( home_url( '/wp-content/uploads' ) );
+	foreach ( $sources as $w => $src ) {
+		if ( empty( $src['url'] ) || 0 !== strpos( $src['url'], $base_url ) ) {
+			continue;
+		}
+		$rel = urldecode( substr( $src['url'], strlen( $base_url ) ) );
+		$abs = ABSPATH . 'wp-content/uploads/' . ltrim( $rel, '/' );
+		if ( ! file_exists( $abs ) || 0 === filesize( $abs ) ) {
+			unset( $sources[ $w ] );
+		}
+	}
+	return $sources;
+}, 20 );
+
+add_filter( 'wp_get_attachment_image_src', function ( $image, $attachment_id ) {
+	if ( is_admin() || ! is_array( $image ) || empty( $image[0] ) || ! $attachment_id ) {
+		return $image;
+	}
+	$base_url = trailingslashit( home_url( '/wp-content/uploads' ) );
+	if ( 0 !== strpos( $image[0], $base_url ) ) {
+		return $image;
+	}
+	$rel = urldecode( substr( $image[0], strlen( $base_url ) ) );
+	$abs = ABSPATH . 'wp-content/uploads/' . ltrim( $rel, '/' );
+	if ( file_exists( $abs ) && filesize( $abs ) > 0 ) {
+		return $image;
+	}
+	$orig = get_attached_file( $attachment_id );
+	if ( $orig && file_exists( $orig ) && filesize( $orig ) > 0 ) {
+		$orig_url = wp_get_attachment_url( $attachment_id );
+		$sz = @getimagesize( $orig );
+		return array( $orig_url, $sz ? (int) $sz[0] : $image[1], $sz ? (int) $sz[1] : $image[2], false );
+	}
+	return $image;
+}, 30, 2 );
+
+// Dùng ảnh vuông đầy đủ cho card sản phẩm để không bị cắt mất chữ hai bên mép.
+add_filter( 'single_product_archive_thumbnail_size', function () {
+	return 'full';
+}, 20 );
+
+/* ==========================================================================
+ * 5. TẮT TÍNH NĂNG GIỎ HÀNG & ĐẶT HÀNG (CHẾ ĐỘ CATALOG B2B — GIỮ GIÁ)
+ * ========================================================================== */
+add_filter( 'theme_mod_catalog_mode', '__return_true' );
+add_filter( 'theme_mod_catalog_mode_prices', '__return_zero' );
+add_filter( 'woocommerce_is_purchasable', '__return_false', 99 );
+add_filter( 'woocommerce_variation_is_purchasable', '__return_false', 99 );
+add_filter( 'woocommerce_add_to_cart_validation', '__return_false', 99 );
+add_filter( 'woocommerce_cart_item_removed_notice_type', '__return_empty_string', 99 );
+add_filter( 'woocommerce_add_error', function ( $message ) {
+	if ( is_string( $message ) && false !== strpos( $message, 'giỏ hàng' ) ) {
+		return '';
+	}
+	return $message;
+}, 99 );
+
+add_action( 'woocommerce_cart_loaded_from_session', function ( $cart ) {
+	if ( $cart && ! $cart->is_empty() ) {
+		$cart->empty_cart( true );
+	}
+}, 5 );
+
+add_action( 'wp_loaded', function () {
+	if ( is_admin() ) {
+		return;
+	}
+	if ( function_exists( 'WC' ) && WC()->cart && ! WC()->cart->is_empty() ) {
+		WC()->cart->empty_cart( true );
+		if ( function_exists( 'wc_clear_notices' ) ) {
+			wc_clear_notices();
+		}
+	}
+}, 20 );
+
+add_action( 'init', function () {
+	remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+	remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+	remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20 );
+	remove_action( 'flatsome_product_box_actions', 'flatsome_product_box_actions_add_to_cart', 1 );
+
+	remove_shortcode( 'ux_product_add_to_cart' );
+	add_shortcode( 'ux_product_add_to_cart', '__return_empty_string' );
+}, 20 );
+
+// Hiển thị nút nhận báo giá & hotline trên trang chi tiết sản phẩm thay cho nút giỏ hàng.
+add_action( 'woocommerce_single_product_summary', function () {
+	if ( ! is_product() ) {
+		return;
+	}
+	echo '<div class="ta-prod-cta">';
+	echo '<a class="tx-btn tx-btn--accent" href="' . esc_url( home_url( '/bao-gia/' ) ) . '">Yêu cầu báo giá sản phẩm</a>';
+	echo '<a class="tx-btn tx-btn--ghost" href="tel:0896699996">Hotline: 0896 699 996</a>';
+	echo '</div>';
+}, 32 );
+
+add_action( 'wp_enqueue_scripts', function () {
+	if ( wp_script_is( 'wc-cart-fragments', 'enqueued' ) ) {
+		wp_dequeue_script( 'wc-cart-fragments' );
+	}
+}, 999 );
+
+add_action( 'template_redirect', function () {
+	if ( is_admin() || wp_doing_ajax() || is_customize_preview() ) {
+		return;
+	}
+	if ( isset( $_GET['app'] ) || isset( $_GET['uxb_iframe'] ) || isset( $_GET['ux_builder'] ) ) {
+		return;
+	}
+	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) {
+		wp_safe_redirect( home_url( '/bao-gia/' ), 302 );
+		exit;
+	}
+}, 2 );
+
+

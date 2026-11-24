@@ -183,15 +183,15 @@ get_header();
 				array( 'Giếng trời', taf_opt( 'app2_img' ), 'Đưa ánh sáng vào không gian kín, vẫn chắn mưa và chống nóng.' ),
 				array( 'Mái che', taf_opt( 'app3_img' ), 'Canopy, sân, lối đi, bãi xe — nhẹ, bền, thi công nhanh.' ),
 				array( 'Mái vòm', taf_opt( 'app6_img' ), 'Uốn cong linh hoạt cho những hình khối kiến trúc riêng.' ),
-				array( 'Nhà xưởng', '', 'Lấy sáng cho nhà máy, kho bãi, giảm chi phí chiếu sáng ban ngày.' ),
-				array( 'Công trình thương mại', '', 'Showroom, trung tâm thương mại, mặt dựng và không gian công cộng.' ),
+				array( 'Nhà xưởng', taf_opt( 'app5_img' ), 'Lấy sáng cho nhà máy, kho bãi, giảm chi phí chiếu sáng ban ngày.' ),
+				array( 'Công trình thương mại', taf_opt( 'app7_img' ), 'Showroom, trung tâm thương mại, mặt dựng và không gian công cộng.' ),
 				array( 'Vách ngăn', taf_opt( 'app4_img' ), 'Phân chia không gian mà vẫn giữ độ thông thoáng, trong sáng.' ),
 			);
 			?>
 			<div class="ta-apps">
 				<?php foreach ( $ta_apps as $i => $a ) : ?>
 					<article class="ta-app<?php echo $a[1] ? '' : ' ta-app--text'; ?>">
-						<?php if ( $a[1] ) : ?><img src="<?php echo esc_url( $a[1] ); ?>" alt="<?php echo esc_attr( $a[0] . ' bằng Polycarbonate' ); ?>" width="800" height="600" loading="lazy" decoding="async"><?php endif; ?>
+						<?php if ( $a[1] ) : ?><img src="<?php echo esc_url( $a[1] ); ?>" alt="<?php echo esc_attr( $a[0] . ' bằng Polycarbonate' ); ?>" width="800" height="600" decoding="sync"><?php endif; ?>
 						<div class="ta-app__cap"><span class="ta-app__n"><?php echo esc_html( sprintf( '%02d', $i + 1 ) ); ?></span><h3><?php echo esc_html( $a[0] ); ?></h3><p><?php echo esc_html( $a[2] ); ?></p></div>
 					</article>
 				<?php endforeach; ?>

@@ -80,7 +80,6 @@ $taf_series = array(
 							$img   = get_the_post_thumbnail_url( $pid, 'woocommerce_thumbnail' );
 							if ( ! $img && function_exists( 'wc_placeholder_img_src' ) ) { $img = wc_placeholder_img_src(); }
 							$price = $prod ? $prod->get_price_html() : '';
-							$cart  = $prod ? $prod->add_to_cart_url() : get_permalink( $pid );
 							?>
 							<div class="taf-prod" style="background:#fff;border:1px solid var(--border-1);transition:box-shadow var(--dur-med) var(--ease-out)">
 								<a href="<?php the_permalink(); ?>" style="display:block;position:relative">
@@ -92,7 +91,7 @@ $taf_series = array(
 									<a href="<?php the_permalink(); ?>" style="display:block;font-size:14.5px;font-weight:600;color:var(--navy-900);line-height:1.4;margin-bottom:10px;min-height:40px"><?php echo esc_html( get_the_title() ); ?></a>
 									<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
 										<div class="taf-price" style="font-size:17px;font-weight:800;color:var(--navy-900)"><?php echo wp_kses_post( $price ); ?></div>
-										<a href="<?php echo esc_url( $cart ); ?>" class="taf-prod-add add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr( $pid ); ?>" data-quantity="1" rel="nofollow" aria-label="Thêm vào giỏ" style="width:38px;height:38px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;background:var(--red-600);color:#fff;transition:background var(--dur-fast) var(--ease-out)"><span class="ic" style="width:18px;height:18px"><i data-lucide="plus"></i></span></a>
+										<a href="<?php the_permalink(); ?>" class="taf-prod-view" aria-label="Xem chi tiết sản phẩm" style="width:38px;height:38px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;background:var(--navy-900);color:#fff;transition:background var(--dur-fast) var(--ease-out)"><?php echo taf_ic( 'arrow-right', 16 ); ?></a>
 									</div>
 								</div>
 							</div>

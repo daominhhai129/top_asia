@@ -39,7 +39,7 @@
 .ta-cap__list b { font-weight: 600; color: var(--ta-navy); }
 .ta-cap__list span { color: var(--ta-muted); font-size: .9375rem; }
 .ta-cap__visual { position: relative; }
-.ta-cap__visual img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--ta-radius-lg); display: block; }
+.ta-cap__visual img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--ta-radius-lg); display: block; }
 .ta-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin: clamp(40px, 6vw, 72px) 0 0; border-top: 3px solid var(--ta-navy); }
 .ta-fact { padding: 24px 16px 8px 0; margin: 0; }
 .ta-fact dt { font-size: clamp(2rem, 1.4rem + 2.5vw, 3.25rem); font-weight: 700; color: var(--ta-navy); line-height: 1; letter-spacing: -.02em; display: flex; flex-direction: column; gap: 8px; }
@@ -95,6 +95,7 @@
 	.ta-app:nth-child(1) { grid-column: span 2; grid-row: span 2; }
 	.ta-app:nth-child(1) h3 { font-size: 1.75rem; }
 	.ta-app:nth-child(4) { grid-column: span 2; }
+	.ta-app:nth-child(7) { grid-column: span 2; }
 }
 
 /* 05 DỰ ÁN */
@@ -165,5 +166,5 @@
 .ta-hero__media { width: 100%; max-width: 100%; }
 
 
-/* Phase 5: bỏ qua render các section dưới màn hình đầu (INP/LCP) + giữ chỗ chống CLS */
-.ta-capability, #san-pham, #ung-dung, #du-an, #chat-luong, #doi-tac, #tai-lieu, .ta-final { content-visibility: auto; contain-intrinsic-size: auto 720px; }
+/* Phase 5: bỏ qua render các section cuối trang (INP/LCP) + giữ chỗ chống CLS */
+.ta-capability, #san-pham, #chat-luong, #doi-tac, #tai-lieu, .ta-final { content-visibility: auto; contain-intrinsic-size: auto 720px; }

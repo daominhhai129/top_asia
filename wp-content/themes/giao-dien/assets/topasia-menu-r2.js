@@ -1,16 +1,10 @@
-/* Top Asia — navigation behavior (desktop dropdown/mega + mobile drawer).
- * No dependencies. Spec: topasia-menu-implementation.md §14–16, §19.
- * Mobile redesigned 2026-07 theo mockup "Mobile menu Top Asia":
- * - Main screen + drill-down sub-screens (Sản phẩm / Hỗ trợ kỹ thuật) with back bar.
- * - Inline one-level accordion for small groups (Giới thiệu / Hợp tác).
- * - Own close button (falls back to Flatsome/Magnific off-canvas close).
- * GTM dataLayer events preserved: main_menu_click / menu_dropdown_open /
- * quote_cta_click / guide_card_click / support_request_click.
+/* Top Asia — Navigation behavior (desktop dropdown/mega + mobile accordion drawer).
+ * No dependencies. GTM dataLayer events preserved:
+ * main_menu_click / menu_dropdown_open / quote_cta_click / guide_card_click / support_request_click.
  */
 (function () {
   'use strict';
 
-  
   function track(event, params) {
     try {
       if (window.dataLayer && typeof window.dataLayer.push === 'function') {
@@ -31,7 +25,6 @@
     };
   }
 
-  
   function initDesktop(nav) {
     var items = nav.querySelectorAll('.ta-has-dd');
 
@@ -41,23 +34,36 @@
       var t = li.querySelector(':scope > .ta-dd-toggle');
       if (t) t.setAttribute('aria-expanded', 'false');
     }
+
     function closeAll(except) {
       items.forEach(function (li) { if (li !== except) closeItem(li); });
     }
+
+    function positionPanel(li) {
+      var panel = li.querySelector(':scope > .ta-dd-panel');
+      if (!panel) return;
+      li.classList.remove('ta-dd-flip');
+      panel.style.left = '';
+      var r = panel.getBoundingClientRect();
+      var vw = document.documentElement.clientWidth;
+      if (r.right > vw - 10) {
+        li.classList.add('ta-dd-flip');
+        r = panel.getBoundingClientRect();
+        if (r.left < 10) {
+          li.classList.remove('ta-dd-flip');
+          var shift = Math.max(10 - r.left, vw - 10 - panel.offsetWidth - li.getBoundingClientRect().left);
+          panel.style.left = shift + 'px';
+        }
+      }
+    }
+
     function openItem(li) {
       if (li.classList.contains('ta-open')) return;
       closeAll(li);
       li.classList.add('ta-open');
       var t = li.querySelector(':scope > .ta-dd-toggle');
       if (t) t.setAttribute('aria-expanded', 'true');
-      
-      var panel = li.querySelector(':scope > .ta-dd-panel');
-      if (panel) {
-        li.classList.remove('ta-dd-flip');
-        var r = panel.getBoundingClientRect();
-        var vw = document.documentElement.clientWidth;
-        if (r.right > vw - 8) li.classList.add('ta-dd-flip');
-      }
+      positionPanel(li);
       var label = t ? (t.textContent || '').trim() : '';
       track('menu_dropdown_open', { menu_item: label, menu_level: 1, device_type: 'desktop', menu_location: 'primary' });
     }
@@ -75,9 +81,16 @@
       });
 
       toggle.addEventListener('click', function (e) {
-        if (toggle.tagName === 'A' && toggle.getAttribute('href')) { return; }
+        var isLink = toggle.tagName === 'A' && toggle.getAttribute('href');
+        var hoverCapable = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+        if (isLink) {
+          if (!hoverCapable && !li.classList.contains('ta-open')) {
+            e.preventDefault();
+            openItem(li);
+          }
+          return;
+        }
         e.preventDefault();
-        var hoverCapable = window.matchMedia('(hover: hover)').matches;
         if (hoverCapable && e.detail > 0) { openItem(li); return; }
         if (li.classList.contains('ta-open')) { closeItem(li); } else { openItem(li); }
       });
@@ -89,11 +102,10 @@
           var first = panel.querySelector('a');
           if (first) first.focus();
         } else if (e.key === 'Escape') {
-          if (li.classList.contains('ta-open')) { closeItem(li); }
+          if (li.classList.contains('ta-open')) closeItem(li);
         }
       });
 
-      
       li.addEventListener('focusout', function (e) {
         if (!li.contains(e.relatedTarget)) closeItem(li);
       });
@@ -103,12 +115,10 @@
       });
     });
 
-    
     document.addEventListener('click', function (e) {
       if (!nav.contains(e.target)) closeAll(null);
     });
 
-    
     nav.addEventListener('click', function (e) {
       var a = e.target.closest('a[data-ta-menu],a[data-ta-cta],a[data-ta-guide]');
       if (!a || !nav.contains(a)) return;
@@ -119,12 +129,9 @@
     });
   }
 
-  
   function initMobile(nav) {
     var accs = nav.querySelectorAll('.ta-macc');
-    var views = nav.querySelectorAll('[data-ta-mview]');
 
-    
     function closeAcc(li) {
       var t = li.querySelector('.ta-mtoggle');
       var p = li.querySelector('.ta-mpanel');
@@ -132,52 +139,46 @@
       if (t) t.setAttribute('aria-expanded', 'false');
       if (p) p.setAttribute('hidden', '');
     }
-    function openAcc(li) {
-      accs.forEach(function (o) { if (o !== li) closeAcc(o); });
+
+    function openAcc(li, silent) {
+      accs.forEach(function (o) {
+        if (o !== li && !o.hasAttribute('data-ta-default-open')) {
+          closeAcc(o);
+        }
+      });
       var t = li.querySelector('.ta-mtoggle');
       var p = li.querySelector('.ta-mpanel');
       li.classList.add('ta-open');
       if (t) t.setAttribute('aria-expanded', 'true');
       if (p) p.removeAttribute('hidden');
-      var label = t ? (t.getAttribute('data-ta-menu') || t.textContent || '').trim() : '';
-      track('menu_dropdown_open', { menu_item: label, menu_level: 1, device_type: 'mobile', menu_location: 'primary_mobile' });
+      if (!silent) {
+        var label = t ? (t.getAttribute('data-ta-menu') || t.textContent || '').trim() : '';
+        track('menu_dropdown_open', { menu_item: label, menu_level: 1, device_type: 'mobile', menu_location: 'primary_mobile' });
+      }
     }
+
     accs.forEach(function (li) {
       var toggle = li.querySelector('.ta-mtoggle');
       if (!toggle) return;
       toggle.addEventListener('click', function () {
-        if (li.classList.contains('ta-open')) { closeAcc(li); } else { openAcc(li); }
+        if (li.classList.contains('ta-open')) { closeAcc(li); } else { openAcc(li, false); }
       });
     });
 
-    
     function scrollDrawerTop() {
       var els = [nav.closest('.sidebar-menu'), nav.closest('.mobile-sidebar'), nav.closest('.mfp-content'), nav.closest('.mfp-wrap')];
       els.forEach(function (el) { if (el) { try { el.scrollTop = 0; } catch (e) {} } });
     }
-    function showView(key, dir) {
-      var target = null;
-      views.forEach(function (v) {
-        var isTarget = v.getAttribute('data-ta-mview') === key;
-        v.classList.remove('ta-anim-fwd', 'ta-anim-back');
-        if (isTarget) target = v;
-        if (isTarget) { v.removeAttribute('hidden'); } else { v.setAttribute('hidden', ''); }
-        v.classList.toggle('is-current', isTarget);
-      });
-      if (!target) return;
-      scrollDrawerTop();
-      if (dir) {
-        void target.offsetWidth; 
-        target.classList.add(dir === 'back' ? 'ta-anim-back' : 'ta-anim-fwd');
-      }
-      if (key !== 'main') {
-        var back = target.querySelector('.ta-mback');
-        if (back) { try { back.focus({ preventScroll: true }); } catch (e) {} }
-      }
-    }
+
     function resetDrawer() {
-      showView('main');
-      accs.forEach(closeAcc);
+      scrollDrawerTop();
+      accs.forEach(function (li) {
+        if (li.hasAttribute('data-ta-default-open') || li.classList.contains('is-active')) {
+          openAcc(li, true);
+        } else {
+          closeAcc(li);
+        }
+      });
     }
 
     function closeOffCanvas() {
@@ -192,51 +193,23 @@
     }
 
     nav.addEventListener('click', function (e) {
-      var drill = e.target.closest('[data-ta-view]');
-      if (drill && nav.contains(drill)) {
-        showView(drill.getAttribute('data-ta-view'), 'fwd');
-        track('menu_dropdown_open', {
-          menu_item: drill.getAttribute('data-ta-menu') || (drill.textContent || '').trim(),
-          menu_level: 1,
-          device_type: 'mobile',
-          menu_location: 'primary_mobile'
-        });
-        return;
-      }
-      var back = e.target.closest('[data-ta-back]');
-      if (back && nav.contains(back)) { showView('main', 'back'); return; }
       var close = e.target.closest('[data-ta-close]');
       if (close && nav.contains(close)) { closeOffCanvas(); }
     });
 
-    
     document.addEventListener('click', function (e) {
       if (e.target.closest && e.target.closest('a[data-open="#main-menu"]')) resetDrawer();
     });
 
-    
     nav.addEventListener('click', function (e) {
       var a = e.target.closest('a[data-ta-menu],a[data-ta-cta],a[data-ta-guide],a[data-ta-support]');
       if (!a || !nav.contains(a)) return;
-      var view = a.closest('.ta-mview');
-      var inSub = a.closest('.ta-mpanel') || (view && !view.classList.contains('ta-mview--main'));
+      var inSub = !!a.closest('.ta-mpanel');
       var level = a.closest('.ta-msubs') ? 3 : (inSub ? 2 : 1);
       if (a.hasAttribute('data-ta-support')) track('support_request_click', menuMeta(a, 2, 'mobile', 'primary_mobile'));
       else if (a.hasAttribute('data-ta-cta')) track('quote_cta_click', menuMeta(a, level, 'mobile', 'primary_mobile'));
       else if (a.hasAttribute('data-ta-guide')) track('guide_card_click', menuMeta(a, 2, 'mobile', 'primary_mobile'));
       else track('main_menu_click', menuMeta(a, level, 'mobile', 'primary_mobile'));
-    });
-  }
-
-  
-  function normalizeCategoryLinks(nav) {
-    // Category archives on this site use root-level slugs, without /category/.
-    nav.querySelectorAll('a[href*="/category/"]').forEach(function (a) {
-      var url;
-      try { url = new URL(a.href, window.location.href); } catch (e) { return; }
-      if (url.origin !== window.location.origin) return;
-      url.pathname = url.pathname.replace(/\/category\//, '/');
-      a.setAttribute('href', url.pathname + url.search + url.hash);
     });
   }
 
@@ -263,22 +236,14 @@
   }
 
   function init() {
-    document.querySelectorAll('.ta-nav').forEach(function (nav) {
-      normalizeCategoryLinks(nav);
-      initDesktop(nav);
-    });
-    document.querySelectorAll('.ta-mnav').forEach(function (nav) {
-      normalizeCategoryLinks(nav);
-      initMobile(nav);
-    });
-    normalizeCategoryLinks(document);
+    document.querySelectorAll('.ta-nav').forEach(initDesktop);
+    document.querySelectorAll('.ta-mnav').forEach(initMobile);
     normalizeStagingLinks(document);
     if (window.MutationObserver && document.body) {
       var observer = new MutationObserver(function (records) {
         records.forEach(function (record) {
           Array.prototype.forEach.call(record.addedNodes, function (node) {
             if (node.nodeType === 1) {
-              normalizeCategoryLinks(node);
               normalizeStagingLinks(node);
             }
           });
@@ -286,7 +251,9 @@
       });
       observer.observe(document.body, { childList: true, subtree: true });
     }
-  }  if (document.readyState === 'loading') {
+  }
+
+  if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();

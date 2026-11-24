@@ -3,7 +3,7 @@
  * Top Asia navigation refresh, loaded by Novamira sandbox.
  * Rollback: remove this file from wp-content/novamira-sandbox/.
  */
-if ( ! defined( 'ABSPATH' ) ) { return; }
+if ( ! defined( 'ABSPATH' ) || function_exists( 'topasia_menu_inject' ) ) { return; }
 
 function topasia_refresh_items() {
     $items = topasia_menu_config();
@@ -81,6 +81,9 @@ function topasia_refresh_mobile() {
 	return $out;
 }
 function topasia_refresh_menu_inject( $output, $args ) {
+	if ( function_exists( 'topasia_menu_inject' ) || ! function_exists( 'topasia_render_mobile_view' ) ) {
+		return $output;
+	}
 	if ( ! is_object($args) || empty($args->theme_location) ) return $output;
 	if ( $args->theme_location === 'primary' ) return topasia_refresh_desktop();
 	if ( $args->theme_location === 'primary_mobile' ) return topasia_refresh_mobile();

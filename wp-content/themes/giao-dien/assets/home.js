@@ -103,7 +103,5 @@
       if (submit) submit.addEventListener('click', function () { closeDlg(); showToast('Đã gửi yêu cầu — Top Asia sẽ liên hệ trong 24h'); });
     }
 
-    /* Add-to-cart (placeholder feedback) */
-    document.querySelectorAll('.taf-prod-add').forEach(function (b) { b.addEventListener('click', function () { showToast('Đã thêm vào giỏ hàng'); }); });
   });
 })();

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 48" width="210" height="48" role="img" aria-label="Top Asia">
+  <rect x="2" y="6" width="36" height="36" rx="6" fill="#142B49"/>
+  <path d="M9 17h22v4h-8.5v15h-5V21H9v-4z" fill="#FFFFFF"/>
+  <path d="M24 32l5-15h4.5l-5 15H24z" fill="#D92F35"/>
+  <text x="48" y="29" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif" font-size="22" font-weight="800" letter-spacing="0.04em" fill="#142B49">TOP <tspan fill="#D92F35">ASIA</tspan></text>
+  <text x="49" y="40" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif" font-size="7.5" font-weight="600" letter-spacing="0.14em" fill="#64748B">POLYCARBONATE</text>
+</svg>

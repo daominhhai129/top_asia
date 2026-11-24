@@ -31,10 +31,22 @@ function taf_home_defaults() {
 		return $d;
 	}
 	$up = home_url( '/wp-content/uploads/' );
+	$app1_local = file_exists( WP_CONTENT_DIR . '/uploads/2026/11/app-mai-lay-sang-opt.jpg' )
+		? $up . '2026/11/app-mai-lay-sang-opt.jpg'
+		: $up . '2021/05/1515556901_thi-cong-tam-lop-lay-sang.jpg';
+	$app4_local = file_exists( WP_CONTENT_DIR . '/uploads/2026/11/app-vach-ngan.jpg' )
+		? $up . '2026/11/app-vach-ngan.jpg'
+		: $up . '2022/06/Vach-ngan-scaled.jpg';
+	$app5_local = file_exists( WP_CONTENT_DIR . '/uploads/2026/11/app-nha-xuong-opt.jpg' )
+		? $up . '2026/11/app-nha-xuong-opt.jpg'
+		: $up . '2024/05/IMG_0512-1-scaled.jpg';
+	$app7_local = file_exists( WP_CONTENT_DIR . '/uploads/2026/11/app-thuong-mai.jpg' )
+		? $up . '2026/11/app-thuong-mai.jpg'
+		: $up . '2024/05/DJI_0017-3-scaled.jpg';
 
 	$d = array(
 		// ----- HERO: 3 slide -----
-		'hero1_img'       => $up . '2026/07/hero-banner-1.jpg',
+		'hero1_img'       => $up . '2026/06/banner-san-pham-1.jpg',
 		'hero1_badge'     => 'Nhà sản xuất & phân phối chính hãng',
 		'hero1_h1'        => 'Tấm nhựa Polycarbonate cường lực <span style="color:var(--red-600)">chính hãng</span>',
 		'hero1_sub'       => 'Mái lấy sáng chống UV chuẩn ISO, sản xuất trên dây chuyền tiêu chuẩn châu Âu. Báo giá trực tiếp từ nhà máy — bền hơn kính gấp 200 lần.',
@@ -69,24 +81,26 @@ function taf_home_defaults() {
 		'about_b2'        => 'Phủ Nano chống tia UV, độ dày đa dạng',
 		'about_b3'        => 'Năng suất 10.000 tấn/năm',
 		'about_b4'        => 'Đội ngũ trẻ, năng động, liên tục đổi mới công nghệ',
-		'about_img'       => $up . '2026/07/Nha-may-5.jpg',
+		'about_img'       => $up . '2024/06/DJI_0808-scaled.jpg',
 		'about_badge'     => 'Từ 2014',
 
-		// ----- ỨNG DỤNG: 6 ô ảnh -----
+		// ----- ỨNG DỤNG: 7 ô ảnh -----
 		'apps_eyebrow'    => 'Ứng dụng',
 		'apps_h2'         => 'Giải pháp lấy sáng cho mọi công trình',
 		'app1_label'      => 'Mái lấy sáng',
-		'app1_img'        => $up . '2021/05/1515556901_thi-cong-tam-lop-lay-sang.jpg',
+		'app1_img'        => $app1_local,
 		'app2_label'      => 'Giếng trời',
 		'app2_img'        => $up . '2022/06/gieng-troi.jpg',
 		'app3_label'      => 'Mái che Canopy',
 		'app3_img'        => $up . '2022/06/canopy.jpg',
 		'app4_label'      => 'Vách ngăn hiện đại',
-		'app4_img'        => $up . '2022/06/Vach-ngan-scaled.jpg',
-		'app5_label'      => 'Lam trang trí mặt tiền',
-		'app5_img'        => $up . '2024/07/lam-go-nhua-che-nang-san-thuong.jpg',
+		'app4_img'        => $app4_local,
+		'app5_label'      => 'Nhà xưởng',
+		'app5_img'        => $app5_local,
 		'app6_label'      => 'Mái vòm uốn cong',
 		'app6_img'        => $up . '2022/06/mai-vom.jpg',
+		'app7_label'      => 'Công trình thương mại',
+		'app7_img'        => $app7_local,
 
 		// ----- VÌ SAO KHÁC BIỆT: 4 thẻ -----
 		'why_eyebrow'     => 'Sản phẩm của chúng tôi',
@@ -259,7 +273,7 @@ function taf_home_customize_register( $wp_customize ) {
 	);
 	$text( 'taf_apps', 'apps_eyebrow', 'Nhãn nhỏ' );
 	$text( 'taf_apps', 'apps_h2', 'Tiêu đề section' );
-	foreach ( array( 1, 2, 3, 4, 5, 6 ) as $i ) {
+	foreach ( array( 1, 2, 3, 4, 5, 6, 7 ) as $i ) {
 		$image( 'taf_apps', 'app' . $i . '_img', 'Ô ' . $i . ' — ảnh' );
 		$text( 'taf_apps', 'app' . $i . '_label', 'Ô ' . $i . ' — tên' );
 	}
