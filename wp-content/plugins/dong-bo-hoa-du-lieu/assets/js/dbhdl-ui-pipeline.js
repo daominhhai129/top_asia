@@ -346,7 +346,7 @@
             '</div>';
 
         const scopeWrap = mount.querySelector('#ls-scope-wrap');
-        DBHDL.bindScopeToggleButtons(scopeWrap);
+        DBHDL.bindScopeToggleButtons(mount);
         DBHDL.bindSnapshotActions(mount, 'local-staging');
 
         const goCfg = mount.querySelector('#ls-go-cfg');

@@ -78,7 +78,7 @@
             '</div>';
 
         const scopeWrap = mount.querySelector('#lp-scope-wrap');
-        DBHDL.bindScopeToggleButtons(scopeWrap);
+        DBHDL.bindScopeToggleButtons(mount);
         DBHDL.bindSnapshotActions(mount, 'local-production');
 
         const goCfg = mount.querySelector('#lp-go-cfg');

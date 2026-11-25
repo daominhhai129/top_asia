@@ -200,7 +200,7 @@
 
             const customHtml = customDirs.map((d) =>
                 '<label class="dbhdl-check-pill">' +
-                '<input type="checkbox" class="' + prefix + '-scope-custom" value="' + DBHDL.esc(d.slug) + '">' +
+                '<input type="checkbox" class="' + prefix + '-scope-custom ' + prefix + '-scope-other" value="' + DBHDL.esc(d.slug) + '">' +
                 '<span><strong>' + DBHDL.esc(d.slug) + '</strong><br><code class="dbhdl-mono">' + DBHDL.esc(d.path) + '</code></span>' +
                 '</label>'
             ).join('');
@@ -225,15 +225,21 @@
                 '<div class="dbhdl-scope-list">' + (themeHtml || '<span class="dbhdl-muted">Không có theme nào.</span>') + '</div>' +
                 '</div>' +
                 '<div class="dbhdl-scope-group">' +
-                '<div class="dbhdl-scope-head"><strong>📁 Thành phần khác</strong></div>' +
+                '<div class="dbhdl-scope-head">' +
+                '<strong>📁 Thành phần khác</strong>' +
+                '<div class="dbhdl-btn-row">' +
+                '<button type="button" class="dbhdl-btn dbhdl-btn-sm" data-scope-all="' + prefix + '-scope-other">Chọn tất</button>' +
+                '<button type="button" class="dbhdl-btn dbhdl-btn-sm" data-scope-none="' + prefix + '-scope-other">Bỏ hết</button>' +
+                '</div></div>' +
                 '<div class="dbhdl-scope-list">' +
-                (mu.exists ? '<label class="dbhdl-check-pill"><input type="checkbox" id="' + prefix + '-scope-mu" checked><span><strong>MU-Plugins</strong><br><small class="dbhdl-muted">' + mu.file_count + ' mục</small></span></label>' : '') +
-                '<label class="dbhdl-check-pill"><input type="checkbox" id="' + prefix + '-scope-media"><span><strong>Thư viện Media (uploads/)</strong><br><small class="dbhdl-muted">Mặc định tắt để tránh nặng &amp; đè ảnh đích</small></span></label>' +
+                (mu.exists ? '<label class="dbhdl-check-pill"><input type="checkbox" id="' + prefix + '-scope-mu" class="' + prefix + '-scope-other" checked><span><strong>MU-Plugins</strong><br><small class="dbhdl-muted">' + mu.file_count + ' mục</small></span></label>' : '') +
+                '<label class="dbhdl-check-pill"><input type="checkbox" id="' + prefix + '-scope-media" class="' + prefix + '-scope-other"><span><strong>Thư viện Media (uploads/)</strong><br><small class="dbhdl-muted">Mặc định tắt để tránh nặng &amp; đè ảnh đích</small></span></label>' +
                 customHtml +
                 '</div></div>';
         },
 
         bindScopeToggleButtons(container) {
+            if (!container) return;
             container.querySelectorAll('[data-scope-all]').forEach((btn) => {
                 btn.addEventListener('click', () => {
                     container.querySelectorAll('.' + btn.getAttribute('data-scope-all')).forEach((cb) => { cb.checked = true; });
@@ -267,14 +273,14 @@
 
             const tplTypesHtml = (dbInv.template_types || []).map((t) =>
                 '<label class="dbhdl-check-pill">' +
-                '<input type="checkbox" class="' + prefix + '-db-pt" value="' + DBHDL.esc(t.post_type) + '" checked>' +
+                '<input type="checkbox" class="' + prefix + '-db-pt ' + prefix + '-db-tpl ' + prefix + '-db-all" value="' + DBHDL.esc(t.post_type) + '" checked>' +
                 '<span><strong>' + DBHDL.esc(t.label) + '</strong><br><small class="dbhdl-muted">' + t.count + ' mục (<code>' + DBHDL.esc(t.post_type) + '</code>)</small></span>' +
                 '</label>'
             ).join('');
 
             const contentTypesHtml = (dbInv.content_types || []).map((c) =>
                 '<label class="dbhdl-check-pill">' +
-                '<input type="checkbox" class="' + prefix + '-db-pt" value="' + DBHDL.esc(c.post_type) + '">' +
+                '<input type="checkbox" class="' + prefix + '-db-pt ' + prefix + '-db-extra ' + prefix + '-db-all" value="' + DBHDL.esc(c.post_type) + '">' +
                 '<span><strong>' + DBHDL.esc(c.label) + '</strong><br><small class="dbhdl-muted">' + c.count + ' mục (<code>' + DBHDL.esc(c.post_type) + '</code>)</small></span>' +
                 '</label>'
             ).join('');
@@ -282,13 +288,27 @@
             return '' +
                 '<div class="dbhdl-card">' +
                 '<div class="dbhdl-card-head"><h2 class="dbhdl-card-title">2. Chọn Dữ liệu Database &amp; Giao diện (An toàn tuyệt đối)</h2>' +
-                '<span class="dbhdl-badge dbhdl-badge-prod">Tự khớp Slug / UUID • Bảo vệ Users &amp; Orders</span></div>' +
-                '<div class="dbhdl-scope-group"><div class="dbhdl-scope-head"><strong>📐 Templates &amp; Thiết kế</strong></div>' +
+                '<div class="dbhdl-btn-row">' +
+                '<span class="dbhdl-badge dbhdl-badge-prod">Tự khớp Slug / UUID • Bảo vệ Users &amp; Orders</span>' +
+                '<button type="button" class="dbhdl-btn dbhdl-btn-sm" data-scope-all="' + prefix + '-db-all">Chọn tất</button>' +
+                '<button type="button" class="dbhdl-btn dbhdl-btn-sm" data-scope-none="' + prefix + '-db-all">Bỏ hết</button>' +
+                '</div></div>' +
+                '<div class="dbhdl-scope-group"><div class="dbhdl-scope-head">' +
+                '<strong>📐 Templates &amp; Thiết kế</strong>' +
+                '<div class="dbhdl-btn-row">' +
+                '<button type="button" class="dbhdl-btn dbhdl-btn-sm" data-scope-all="' + prefix + '-db-tpl">Chọn tất</button>' +
+                '<button type="button" class="dbhdl-btn dbhdl-btn-sm" data-scope-none="' + prefix + '-db-tpl">Bỏ hết</button>' +
+                '</div></div>' +
                 '<div class="dbhdl-scope-list">' + (tplTypesHtml || '<span class="dbhdl-muted">Không phát hiện template builder.</span>') + '</div></div>' +
-                '<div class="dbhdl-scope-group"><div class="dbhdl-scope-head"><strong>📝 Nội dung &amp; Cấu trúc bổ sung (Tùy chọn)</strong></div>' +
+                '<div class="dbhdl-scope-group"><div class="dbhdl-scope-head">' +
+                '<strong>📝 Nội dung &amp; Cấu trúc bổ sung (Tùy chọn)</strong>' +
+                '<div class="dbhdl-btn-row">' +
+                '<button type="button" class="dbhdl-btn dbhdl-btn-sm" data-scope-all="' + prefix + '-db-extra">Chọn tất</button>' +
+                '<button type="button" class="dbhdl-btn dbhdl-btn-sm" data-scope-none="' + prefix + '-db-extra">Bỏ hết</button>' +
+                '</div></div>' +
                 '<div class="dbhdl-scope-list">' +
-                '<label class="dbhdl-check-pill"><input type="checkbox" id="' + prefix + '-db-menus"><span><strong>Navigation Menus</strong><br><small class="dbhdl-muted">' + (dbInv.menus_count || 0) + ' menu điều hướng</small></span></label>' +
-                '<label class="dbhdl-check-pill"><input type="checkbox" id="' + prefix + '-db-thememods"><span><strong>Theme Customizer</strong><br><small class="dbhdl-muted"><code>' + DBHDL.esc(dbInv.theme_mods_key || 'theme_mods') + '</code></small></span></label>' +
+                '<label class="dbhdl-check-pill"><input type="checkbox" id="' + prefix + '-db-menus" class="' + prefix + '-db-extra ' + prefix + '-db-all"><span><strong>Navigation Menus</strong><br><small class="dbhdl-muted">' + (dbInv.menus_count || 0) + ' menu điều hướng</small></span></label>' +
+                '<label class="dbhdl-check-pill"><input type="checkbox" id="' + prefix + '-db-thememods" class="' + prefix + '-db-extra ' + prefix + '-db-all"><span><strong>Theme Customizer</strong><br><small class="dbhdl-muted"><code>' + DBHDL.esc(dbInv.theme_mods_key || 'theme_mods') + '</code></small></span></label>' +
                 contentTypesHtml +
                 '</div></div>' +
                 '<div class="dbhdl-grid-2">' +
