@@ -255,7 +255,13 @@
 
 		function resetModal() {
 			if (formView) formView.removeAttribute('hidden');
-			if (successView) successView.setAttribute('hidden', '');
+			if (successView) {
+				successView.setAttribute('hidden', '');
+				var st = successView.querySelector('.ta-qmodal__title');
+				var sd = successView.querySelector('.ta-qmodal__desc');
+				if (st) st.textContent = 'Đã mở khóa bảng báo giá!';
+				if (sd) sd.textContent = 'Tệp báo giá bạn chọn đang tự động tải về. Bạn cũng có thể bấm chọn tải thêm bảng giá các dòng khác:';
+			}
 			setError('');
 			if (submitBtn) {
 				submitBtn.disabled = false;
@@ -342,6 +348,8 @@
 				body.append('nonce', window.TAFQuoteConfig.nonce);
 				body.append('phone', normPhone);
 				body.append('product', prodEl ? prodEl.value : 'asia-gold');
+				body.append('source', (window.TAFQuoteConfig && window.TAFQuoteConfig.source) || 'bao_gia_pdf_modal');
+				body.append('page_url', window.location.href);
 				body.append('taf_qd_company', hpEl ? hpEl.value : '');
 
 				fetch(window.TAFQuoteConfig.ajaxUrl, {
@@ -355,11 +363,24 @@
 						});
 					})
 					.then(function (res) {
-						if (!res.ok || !res.body || !res.body.success) {
-							var msg = res.body && res.body.data && res.body.data.message ? res.body.data.message : 'Không thể mở khóa file lúc này.';
+						var payload = res.body && res.body.data ? res.body.data : null;
+						if ((!res.ok || !res.body || !res.body.success) && payload && payload.leadSaved) {
+							if (downloadsWrap) downloadsWrap.innerHTML = '';
+							if (formView) formView.setAttribute('hidden', '');
+							if (successView) {
+								var st = successView.querySelector('.ta-qmodal__title');
+								var sd = successView.querySelector('.ta-qmodal__desc');
+								if (st) st.textContent = 'Đã ghi nhận số điện thoại liên hệ!';
+								if (sd) sd.textContent = payload.message || 'Thông tin của bạn đã được lưu. Nhân viên Top Asia sẽ gửi báo giá trực tiếp cho bạn.';
+								successView.removeAttribute('hidden');
+							}
+							return;
+						}
+						if (!res.ok || !res.body || !res.body.success || !payload) {
+							var msg = payload && payload.message ? payload.message : 'Không thể mở khóa file lúc này.';
 							throw new Error(msg);
 						}
-						var data = res.body.data;
+						var data = payload;
 						if (downloadsWrap && Array.isArray(data.downloads)) {
 							downloadsWrap.innerHTML = '';
 							data.downloads.forEach(function (item) {

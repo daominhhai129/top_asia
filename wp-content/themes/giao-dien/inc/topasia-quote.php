@@ -76,6 +76,7 @@ add_action( 'wp_enqueue_scripts', function () {
 				'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
 				'downloadUrl' => admin_url( 'admin-post.php' ),
 				'nonce'       => wp_create_nonce( 'taf_qd_submit' ),
+				'source'      => 'bao_gia_pdf_modal',
 			)
 		);
 	}

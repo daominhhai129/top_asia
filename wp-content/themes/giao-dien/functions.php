@@ -14,6 +14,13 @@ if ( file_exists( $topasia_footer_file ) ) {
 }
 unset( $topasia_footer_file );
 
+// Top Asia — backend model & admin CRM lưu trữ số điện thoại khách tải báo giá / liên hệ.
+$topasia_quote_leads_file = __DIR__ . '/inc/topasia-quote-leads.php';
+if ( file_exists( $topasia_quote_leads_file ) ) {
+	require_once $topasia_quote_leads_file;
+}
+unset( $topasia_quote_leads_file );
+
 // Top Asia — các tính năng custom đã chuyển từ Novamira sandbox về theme (chạy độc lập, không phụ thuộc Novamira).
 $topasia_custom_features_file = __DIR__ . '/inc/topasia-custom-features.php';
 if ( file_exists( $topasia_custom_features_file ) ) {

@@ -50,7 +50,13 @@
 
 		function resetQuoteModal() {
 			if (formView) formView.removeAttribute('hidden');
-			if (successView) successView.setAttribute('hidden', '');
+			if (successView) {
+				successView.setAttribute('hidden', '');
+				var st = successView.querySelector('.ta-qmodal__title');
+				var sd = successView.querySelector('.ta-qmodal__desc');
+				if (st) st.textContent = 'Đã mở khóa bảng báo giá!';
+				if (sd) sd.textContent = 'Tệp báo giá bạn chọn đang tự động tải về. Bạn cũng có thể bấm chọn tải thêm bảng giá các dòng sản phẩm bên dưới:';
+			}
 			setQuoteError('');
 			if (submitBtn) {
 				submitBtn.disabled = false;
@@ -119,6 +125,8 @@
 				fd.append('nonce', window.TAFQuoteConfig.nonce);
 				fd.append('phone', rawPhone);
 				fd.append('product', product);
+				fd.append('source', (window.TAFQuoteConfig && window.TAFQuoteConfig.source) || 'home_quote_modal');
+				fd.append('page_url', window.location.href);
 				fd.append('taf_qd_company', hp ? hp.value : '');
 
 				if (submitBtn) {
@@ -138,12 +146,26 @@
 						});
 					})
 					.then(function (result) {
-						if (!result.ok || !result.json || !result.json.success || !result.json.data || !result.json.data.downloadUrl) {
-							var msg = (result.json && result.json.data && result.json.data.message) || 'Không thể tải báo giá lúc này. Vui lòng thử lại.';
+						var payload = result.json && result.json.data ? result.json.data : null;
+						if ((!result.ok || !result.json || !result.json.success) && payload && payload.leadSaved) {
+							if (downloadsWrap) downloadsWrap.innerHTML = '';
+							if (successView) {
+								var st = successView.querySelector('.ta-qmodal__title');
+								var sd = successView.querySelector('.ta-qmodal__desc');
+								if (st) st.textContent = 'Đã ghi nhận số điện thoại liên hệ!';
+								if (sd) sd.textContent = payload.message || 'Thông tin của bạn đã được lưu. Nhân viên Top Asia sẽ liên hệ gửi bảng giá ngay.';
+								successView.removeAttribute('hidden');
+							}
+							if (formView) formView.setAttribute('hidden', '');
+							return;
+						}
+
+						if (!result.ok || !result.json || !result.json.success || !payload || !payload.downloadUrl) {
+							var msg = (payload && payload.message) || 'Không thể tải báo giá lúc này. Vui lòng thử lại.';
 							throw new Error(msg);
 						}
 
-						var data = result.json.data;
+						var data = payload;
 						triggerDownload(data.downloadUrl);
 
 						if (downloadsWrap) {
