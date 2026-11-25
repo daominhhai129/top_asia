@@ -11,8 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Registers the top-level WP Admin menu, tab submenus, Admin Bar quick-action pill,
- * mobile bottom action sheet, and scoped CSS/JS assets.
+ * Registers the WP Admin Tools (Công cụ) submenu page, backward-compatible URL redirect,
+ * Admin Bar quick-action pill, mobile bottom action sheet, and scoped CSS/JS assets.
  */
 final class AdminMenu {
 
@@ -22,7 +22,9 @@ final class AdminMenu {
 
     public function register(): void {
         add_action( 'admin_menu', [ $this, 'registerAdminPages' ] );
+        add_action( 'admin_init', [ $this, 'redirectLegacyMenuUrl' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueueAdminAssets' ] );
+        add_filter( 'plugin_action_links_' . plugin_basename( DBHDL_FILE ), [ $this, 'addPluginActionLinks' ] );
         add_action( 'admin_bar_menu', [ $this, 'registerAdminBar' ], 95 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueueAdminBarAssets' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueueAdminBarAssets' ] );
@@ -30,55 +32,68 @@ final class AdminMenu {
         add_action( 'wp_footer', [ $this, 'renderAdminBarSheet' ] );
     }
 
+    /**
+     * Build canonical admin URL under Tools (Công cụ -> Đồng Bộ Hóa Dữ Liệu).
+     */
+    public static function pageUrl( string $tab = '' ): string {
+        $args = [ 'page' => self::MENU_SLUG ];
+        if ( '' !== $tab ) {
+            $args['tab'] = sanitize_key( $tab );
+        }
+        return add_query_arg( $args, admin_url( 'tools.php' ) );
+    }
+
+    /**
+     * Add quick link on the Plugins list screen.
+     *
+     * @param array<int|string, string> $links
+     * @return array<int|string, string>
+     */
+    public function addPluginActionLinks( array $links ): array {
+        array_unshift(
+            $links,
+            '<a href="' . esc_url( self::pageUrl() ) . '">' . esc_html__( 'Mở công cụ', 'dong-bo-hoa-du-lieu' ) . '</a>'
+        );
+        return $links;
+    }
+
+    /**
+     * Keep old `admin.php?page=dong-bo-hoa-du-lieu` bookmarks working seamlessly.
+     */
+    public function redirectLegacyMenuUrl(): void {
+        global $pagenow;
+        if (
+            ! is_admin()
+            || 'admin.php' !== ( $pagenow ?? '' )
+            || ! isset( $_GET['page'] )
+            || self::MENU_SLUG !== sanitize_key( (string) wp_unslash( $_GET['page'] ) )
+            || ! current_user_can( Plugin::requiredCapability() )
+        ) {
+            return;
+        }
+        $tab = isset( $_GET['tab'] ) ? sanitize_key( (string) wp_unslash( $_GET['tab'] ) ) : '';
+        wp_safe_redirect( self::pageUrl( $tab ) );
+        exit;
+    }
+
     public function registerAdminPages(): void {
         $cap  = Plugin::requiredCapability();
-        $hook = add_menu_page(
+        $hook = add_management_page(
             __( 'Đồng Bộ Hóa Dữ Liệu', 'dong-bo-hoa-du-lieu' ),
-            __( 'Đồng Bộ Dữ Liệu', 'dong-bo-hoa-du-lieu' ),
-            $cap,
-            self::MENU_SLUG,
-            [ $this, 'renderPage' ],
-            'dashicons-update',
-            59
-        );
-
-        if ( is_string( $hook ) ) {
-            $this->screenHook = $hook;
-        }
-
-        add_submenu_page(
-            self::MENU_SLUG,
-            __( 'Tổng quan & Pipeline — Đồng Bộ Hóa Dữ Liệu', 'dong-bo-hoa-du-lieu' ),
-            __( 'Tổng quan Pipeline', 'dong-bo-hoa-du-lieu' ),
+            __( 'Đồng Bộ Hóa Dữ Liệu', 'dong-bo-hoa-du-lieu' ),
             $cap,
             self::MENU_SLUG,
             [ $this, 'renderPage' ]
         );
 
-        $subtabs = [
-            'local-github'     => __( 'Local → GitHub', 'dong-bo-hoa-du-lieu' ),
-            'local-staging'    => __( 'Local → Staging', 'dong-bo-hoa-du-lieu' ),
-            'local-production' => __( 'Local → Production', 'dong-bo-hoa-du-lieu' ),
-            'github-deploy'    => __( 'GitHub → Staging / Prod', 'dong-bo-hoa-du-lieu' ),
-            'settings'         => __( 'Kết nối & Kho Bảo mật', 'dong-bo-hoa-du-lieu' ),
-            'logs'             => __( 'Nhật ký & Hệ thống', 'dong-bo-hoa-du-lieu' ),
-        ];
-
-        foreach ( $subtabs as $slug => $label ) {
-            add_submenu_page(
-                self::MENU_SLUG,
-                $label . ' — ' . __( 'Đồng Bộ Hóa Dữ Liệu', 'dong-bo-hoa-du-lieu' ),
-                $label,
-                $cap,
-                'admin.php?page=' . self::MENU_SLUG . '&tab=' . $slug,
-                ''
-            );
+        if ( is_string( $hook ) ) {
+            $this->screenHook = $hook;
         }
     }
 
     public function enqueueAdminAssets( string $hookSuffix ): void {
         $isOurPage = ( '' !== $this->screenHook && $hookSuffix === $this->screenHook )
-            || 'toplevel_page_' . self::MENU_SLUG === $hookSuffix;
+            || 'tools_page_' . self::MENU_SLUG === $hookSuffix;
 
         if ( ! $isOurPage || ! current_user_can( Plugin::requiredCapability() ) ) {
             return;
@@ -111,7 +126,7 @@ final class AdminMenu {
             [
                 'rest_base' => rtrim( rest_url( DBHDL_REST_NS ), '/' ),
                 'nonce'     => wp_create_nonce( 'wp_rest' ),
-                'admin_url' => admin_url( 'admin.php?page=' . self::MENU_SLUG ),
+                'admin_url' => self::pageUrl(),
                 'role'      => EnvironmentDetector::detectRole()['role'],
             ]
         );
@@ -127,7 +142,7 @@ final class AdminMenu {
 
         $env      = EnvironmentDetector::detectRole();
         $role     = $env['role'];
-        $baseUrl  = admin_url( 'admin.php?page=' . self::MENU_SLUG );
+        $baseUrl  = self::pageUrl();
         $badgeMap = [
             'local'      => [ 'LOCAL', 'dbhdl-pill-local' ],
             'staging'    => [ 'STAGING', 'dbhdl-pill-staging' ],
@@ -209,7 +224,7 @@ final class AdminMenu {
 
         $env     = EnvironmentDetector::detectRole();
         $role    = $env['role'];
-        $baseUrl = admin_url( 'admin.php?page=' . self::MENU_SLUG );
+        $baseUrl = self::pageUrl();
         ?>
         <div id="dbhdl-bar-toast" class="dbhdl-bar-toast" role="status" aria-live="polite"></div>
         <div id="dbhdl-sheet-backdrop" class="dbhdl-sheet-backdrop"></div>

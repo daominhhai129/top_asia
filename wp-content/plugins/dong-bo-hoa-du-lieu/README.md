@@ -40,7 +40,7 @@ Plugin WordPress đa năng, độc lập hoàn toàn, giúp bất kỳ website W
 ## 3. Hướng dẫn nhanh
 
 1. Cài đặt plugin trên cả **Local / Staging / Production** (bằng file `dong-bo-hoa-du-lieu.zip` hoặc thư mục plugin) và kích hoạt.
-2. Vào menu **Đồng Bộ Dữ Liệu → Kết nối & Bảo mật**:
+2. Vào menu **Công cụ → Đồng Bộ Hóa Dữ Liệu** (tab **Kết nối & Bảo mật**):
    - Chọn vai trò site (`Local`, `Staging`, hoặc `Production` — hoặc để `Tự động`).
    - Cấu hình kết nối GitHub nếu dùng luồng Git, hoặc tạo **Pairing Token** ở site nhận (Staging/Production) và dán vào site gửi (Local/Staging).
    - Nếu Staging & Production nằm cùng server, chọn *Same-Server Path* và bấm **Tự tìm** → **Test kết nối Đích**.
