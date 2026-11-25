@@ -507,11 +507,11 @@ a { text-underline-offset: 3px; }
     box-shadow: 0 3px 12px rgba(11, 29, 58, .045);
 }
 
-/* Equal contact actions: call stays red, Zalo and Messenger use brand navy */
+/* Contact actions: traditional green for Call, Zalo blue for Zalo */
 .ocb-root {
-    --ocb-call: #E31E24 !important;
-    --ocb-zalo: #0B1D3A !important;
-    --ocb-messenger: #0B1D3A !important;
+    --ocb-call: #16A34A !important;
+    --ocb-zalo: #0068FF !important;
+    --ocb-messenger: #0866FF !important;
     --ocb-text: #fff !important;
     --ocb-gap: 8px !important;
     --ocb-height: 48px !important;
@@ -554,9 +554,11 @@ a { text-underline-offset: 3px; }
     box-shadow: 0 4px 12px rgba(11, 29, 58, .12);
     transition: background-color .18s ease, transform .18s ease, box-shadow .18s ease;
 }
-.ocb-bar .ocb-call { background: #E31E24 !important; }
-.ocb-bar .ocb-zalo,
-.ocb-bar .ocb-messenger { background: #0B1D3A !important; }
+.ocb-bar .ocb-call { background: #16A34A !important; }
+.ocb-bar .ocb-call:hover { background: #15803D !important; }
+.ocb-bar .ocb-zalo { background: #0068FF !important; }
+.ocb-bar .ocb-zalo:hover { background: #0052CC !important; }
+.ocb-bar .ocb-messenger { background: #0866FF !important; }
 .ocb-bar .ocb-button:hover {
     color: #fff !important;
     transform: translateY(-1px);

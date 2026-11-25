@@ -37,8 +37,11 @@ if ( ! function_exists( 'topasia_enqueue_header_contact_polish' ) ) {
 		$css = '
 		.ocb-root .ocb-bar { gap: 8px !important; padding: 8px 12px !important; background: transparent !important; }
 		.ocb-root .ocb-button { height: 48px !important; min-height: 48px !important; border-radius: 8px !important; box-shadow: 0 6px 18px rgba(11,29,58,.16) !important; }
-		.ocb-root .ocb-call { background: #D92F35 !important; color: #fff !important; }
-		.ocb-root .ocb-zalo, .ocb-root .ocb-messenger { background: #142B49 !important; color: #fff !important; }
+		.ocb-root .ocb-call { background: #16A34A !important; color: #fff !important; }
+		.ocb-root .ocb-call:hover { background: #15803D !important; }
+		.ocb-root .ocb-zalo { background: #0068FF !important; color: #fff !important; }
+		.ocb-root .ocb-zalo:hover { background: #0052CC !important; }
+		.ocb-root .ocb-messenger { background: #0866FF !important; color: #fff !important; }
 		.ocb-root .ocb-messenger svg path:last-child { stroke: #fff !important; }
 		@media (max-width: 1023px) {
 			.mfp-bg.off-canvas.mfp-ready { background: rgba(11,29,58,.58) !important; backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }

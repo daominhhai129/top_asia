@@ -443,17 +443,18 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 			outline-offset: 2px;
 		}
 		.ta-fc-call {
-			background: #E31E24;
+			background: #16A34A;
+			border: 1px solid rgba(255, 255, 255, .18);
 		}
 		.ta-fc-call:hover {
-			background: #C51A1F;
+			background: #15803D;
 		}
 		.ta-fc-call::before {
 			content: "";
 			position: absolute;
 			inset: 0;
 			border-radius: inherit;
-			border: 2px solid rgba(227, 30, 36, .45);
+			border: 2px solid rgba(22, 163, 74, .48);
 			animation: ta-fc-pulse 2.2s ease-out infinite;
 			pointer-events: none;
 		}
@@ -463,11 +464,11 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 			100% { transform: scale(1.06, 1.16); opacity: 0; }
 		}
 		.ta-fc-zalo {
-			background: #0B1D3A;
-			border: 1px solid rgba(255, 255, 255, .16);
+			background: #0068FF;
+			border: 1px solid rgba(255, 255, 255, .18);
 		}
 		.ta-fc-zalo:hover {
-			background: #12294F;
+			background: #0052CC;
 		}
 		.ta-fc-ic {
 			display: inline-flex;
@@ -484,7 +485,7 @@ if ( ! function_exists( 'topasia_render_floating_contact' ) ) {
 			font-weight: 700;
 			letter-spacing: -.01em;
 			background: #FFFFFF;
-			color: #0B1D3A;
+			color: #0068FF;
 		}
 		.ta-fc-txt {
 			display: flex;
