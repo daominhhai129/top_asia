@@ -202,30 +202,24 @@
   }
 }
 
-/* Compact desktop spacing at 1024px–1239px so all items + icons stay on 1 row */
+/* Compact desktop spacing at 1024px–1239px so all items + search stay on 1 row */
 @media (min-width: 1024px) and (max-width: 1239px) {
-  #header .header-main #logo img { max-height: 36px !important; max-width: 135px; }
-  #header .header-main .header-inner { gap: 8px; padding-left: 14px; padding-right: 14px; }
-  #header .header-main .flex-col.hide-for-medium.flex-right { padding-left: 8px; }
-  #header .header-main .flex-right .header-nav-main > li > a {
-    font-size: 12px;
-    padding: 0 7px;
-    height: 36px;
-    min-height: 36px;
-  }
-  #header .header-main .flex-right .header-nav-main > li.header-search > a { width: 34px; }
-  .ta-nav-list { gap: 0; }
+  #header .header-main #logo img { max-height: 38px !important; max-width: 145px; }
+  #header .header-main .header-inner { gap: 10px; padding-left: 16px; padding-right: 16px; }
+  #header .header-main .flex-col.hide-for-medium.flex-right { padding-left: 10px; }
+  #header .header-main .flex-right .header-nav-main > li.header-search > a { width: 36px; height: 36px; min-height: 36px; }
+  .ta-nav-list { gap: 1px; }
   .ta-nav-list > .ta-item > .ta-link {
-    padding: 8px 6px !important;
+    padding: 9px 7px !important;
     min-height: 36px;
-    font-size: 12px !important;
-    letter-spacing: .01em;
+    font-size: 12.5px !important;
+    letter-spacing: .015em;
     gap: 3px;
   }
   .ta-nav-list > .ta-item > .ta-link.ta-cta {
-    padding: 9px 12px !important;
-    font-size: 12px !important;
-    margin-left: 4px;
+    padding: 9px 14px !important;
+    font-size: 12.5px !important;
+    margin-left: 6px;
     min-height: 36px;
   }
 }

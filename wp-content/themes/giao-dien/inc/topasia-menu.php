@@ -529,11 +529,6 @@ function topasia_render_mobile_nav_inner() {
 		$list .= '</div></div></li>';
 	}
 
-	$account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : topasia_menu_url( '/tai-khoan/' );
-	if ( ! $account_url ) {
-		$account_url = topasia_menu_url( '/tai-khoan/' );
-	}
-
 	$out  = '<nav class="ta-mnav" aria-label="Điều hướng chính">';
 	$out .= '<div class="ta-mhead">';
 	$out .= '<a class="ta-mlogo" href="' . esc_url( home_url( '/' ) ) . '" data-ta-menu="Logo" aria-label="Top Asia — Trang chủ"><img src="' . esc_url( topasia_menu_logo_url() ) . '" alt="Top Asia" width="160" height="60" loading="eager"></a>';
@@ -549,9 +544,6 @@ function topasia_render_mobile_nav_inner() {
 	$out .= '<ul class="ta-mnav-list">' . $list . '</ul>';
 
 	$out .= '<div class="ta-mfoot">';
-	$out .= '<div class="ta-mutils">';
-	$out .= '<a class="ta-mutil" href="' . esc_url( $account_url ) . '">' . topasia_menu_icon( 'user' ) . '<span>Tài khoản</span></a>';
-	$out .= '</div>';
 	$out .= topasia_mobile_quote_btn();
 	$out .= '<p class="ta-mhotline">Hotline tư vấn: <a href="tel:0896699996">0896 699 996</a></p>';
 	$out .= '</div>';
@@ -611,7 +603,7 @@ function topasia_header_main_right_elements( $value ) {
 	if ( is_admin() ) {
 		return $value;
 	}
-	return array( 'search', 'account' );
+	return array( 'search' );
 }
 add_filter( 'theme_mod_header_elements_right', 'topasia_header_main_right_elements' );
 
