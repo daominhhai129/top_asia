@@ -14,14 +14,12 @@ if ( file_exists( $topasia_footer_file ) ) {
 }
 unset( $topasia_footer_file );
 
-// Fallback: đảm bảo cổng tải báo giá (taf_qd_*) luôn sẵn sàng trên trang chủ.
-if ( ! function_exists( 'taf_qd_submit_request' ) ) {
-	$topasia_qd_file = WP_CONTENT_DIR . '/novamira-sandbox/taf-quote-download-gate.php';
-	if ( file_exists( $topasia_qd_file ) ) {
-		require_once $topasia_qd_file;
-	}
-	unset( $topasia_qd_file );
+// Top Asia — các tính năng custom đã chuyển từ Novamira sandbox về theme (chạy độc lập, không phụ thuộc Novamira).
+$topasia_custom_features_file = __DIR__ . '/inc/topasia-custom-features.php';
+if ( file_exists( $topasia_custom_features_file ) ) {
+	require_once $topasia_custom_features_file;
 }
+unset( $topasia_custom_features_file );
 
 // Top Asia â€” H1 cho trang chuyÃªn má»¥c + dá»n H1 thá»«a á»Ÿ hero trang chá»§.
 // DÃ¹ng file_exists() Ä‘á»ƒ náº¿u chÆ°a upload inc/topasia-h1.php thÃ¬ site váº«n cháº¡y bÃ¬nh thÆ°á»ng
